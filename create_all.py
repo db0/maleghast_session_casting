@@ -6,7 +6,7 @@ import difflib
 from PIL import Image, ImageDraw, ImageFont
 
 # --- CONFIGURATION & PATHS ---
-FACTION = "goregrinders"
+FACTION = "carcass"
 CSV_PATH = f"{FACTION}.csv"
 OUTPUT_DIR = "output_cards"
 
