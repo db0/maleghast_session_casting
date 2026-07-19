@@ -1,0 +1,71 @@
+Copies	Nickname	card_background	card_background style	Name	Name style	Type	MV	HP	DEF	ARM	Traits	ACT Abilities	Upgrade1 Name	Upgrade1	Upgrade2 Name	Upgrade2	Upgrade3 Name	Upgrade3
+1		gunwight2_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	G unw  ight	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. *Thrall*	2	2	4+		<ul><li>*Formation*</li><li>*Thrall:* 2 of these units are worth 1 unit slot. Can be activated two at a time.</li></ul>	"**OL45:** *Attack, range 2-3, reload*
+/
+*On hit:* 1 piercing damage. Headshot: inflict 1 vulnerable
+/
+**Baton:** *Push, melee*
+/
+*Effect:* Push 1 and (3+) inflict 1 vulnerable."	Brace	"While in cover, attacks gain +1 max range and push 1 on hit."	Tactical Reload	Gain *Headshot*: reload and gain 1 strength	Scavenge Ammo	May consume one adjacent corpse before or after ACTing to *reload* and gain 1 strength.
+1		enforcer2_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	E nforcer	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. *Scion*	3	4	3+	P	<ul><li>*Formation*</li></ul>	"**Skull Crack:** *Attack, melee, push*
+/
+On hit: 2 damage and push 1. Headshot: push 2
+/
+**Flashbang:** *Range 2-3, Reload, splash*
+/
+*Effect:* 1 fire damage and 1 vulnerable, then Splash (target): push 1 away from target.
+/
+**Shieldwall:** *Self*
+/
+*Effect:* Until start of this unit’s next turn, this unit cannot MOVE, step, or be pushed or pulled, gains cover, and grants cover to adjacent allies from all directions."	Shield Charge	"Unit may step 1 before using **Skull Crack** and it gains
+/
+splash (self) push foes 1"	Bulwark	**Shieldwall** also clears up to two negative tokens on self or adjacent allies.	Bone Dust Napalm	**Flashbang** deals 1 splash fire damage but gains charge and has no effect on its main target.
+1		ammogoblin2_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	A m m o G oblin 	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. Freak	3	4	4+		<ul><li>*Formation*</li></ul>	"**Regurgitate Ammo:** Range 1-2
+/
+*Effect:* A unit in range reloads and gains one, (6+) or two strength.
+/
+**Bone Shards:** Curse, Range 1-3
+/
+*Effect:* Unit takes 1 damage after any ACT ability resolves that pushes or pulls them. Lasts until end of this units next turn or until this unit has taken 3 damage this way.
+/
+**Destructive Glee:** Self
+/
+*Effect:* Step 1, then Splash (self): 1 fire damage, push 1, and inflict 1 vulnerable, then self is obliterated."	Vomit Bullets	"**Bone shards** gains effect: (4+) push 1, (6) push 1 again."	Napalm Injector	**Destructive Glee’**s splash effect gains effect (4+): +1 fire damage (6+): and+1 vulnerable	Hot Chamber	"**Regurgitate Ammo** now targets two different adjacent
+/
+unit and no longer grants strength."
+1		barrelform2_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	B arrelform	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. Hunter	2	4	4+		<ul><li>*Formation*</li></ul>	"**Snipe:** Attack, range 2-4, reload
+/
+*On hit:* 2 damage. Headshot: and inflict 1 vulnerable.
+/
+**Transform to Gun:** Self
+/
+*Effect:* Unit becomes unable to MOVE or step, but ranged abilities gain +2 maximum range, +1D to hit, and pierce. It can end this effect by sacrificing a MOVE, but if it does, it loses all associate effects.
+/
+**Deathmark:** Curse, Range 2-4
+/
+*Effect:* Inflict 2 vulnerable, (4+): 3 vulnerable, (6+): Remove any vitality first."	Claw Pitons	**Transform to Gun** makes this unit immune to push and pull.	Extended Barrel	"**Snipe** gains +1D when this unit is in cover, and -1D when it is not."	Caliber Up	**Snipe** gains push 1 and Headshot: push 2
+1		aegisweapon_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	E G IS  W eapon	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. Tyrant	3	6	2+	P	<ul><li>*Formation*</li><li>*Siege Shield:* May be used as a cover object by allies</li><li>*Large:* 2x2 unit (see entry).</li></ul>	"**Juggernaut:** *Self, Push*
+/
+*Effect:* Step 1, then splash (self) push foes 1. (4+) push foes 2.
+/
+May move into and destroy walls with this step.
+/
+**Mortar:** *Attack, range 3-4, reload, charge*
+/
+*On hit:* 1 damage then Splash: 1 fire damage. *Headshot:* +1 damage on main target
+/
+**Catechism Devil Cannon:** *Line, reload*
+/
+**Effect:** Line 5, 1 fire damage. and inflicts 1 vulnerable on the first unit in the line. Pierces through walls and can target through walls."	Fortify	"**Juggernaut** also clears all
+/
+negative tokens."	Heavy Caliber Cannon	**Catechism** pushes all units in the line 1 space and destroys walls.	Gunner Pivot	"When at least one ally is adjacent to this unit, **Mortar** ignores cover."
+1		infilunit2_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	IN F ILT R A T O R	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. Hunter	4	3	3+	M	"<ul><li>*Formation*</li><li>*Active Camo:* If this unit ends its turn with no foes adjacent, this unit becomes *curseproof* and all attacks against it gain -1D. Both effects last until the start of its next turn.</li></ul>"	"**Cross Fire:*** Line 5, reload*
+/
+*Effect:* First unit in the line takes 1 piercing damage. If catching an allied unit in the line, also inflict 2 vulnerable.
+/
+**Slide kick:** *Step*
+/
+*Effect: *Step 1, then push an adjacent foe 1 or (5+) 2 spaces. That foe must spend a MOVE before next attacking.
+/
+**Trick Reload:*** Self*
+/
+*Effect:* Reload and gain 1 strength (4+) then regain this unit’s ACT. This ability can’t be used again this turn."	Burst Fire	"May step 1 before and after activating **Cross Fire,** but becomes line 4"	Ricochet	**Cross Fire**’s extra effect also triggers if it catches a wall in the line	Knife Slash	**Slide Kick** also inflicts 1 vulnerable.
