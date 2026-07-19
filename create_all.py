@@ -100,10 +100,21 @@ def split_individual_abilities(raw_abilities_text):
     """
     if not raw_abilities_text:
         return []
-    
+    soul_costs = []
     # Fixed: Added raw_abilities_text as the string to split
-    ability_names = re.findall(r'\*\*([^*:\n]+)(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
-    blocks = re.split(r'\*\*([^*:\n]+)(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
+    if re.search(r'\([1-6] SOUL\)', raw_abilities_text):
+        ability_names_findall = re.findall(r'\*\*([^*:\n]+) (\([1-6] SOUL\))(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
+        ability_names = [an[0] for an in ability_names_findall]
+        soul_costs = [an[1] for an in ability_names_findall]
+        print("=======SOULS")
+        print(ability_names)
+        print(soul_costs)
+        blocks = re.split(r'\*\*([^*:\n]+) (\([1-6] SOUL\))(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
+    else:        
+        ability_names = re.findall(r'\*\*([^*:\n]+)(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
+        print("=======NO SOULS")
+        print(ability_names)
+        blocks = re.split(r'\*\*([^*:\n]+)(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
     refined_abilities = []
     
     for block in blocks:
@@ -111,7 +122,7 @@ def split_individual_abilities(raw_abilities_text):
         if not b_str:
             continue
         # Strip structural forward slash delimiters and spacing fragments
-        lines = [line.strip() for line in b_str.split('/') if line.strip() and line.strip() != '/' and line.strip() not in ability_names]
+        lines = [line.strip() for line in b_str.split('/') if line.strip() and line.strip() != '/' and line.strip() not in ability_names and line.strip() not in soul_costs]
         if lines:
             refined_abilities.append("\n\n".join(lines))
     if len(ability_names) != len(refined_abilities):
@@ -119,7 +130,7 @@ def split_individual_abilities(raw_abilities_text):
     for i in range(len(ability_names)):
         refined_abilities[i] = f"**{ability_names[i]}**\n\n{refined_abilities[i]}"
             
-    return (refined_abilities, ability_names)
+    return (refined_abilities, ability_names, soul_costs)
 
 def parse_markdown_line(text):
     """Parses **bold** and *italic* tags into structured token chunks."""
@@ -206,7 +217,7 @@ def draw_rich_paragraph(draw, text, position, max_width, font_size, fill="black"
 
     return y
 
-def create_unit_card(row, focus_ability=None, ability_suffix_name=None):
+def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cost=None):
     """
     Renders full cards. If focus_ability is passed, it preserves all art and 
     stats but swaps the text block for just that upscaled ability.
@@ -378,7 +389,7 @@ if __name__ == "__main__":
             
             # Split and execute separate ability focus variants
             raw_abilities = row.get('ACT Abilities', '')
-            individual_abilities, ability_names = split_individual_abilities(raw_abilities)
+            individual_abilities, ability_names, _ = split_individual_abilities(raw_abilities)
             clean_unit_name = re.sub(r'\s+', '', row.get('Name', 'unit'))
             sanitized_unit_base = "".join([c for c in clean_unit_name if c.isalnum()]).strip().capitalize()           
             for idx, single_ability in enumerate(individual_abilities):
@@ -390,6 +401,15 @@ if __name__ == "__main__":
             # TODO: Expand the CSV with factions codes.
             bg_color = parse_rgb(row.get('card_background style', ''))
             if FACTION == "necromancers":
+                soul_abilities = row.get('SOUL Abilities', '')
+                individual_abilities, ability_names, soul_costs = split_individual_abilities(soul_abilities)
+                for idx, single_ability in enumerate(individual_abilities):
+                    ability_title = ability_names[idx]
+                    soul_cost = soul_costs[idx]
+                    clean_ability = re.sub(r'\s+', '_', ability_title)                
+                    # Generate the full asset card focused exclusively on this layout string
+                    create_unit_card(row, focus_ability=f"{soul_cost}\n{single_ability}", ability_suffix_name=f"{clean_ability}")
+
                 ACTS_CSV_PATH = f"{FACTION}_ACTs.csv"
                 if not os.path.exists(ACTS_CSV_PATH):
                     raise Exception(f"File not found: {ACTS_CSV_PATH}")                
@@ -402,10 +422,29 @@ if __name__ == "__main__":
                         # print(bg_color)
                         raw_acts = act_upgrades_row.get('ACT Upgrades', '')
                         print(raw_acts)
-                        individual_acts, ability_acts = split_individual_abilities(raw_acts)                                        
+                        individual_acts, act_names, _ = split_individual_abilities(raw_acts)                                        
                         for idx, single_act in enumerate(individual_acts):
-                            act_title = ability_acts[idx]
+                            act_title = act_names[idx]
                             clean_act = re.sub(r'\s+', '_', act_title)                        
                             # Generate the full asset card focused exclusively on this layout string
                             create_unit_card(row, focus_ability=single_act, ability_suffix_name=clean_act)
+                SOUL_CSV_PATH = f"{FACTION}_SOULs.csv"
+                if not os.path.exists(SOUL_CSV_PATH):
+                    raise Exception(f"File not found: {SOUL_CSV_PATH}")                
+                with open(SOUL_CSV_PATH, mode='r', encoding='utf-8') as souls_f:
+                    souls_reader = csv.DictReader(souls_f, delimiter='\t')
+                    for soul_upgrades_row in souls_reader:
+                        soul_bg_color = parse_rgb(soul_upgrades_row.get('card_background style', ''))
+                        if bg_color != soul_bg_color:
+                            continue
+                        # print(bg_color)
+                        raw_souls = soul_upgrades_row.get('SOUL Upgrades', '')
+                        print(raw_souls)
+                        individual_souls, soul_names, soul_costs = split_individual_abilities(raw_souls)                                        
+                        for idx, single_soul in enumerate(individual_souls):
+                            soul_title = soul_names[idx]
+                            soul_cost = soul_costs[idx]
+                            clean_soul = re.sub(r'\s+', '_', soul_title)                        
+                            # Generate the full asset card focused exclusively on this layout string
+                            create_unit_card(row, focus_ability=f"{soul_cost}\n{single_soul}", ability_suffix_name=f"{clean_soul}")
             print("---")
