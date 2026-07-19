@@ -1,0 +1,104 @@
+Copies	Nickname	card_background	card_background style	Name	Name style	SOUL Upgrades
+1			"{outlineColor:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S.  S O U L  U pgrades	"{color:rgba(242, 13, 175, 1)}"	"**Double Tap (1 SOUL): ***Own turn. Trigger:* you reduce a unit to exactly 1 hp. Effect: you may immediately activate this ability to deal 1 damage to it.
+/
+**Frag Bullet (1 SOUL): ***Own Turn. Trigger: *You hit an attack. Effect: Target gains 3 vulnerable after the ability resolves.
+/
+**Bullet hustle (2 SOUL): ***Foe turn. Trigger:* After any unit MOVEs. Effect: Step 2, then deal 1 damage to a unit in range 3.
+/
+**Overwatch (3 SOUL):** *Own turn. Effect:* Reload. Until the start of your next turn, enemy units entering adjacent spaces without being pushed or pulled there take 1 damage and are pushed 1, interrupting their movement. This effect can only trigger once a turn.
+/
+**Bullet Sonata (4 SOUL):** *Own turn. Effect:* Every foe in range 2 and line of sight takes 1 piercing damage and is pushed 1.
+/
+**S.T.G. (6 SOUL): ***Own turn. Trigger: Headshot. Effect:* Deal 6 devil damage to the targeted unit, sending them Straight to the Grave."
+1			"{outlineColor:rgba(255, 120, 41, 1)}"	G oregrinders  S O U L  U pgrades	"{color:rgba(255, 120, 41, 1)}"	"**Overclock (1 SOUL): **Own or allied turn, range 1-3. Effect: Self or unit in range gains 2 speed.
+/
+If the unit is at 0 hp, splash (target): 1 fire damage.
+/
+**Gorebather (1 SOUL): **Any turn: Trigger: You slay a unit. Effect: Step 1. All allied units in range 1-2 may step 1.
+/
+**Hellrider Kick (2 SOUL):** Own or allied turn. Effect: MOVE in a straight line, then deal 1 fire damage to an adjacent foe.
+/
+**Killing Spree (3 SOUL):** Own or allied turn. Trigger: After a unit ACTs. Effect: Step 1, then deal 1 piercing damage to an adjacent unit. Speed can be spent to extend this step by +2. If that unit is slain, repeat this effect. It can repeat any number of times.
+/
+**Blood Boil (4 SOUL): **Any turn: Trigger: Unit is slain. Effect: Unit is not slain but remains at 0 hp and becomes immune to all damage. At the end of its next turn, it explodes, obliterating it, and dealing splash (self): 1 fire damage.
+/
+**Devil Impact (6 SOUL): **Own turn. Trigger: You deal damage to an adjacent foe. Effect: Deal 6 devil damage to that foe. Then deal 6 devil damage to yourself."
+1			"{outlineColor:rgba(41, 255, 60, 1)}"	G argamox  S O U L  U pgrades	"{color:rgba(41, 255, 60, 1)}"	"**Purge Guts (1 SOUL): ***Self or Allied turn, Range 1-3. *Effect: Remove up to three plague tokens from self or allied unit and grant them to any other adjacent unit to target. Then, remove a negative token on the target for each plague token removed.
+/
+**Insides Out (1 SOUL): ***Curse, Any turn, Range 1-3. Trigger: Turn start. Effect:* Unit gains 1 slow and creates a hazard under themselves at the end of this turn.
+/
+**Fecundity (2 SOUL): ***Any turn, Curse, Range 1-3. Trigger: Turn Start. Effect: *Double all plague tokens on a unit. If this puts them at 5 or more tokens, they also explode with splash (target): 1 toxic damage.
+/
+**Unholy Vapors (3 SOUL): ***Curse, Any turn, Range 1-3. Trigger: Target turn Start. Effect:* At the end of the targeted unit’s turn, targeted unit takes 1 piercing toxic damage, for every hazard in range 2 of them.
+/
+**Praise the Filth (4 SOUL): ***Own turn, Range 1-2: Effect: *Place one hazard in range for every other hazard in range.
+/
+**Mox Populi (6 SOUL):** *Own turn. Effect:* Remove up to four corpse tokens or hazards anywhere and summon a SCUM unit for each. Then splash (target) on all scum created this way for 1 plague to all units. Characters can only be damaged once by this effect."
+1			"{outlineColor:rgba(145, 255, 239, 1)}"	D eadsouls  S O U L  U pgrades	"{color:rgba(145, 255, 239, 1)}"	"**Twist Sinews (1 SOUL): ***Curse, Any turn. Range 2-4. Trigger: Start of turn. Effect: *Pull unit 1 in any direction.
+/
+**Writhing Curse (1 SOUL): ***Foe turn, Curse, Range 1-4. Trigger: Turn start. Effect: *At the end of their turn, foe inflicts splash (self) 1 curse damage and 1 weak, only affecting their allies.
+/
+**Disincorporate (2 SOUL):** *Own or allied turn. Range 1-4. Effect: *Remove self and an adjacent allied unit, then place self in free space in range, then place ally adjacent. If there is no room to place allies, return them at their original location.
+/
+**Eternal Curse (3 SOUL):** *Any Turn. Trigger: *A unit is slain. Effect: Transfer all negative tokens to a different unit anywhere, then increase those tokens by 1.
+/
+**Malebolge (4 SOUL):** *Own turn. Effect:* Scour the battlefield with frozen wind, pulling all foes 2 spaces in the same direction. Foes that would be pulled into walls or adverse terrain for the first time during this pull take 1 damage.
+/
+**Great Satania (6 SOUL): ***Own turn, Range 1-2. Effect: *Doom all enemy units in range. All Doomed enemy units instead take 1 curse damage, +1 per Doom token they have."
+1			"{outlineColor:rgba(255, 201, 59, 1)}"	A bhorrer  S O U L  U pgrades	"{color:rgba(255, 201, 59, 1)}"	"**Sword Art - Drifting Blossoms (1 SOUL):** *Any turn. Trigger: *Turn end. Effect: Stance: Step spaces equal to 1 + the round number, then push an adjacent unit 1.
+/
+**Grace (1 SOUL): ***Own or Allied turn, range 1-3. Trigger: *Turn start. Effect: Unit becomes *curseproof* until end of its next turn and attacks against it gain -1D for the duration.
+/
+**Sword Art - Safflower cut (2 SOUL):** *Own turn. Line, Stance: Trigger:* Turn start. Effect: Step 1, then cut a line area with spaces equal to the round number +2, dealing 1 damage to all characters within and pushing those characters 1. Stance (R5+): This damage becomes Devil Damage.
+/
+**Sword Art - Winter Sprout (3 SOUL): ***Any Turn. Trigger: *This unit takes damage from an ACT ability, and that ability resolves. Effect: Splash (self): remove 1 negative token on self or gain 1 vitality for every foe in the splash area. Stance (R4+): both effects trigger.
+/
+**Supreme Sword Art - Merciful Snowdrop Cut (4 SOUL):** *Own Turn. Trigger:* You hit an attack. Effect: Splash (self): 1 holy damage. Stance (R3+): 2 holy damage (R5+): 4 holy damage. (R6+): 5 holy damage.
+/
+**Resurrection (6 SOUL): ***Any turn. Trigger: *Allied unit is slain. Effect: Return unit to life at 1 hp at the end of the turn and remove all tokens. It becomes immune to all damage and *curseproof* until the end of its next turn. Stance (R3+) and it gains 1 vitality (R5+) 3 vitality instead."
+1			"{outlineColor:rgba(159, 0, 255, 1)}"	Igorri  S O U L  U pgrades	"{color:rgba(159, 0, 255, 1)}"	"**Flesh Jump (1 SOUL): ***Own or allied turn. Range 3. Effect:* Swap places with an allied unit, then both of you mutate.
+/
+**Grow Bonus Legs (2 SOUL):** *Own or allied turn. Range 3. Effect:* Remove up to three mutation tokens on target unit, then target may step 2 per token removed with free movement, ignoring hazards.
+/
+**Grow Bonus Limbs (2 SOUL):** *Own or allied turn. Range 1-3. Trigger: Turn start. Effect: *Remove up to three mutation tokens from target, then target gains +1D on attacks this turn per token removed. If three or more were removed, their damage gains pierce.
+/
+**Recycle (3 SOUL): ***Curse, Any turn. Range 1-4, Trigger: Turn end. Effect:* Deal 1 toxic damage to unit. If this reduces them to 0 hp, they are obliterated. Create up to 3 corpse tokens under their space or in free adjacent spaces.
+/
+**Devolve (4 SOUL):** *Curse, Foe turn. Range 1-3. Trigger: *Target turn start or end. Effect: Inflict 2 slow, weak, and vulnerable on target foe.
+/
+**Final Form (6 SOUL):** *Own turn. Trigger: Turn start.* *Effect:* Increase MV to 6, DF to 6+, deal +1 damage with all abilities, become curseproof, gain free movement, and gain super armor. Keep any damage taken. At the end of your next turn, your form destabilizes and you are obliterated."
+1			"{outlineColor:rgba(242, 13, 13, 1)}"	S teeplewracks  S O U L  U pgrades	"{color:rgba(242, 13, 13, 1)}"	"**Sudden twitching (1 SOUL):** *Own or Allied Turn, Range 1-3. Trigger: *End of turn. Effect: Self or an allied unit in range gains 1 speed and steps 2. They may pass through walls during this step.
+/
+**Carrion Leap (2 SOUL):** *Foe Turn, foe is in range 1-3. Trigger: *Turn start. Effect: Remove this unit from the battlefield. At the end of the triggering turn, place self in a free space adjacent to the triggering foe and gain 1 speed.
+/
+**Raptor Spasm (2 SOUL): ***Any Turn, Range 1-3. Trigger:* Self or ally in range is targeted by a line or splash effect. Effect: Reduce all damage taken by the targeted unit from the effect by 1 and the targeted unit becomes immune to any tokens or other effects it would inflict.
+/
+**Impale (3 SOUL): ***Own or Allied turn, range 2-3.* Trigger: Turn end. Effect: Place a wall in free space adjacent to a foe in range. Until the end of its next turn or until that wall is destroyed, that unit cannot break adjacency to the wall for any reason.
+/
+**Carrion Burial (4 SOUL): ***Foe turn, Range 3. Curse. Trigger: *Turn start. Effect: Summon a flock unit in free adjacent space to that unit. At the start of that unit’s turn for the rest of combat, repeat this effect. End this effect if the unit is slain or they become *curseproof*.
+/
+**Rapture of the Red Wet Hue (6 SOUL): ***Own turn. Effect:* For the rest of combat, all allied units double their MV stat, Dive Bomb can be used twice per round instead of just once, and units may deal 1 damage to an adjacent unit when they Dive Bomb."
+1			"{outlineColor:rgba(189, 251, 0, 1)}"	H ellminth  S O U L  U pgrades	"{color:rgba(189, 251, 0, 1)}"	"**Tear Off (1 SOUL):** *Own turn. Trigger: *You hit an attack. Effect: Create a corpse in a free adjacent spaces. Create +1 corpse if you slew or obliterated the unit.
+/
+**Taint Blood (1 SOUL):** *Own turn, Curse. Trigger:* You hit or miss an attack. Effect: You curse the target. When the target is slain, it grants 1 vitality to all your allies in range 2.
+/
+**Demote (2 SOUL):** *Allied turn, range 1-3. Trigger:* Target turn start. Effect: Remove ally from the battlefield, then replace them with a page and create a corpse in a free adjacent space. They can act normally this turn. They keep all tokens and effects.
+/
+**Glider Caul (2 SOUL): ***Own or allied turn, range 1-3. Trigger:* Turn start. Effect: Acting unit sprouts wings, gaining +2 MV and flying for the rest of combat (Ignores adverse terrain and elevation attack and movement penalties).
+/
+**Blood Drain (4 SOUL):** *Foe or ally turn, Curse. Range 1-3. Trigger:* Turn start. Effect: At the end of the targeted unit’s turn, remove up to three positive tokens. You gain 1 vitality per token removed. If the unit has no positive tokens left, deal 2 toxic damage to it.
+/
+**Transcendence (6 SOUL):** *Own turn. Effect:* All other allied units evolve. Units already at maximum evolution gain 1 strength."
+1			"{outlineColor:rgba(13, 121, 242, 1)}"	V olvadani  S O U L  U pgrades	"{color:rgba(13, 121, 242, 1)}"	"**De Jure Proxy (1 SOUL):** Any turn, Foe, range 1-4. Trigger: A foe in range is slain. Effect: Transfer all that foe’s guilt and other negative tokens to a different foe in range.
+/
+**Supreme Prohibition (1 SOUL):** Round start, range 1-4. Trigger: Round start. Effect: Create a 2x2 zone with at least one space in range. Foes that end the round in the zone gain 1 guilt and 1 vulnerable. The zone counts as an objective zone for Volvadani laws and lasts until the end of the current round.
+/
+**Purified Corpse Oil (2 SOUL):** Own or allied turn end, Range 1-2. Trigger: Own ability, or that of an ally in range, has 0 burst charges. Effect: Refill two or (5+) 3
+/
+charges to the ability.
+/
+**Weight of Sin (3 SOUL):** Target foe turn, Range 1-4, Curse. Trigger: Foe turn start. Effect: This turn, after foe MOVEs or uses any ACT that allows them to step or teleport, they take piercing fire damage equal to their guilt.
+/
+**Throw the book (4 SOUL):** Start of round, Range 1-4, Curse. Trigger: Round start. Effect: Choose a foe in range. That foe is subject to every law this round. When it breaks a law, it also gains 1 vulnerable. 
+/
+**EGO LEX SUM (6 SOUL):** Own turn. Trigger: Turn start. Effect: All foes in line of sight gain 1 guilt and 1 vulnerable, and the Praetor restores 1 burst to all abilities for themself and all visible allies. Repeat this effect at the start of the Praetor’s turn for the rest of combat."

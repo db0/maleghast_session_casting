@@ -1,0 +1,120 @@
+Copies	Nickname	card_background	card_background style	Name	Name style	ACT Upgrades
+1			"{outlineColor:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S.  A C T  U pgrades	"{color:rgba(242, 13, 175, 1)}"	"**Grenade jump:** *Self. Effect: Splash (self): *1 fire damage, then step 2 with free movement. You may move through foes with this step.
+/
+**Armor Lock: ***Self. Effect:* Push all adjacent foes 1. Until the end of your next turn, you gain super armor, cover from all directions, and allied units can use you as a cover object. You cannot MOVE, step or be pushed or pulled for the same duration.
+/
+**Devil Bullet:** *Self. Effect:* Reload. On hit, your next attack gains piercing and triggers headshot effects. 
+/
+**Superkick: ***Melee. Effect:* Push an adjacent unit 3. Foes gain 1 vulnerable if they would be pushed into a wall or elevated space.
+/
+**LV4 living cannon:** *Attack, range 3-5, charge, reload\*.* *On hit:* 1 fire damage and 1 vulnerable. *Splash (target): *1 fire damage. *Headshot:* +1 damage on main target. \*Effect: Must reload twice before this is usable.
+/
+**SG88 two barrel shotgun:** *Attack, range 2-2, reload\*. On hit:* 1 damage, then 1 damage. *On Hit:* push 1, then push 1. *Headshot:* increase all push by +1. \**Effect:* Must reload twice before this is usable.
+/
+**Unholy Sixgun:** *Attack, Range 2-4, reload. On hit: *2 damage. *Headshot:* reload, and this attack deals +1 base damage on hit for the rest of combat, up to a maximum of 5."
+1			"{outlineColor:rgba(255, 120, 41, 1)}"	G oregrinders  A C T  U pgrades	"{color:rgba(255, 120, 41, 1)}"	"**Quench: ***Self. Effect: *Convert up to 3 negative tokens on self or adjacent allies to speed or strength tokens. Then this unit becomes curseproof until the start of its next turn.
+/
+**Frenzy Chain:** *Range 2-3.* Pull a unit in range 2 spaces, then (3+): pull another unit and (5+): pull another unit.
+/
+Furious Roar: Self. Destroy all adjacent walls. Then, self and two other adjacent units may step 1 and gain 1 speed.
+/
+**Apoplexy: ***Self. *Gain 1 strength and 1 berserk, then double all berserk and strength tokens. 
+/
+**Pilebunker: **A*ttack, melee. On hit: *2 damage, then 1 fire damage again. Effect: This attack rolls -1D. Ignore this penalty against large units.
+/
+**Saw Toothed Slayer Axe:** Line 4. Line: 1 damage. If only one unit is caught in the area, damage gains piercing and this line passes through and destroys walls. 
+/
+**Spine Devil Blade: ***Attack, melee. On hit:* 1 fire damage. Effect: Increase this damage by+1 on hit for every 3 hp this unit is missing. If this unit is at 0 hp, this damage obliterates its target if it slays them."
+1			"{outlineColor:rgba(41, 255, 60, 1)}"	G argamox  A C T  U pgrades	"{color:rgba(41, 255, 60, 1)}"	"**Melt: ***Curse, Range 1-3. Effect:* Unit takes 1 devil damage. If this reduces it to 0 hp, it is obliterated and it melts, creating a hazard in its space.
+/
+**Corpse Explosion: ***Range 1-4. Effect:* Choose a corpse in range. It explodes for a splash effect centered on it for 1 plague and push 1. Then remove it and replace it with a hazard.
+/
+**Vermin Form: ***Range 2-6. Effect: *Choose a corpse or a hazard in range and and swap places with it. You push all adjacent units 1 and become curseproof until the end of your next turn.
+/
+**Ceaseless Spew:** *Line 5. Effect: 1 plague (6+)* or 2 plague. Already plagued foes take 1 toxic damage. Pull all affected units 1.
+/
+**Flesh Feeder Blade: ***Attack, melee. On hit: *1 damage and Infect: 1 plague to foes and 1 strength to self or allied units. Double this effect if it slays a foe.
+/
+**Scourge: ***Attack, Range 2-4: On hit:* 1 damage, create a hazard under target and (effect: 3+) slow them (5+) twice.
+/
+**Necrocide:** *Attack, Range 2-3: On hit:* 1 toxic damage. Infect: 1 toxic damage. Effect: After this ability resolves, gain 1 plague on self for each unit affected."
+1			"{outlineColor:rgba(145, 255, 239, 1)}"	D eadsouls  A C T  U pgrades	"{color:rgba(145, 255, 239, 1)}"	"**Unholy Summoning:*** Curse, Range 2-4. Effect: *Pull 2. Ignores line of sight. If the unit is an ally, may then pull another allied unit and clear a token on both allies.
+/
+**Vapor Form:** *Self. Effect: *MOVE with free movement, moving through walls and units. Foes passed through gain 1 weak. Doomed foes take 1 curse damage.
+/
+**Tear Soul: ***Curse, Range 1-3. Effect:* Unit takes 1 curse damage. Then, it gains 1 weak for every 1 hp it is missing, up to 3 weak. If it’s missing more than half its hp, it is then Doomed.
+/
+**Frozen Hell:** *Range 1-2.* Create up to three spaces of adverse terrain in range. Units already standing in adverse terrain in range take 1 piercing damage.
+/
+**Great Urgal Blade:** *Melee, attack. On* hit: 1 damage. Effect: At round 4 or later, deals 4 curse damage on hit instead.
+/
+**Bloody Flail:** *Attack, range 2-2. On hit:* 1 damage. Effect: Pull all foes in range 1 space, then splash (self): 1 curse damage. Against doomed units, gains pierce.
+/
+**Lathean Devil Whip: ***Attack, range 2-3. On hit:* 1 curse damage. Effect: Cannot benefit from strength. Instead, may remove up to three weak tokens from target to increase curse damage by +1 per weak token removed."
+1			"{outlineColor:rgba(255, 201, 59, 1)}"	A bhorrer  A C T  U pgrades	"{color:rgba(255, 201, 59, 1)}"	"**Grand Oath: ***Self. Effect: Splash (self).* Self and allies in the area may convert any number of vitality to strength.
+/
+**Redempta: ***Range 1-4. Effect: *Remove all negative tokens on an ally, then transfer to self. That ally gains 1 vitality per negative token removed and becomes curseproof until the start of its next turn.
+/
+**Communion: ***Self. Effect: *Gain 1 vitality. Until end of next turn, self and adjacent allies may spend this unit’s hp as if it were vitality tokens.
+/
+**Decree of Forbiddance:** *Curse, Self. Effect:* Until end of this unit’s next turn, foes ending their turn in range 2 of this unit have a hazard created under them, then are pushed 1.
+/
+**Holy Water Flail:** *Attack, range 2-2, charge. On hit:* 1 holy damage and splash (target): 1 holy damage. *Stance (Round 3+):* and create a hazard under primary target (round 5+) all units in the area.
+/
+**Relic Lance: ***Attack, melee. On hit: *2 damage. *Stance:* May step spaces up to the round number with free movement, in a straight line, before the attack. On hit, push target half that many spaces.
+/
+**Starmetal Shuriken: ***Attack, range 2-4. On hit:* 1 damage. *Stance:* Roll the effect die. If you roll under the round number, deal 1 holy damage again. If you roll exactly the round number, deal 2 holy damage again instead."
+1			"{outlineColor:rgba(159, 0, 255, 1)}"	Igorri  A C T  U pgrades	"{color:rgba(159, 0, 255, 1)}"	"**New Material:*** Self. Effect:* Create two or (5+) three corpses in free adjacent spaces, then mutate.
+/
+**Clone: ***Range 1-2. Effect:* Create a perfect copy of an allied unit in range in any other free space in range. Then obliterate the original as it collapses into flesh and replace it with a corpse token.
+/
+**Stitch Fix:*** Range 1-3. Effect:* Remove up to three negative tokens from a unit, then it may step 1 and it mutates. Spare Parts: The unit mutates and steps once for each negative token removed instead.
+/
+**Inject Stimulant: ***Range 1-3. Effect: *Choose a unit in range. That unit may step 2. If it ends its turn in the space of a corpse, it mutates, removes the corpse, then may step 2 and mutate again.
+/
+**Biotoxin Injector:** *Attack, range 2-4. On hit:* 1 toxin damage. Effect: At end of target’s next turn, they explode for a splash (target) effect for 1 toxin damage. Your allies in the area mutate instead of taking damage.
+/
+**Mutagen Injector: ***Attack, Range 2-4. On hit:* May remove one positive token from target, then deal 1 toxin damage. Spare Parts: If at least one corpse was consumed, repeat this effect.
+/
+**Chaos Beam:** *Line 3. Effect: Line: *1 fire damage and inflict 1 vulnerable, (3-4) OR 1 toxic damage and inflict 1 slow, (5-6) OR 1 curse damage and inflict 1 weak. Spare Parts: Roll 1D for effect per corpse consumed and choose any result."
+1			"{outlineColor:rgba(242, 13, 13, 1)}"	S teeplewracks  A C T  U pgrades	"{color:rgba(242, 13, 13, 1)}"	"**Bloody Haze: ***Self. Effect:* Until start of this unit’s next turn, all attacks against self and all units adjacent to this unit gain pierce and grant the attacker 1 strength after they resolve.
+/
+**Flesh Hunt: ***Range 1-3. Effect: *All allied units in range 2 of target foe are pushed 1 towards that foe (4+) and gain 1, (6+) or 2 strength.
+/
+**Darken Skies:** *Self. Effect:* Until start of this unit’s next turn, cannot MOVE or step but self and adjacent allies gain cover from all directions and immunity to grazes.
+/
+**Bloody Rain:*** Range 1-3. Effect:* Slay allied unit in range. Then summon a flock unit in range for every hp it is missing.
+/
+**The Hook:** *Attack, Melee. On hit:* 1 curse damage and Summon one or (5+) two flock units adjacent to the target.
+/
+**The Rope:** *Attack, range 3-4. On hit:* 1 devil damage, then may pull self 2 towards a wall in range 3, or pull target 2 towards self or a wall in range 3.
+/
+**The Pole:*** Attack, range 1-2. On hit:* 2 damage. Effect: May step 2 after attack with free movement, and may pass through walls during this movement."
+1			"{outlineColor:rgba(189, 251, 0, 1)}"	H ellminth  A C T  U pgrades	"{color:rgba(189, 251, 0, 1)}"	"**Caul of the Worm Gods: ***Ally, range 1-3. Effect:* Target ally gains 1 vitality at the end of its turns this combat (4+) and clears a negative token. End this effect if this ability is used again.
+/
+**Psychic Scream: ***Self. Splash (self): *All other units in the area lose 1 or (5+) two tokens of this unit’s choice, then are pushed 2.
+/
+**Burrow: ***Self. Effect: *Remove self, then place in any space on the battlefield. When reappearing, remove all units in this units space, then each unit’s owner may place them in free space on any edge, starting ally/foe and alternating if necessary.
+/
+**Acid Jet:** *Line 3. Effect:* First unit in the line takes 1 piercing toxic damage and push 1, no effect on other units. If that unit was in the last space, it takes 2 piercing toxic damage instead.
+/
+**Dispassionate Dissection: ***Attack, melee. On hit:* 1 damage and (4+) 1 toxic damage again (6+) then 1 toxic damage again. Effect: Creates two corpses if slaying a foe.
+/
+**The Kiss:** *Attack, melee. On hit: *1 devil damage. Effect: If this slays a unit, obliterate them, then summon a page in their space.
+/
+**Swat Nuisance: ***Attack, melee. On hit:* 2 damage and push one or (5+) three spaces. If moving into the space of another unit or a wall, deal 1 damage again to both. This additional damage can’t be increased."
+1			"{outlineColor:rgba(13, 121, 242, 1)}"	V olvadani  A C T  U pgrades	"{color:rgba(13, 121, 242, 1)}"	"**Judicator Cannon: **Attack, Range 3-5, Charge, Burst 1 On hit: Foe takes 1 fire damage and gains 1 vulnerable, then splash (target) 1 vulnerable. Effect: Gains +1D on attacks against criminals with 3+ guilt.
+/
+**Pressure Hammer:** Attack, Melee, Burst 1. On hit: 1 damage and push 1 per guilt. If pushed into a wall or into the edge of the map, takes 1 damage, then gains 1 vulnerable.
+/
+**Steel Eagle Heavy Demolisher Rifle: **Attack, Charge, Range 2-5, Burst 0. Effect: Can only be used once per combat. Effect: No graze damage. Has a max burst of 5. At the end of turn, gains burst +1. On hit: 1 fire damage and push 1.
+/
+**Penitent’s Mortification: **Foe, Range 2-3. Effect: Attach a mine to a foe in range. At the end of their turn, they take 1 fire damage, then splash (self) 1 fire damage. Increase all damage by +1 against foes with 3+ guilt. Then remove all guilt on targets damaged.
+/
+**Serve Warrant:** Self, Curse. Effect: Until the end of the Praetor’s next turn, damaging the Praetor or any friendly unit adjacent to the Praetor grants 1 guilt. Criminals additionally have -1D on attacks against the
+/
+Praetor or its adjacent allies for the duration.
+/
+**Imprison: **Foe, Range 1-4, Curse. Effect: Clear all guilt from a foe, then create a wall in a free adjacent space to that foe for each guilt cleared. If at 3+ guilt, foe additionally becomes unable to MOVE, step, or teleport until the end of its next turn.
+/
+**Fiery Ordinance: **Range 1-3. Effect: Create a 3 space line objective zone with at least one space in range. Foes that enter the space for any reason the first time in a round take 1 guilt. Criminals treat this zone as a hazard. This area lasts until this ability is used again."
