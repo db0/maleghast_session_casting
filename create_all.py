@@ -3,6 +3,9 @@ import csv
 import ast
 import re
 import difflib
+import io
+import badgepy
+import cairosvg
 from PIL import Image, ImageDraw, ImageFont
 
 import argparse
@@ -17,9 +20,13 @@ FACTIONS = ["abhorrers", "deadsouls", "necromancers"]
 OUTPUT_DIR = "output_cards"
 GUIDES_FILE = "guides.txt"
 HOMEDIR = os.path.expanduser("~")
-# TIME = "00:06:07"
-# HP = "1"
-# ABILITY = "Starmetal Godsword"
+
+# State variables overridden during execution 
+TIME = None
+HP = None
+ABILITY = None
+SIDE = None
+CONDITIONS = []
 
 # --- FONT FAMILY CONFIGURATION ---
 FONT_REGULAR = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
@@ -91,8 +98,6 @@ def find_fuzzy_image(target_name, directory):
     if FACTION == "necromancers":
         directory = NECROMANCER_DIR
         target_name = target_name.replace("Leaders/", "")
-    # print(target_name)
-    # print(directory)
     if not target_name or not os.path.exists(directory):
         return None
         
@@ -126,19 +131,13 @@ def split_individual_abilities(raw_abilities_text):
     if not raw_abilities_text:
         return []
     soul_costs = []
-    # Fixed: Added raw_abilities_text as the string to split
     if re.search(r'\([1-6] SOUL\)', raw_abilities_text):
         ability_names_findall = re.findall(r'\*\*([^*:\n]+) (\([1-6] SOUL\))(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
         ability_names = [an[0] for an in ability_names_findall]
         soul_costs = [an[1] for an in ability_names_findall]
-        # print("=======SOULS")
-        # print(ability_names)
-        # print(soul_costs)
         blocks = re.split(r'\*\*([^*:\n]+) (\([1-6] SOUL\))(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
     else:        
         ability_names = re.findall(r'\*\*([^*:\n]+)(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
-        # print("=======NO SOULS")
-        # print(ability_names)
         blocks = re.split(r'\*\*([^*:\n]+)(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
     refined_abilities = []
     
@@ -146,7 +145,6 @@ def split_individual_abilities(raw_abilities_text):
         b_str = block.strip()
         if not b_str:
             continue
-        # Strip structural forward slash delimiters and spacing fragments
         lines = [line.strip() for line in b_str.split('/') if line.strip() and line.strip() != '/' and line.strip() not in ability_names and line.strip() not in soul_costs]
         if lines:
             refined_abilities.append("\n\n".join(lines))
@@ -275,6 +273,44 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
             img_x = (CANVAS_SIZE[0] - usr_img.width) // 2
             img_y = 120 
             card.paste(usr_img, (img_x, img_y), usr_img)
+
+            # --- BADGES INTEGRATION ---
+            if CONDITIONS:
+                badge_start_y = img_y + 20
+                for cond in CONDITIONS:
+                    c_name = cond.get("condition", "").capitalize()
+                    c_amt = cond.get("amount", "")
+                    
+                    # Generate the SVG string from badgepy
+                    svg_str = badgepy.badge(
+                        left_text=c_name, 
+                        right_text=c_amt,
+                        left_color="#333",
+                        right_color="#d32f2f"
+                    )
+                    
+                    # Convert SVG byte-string to a Pillow-friendly PNG using cairosvg
+                    png_data = cairosvg.svg2png(bytestring=svg_str.encode('utf-8'))
+                    badge_img = Image.open(io.BytesIO(png_data)).convert("RGBA")
+                    
+                    # Calculate horizontal placement based on the unit's 'side'
+                    if SIDE == "Left":
+                        # Postion right border of the unit art
+                        badge_x = img_x + usr_img.width - (badge_img.width // 2)
+                    elif SIDE == "Right":
+                        # Position left border of the unit art
+                        badge_x = img_x - (badge_img.width // 2)
+                    else:
+                        badge_x = img_x - (badge_img.width // 2)
+                    
+                    # Keep the badge inside the canvas bounds visually
+                    badge_x = max(10, min(badge_x, CANVAS_SIZE[0] - badge_img.width - 10))
+                    
+                    # Paste with transparency support
+                    card.paste(badge_img, (badge_x, badge_start_y), badge_img)
+                    badge_start_y += badge_img.height + 10
+            # --------------------------
+            
     else:
         print(f"Warning: Could not match image resource for asset target: '{unit_img_name}'")
 
@@ -424,7 +460,6 @@ def main_run():
                 create_unit_card(row)
             elif clean_unit_name.capitalize() == ABILITY:
                 create_unit_card(row)
-            # print([clean_unit_name.capitalize(),ABILITY])
             # Split and execute separate ability focus variants
             raw_abilities = row.get('ACT Abilities', '')
             individual_abilities, ability_names, _ = split_individual_abilities(raw_abilities)
@@ -435,8 +470,6 @@ def main_run():
                 # Generate the full asset card focused exclusively on this layout string
                 if TIME and ABILITY == ability_title:
                     create_unit_card(row, focus_ability=single_ability, ability_suffix_name=clean_ability)
-            # I match factions based on the BG color for now. 
-            # TODO: Expand the CSV with factions codes.
             bg_color = parse_rgb(row.get('card_background style', ''))
             if FACTION == "necromancers":
                 soul_abilities = row.get('SOUL Abilities', '')
@@ -458,9 +491,7 @@ def main_run():
                         act_bg_color = parse_rgb(act_upgrades_row.get('card_background style', ''))
                         if bg_color != act_bg_color:
                             continue
-                        # print(bg_color)
                         raw_acts = act_upgrades_row.get('ACT Upgrades', '')
-                        # print(raw_acts)
                         individual_acts, act_names, _ = split_individual_abilities(raw_acts)                                        
                         for idx, single_act in enumerate(individual_acts):
                             act_title = act_names[idx]
@@ -477,7 +508,6 @@ def main_run():
                         soul_bg_color = parse_rgb(soul_upgrades_row.get('card_background style', ''))
                         if bg_color != soul_bg_color:
                             continue
-                        # print(bg_color)
                         raw_souls = soul_upgrades_row.get('SOUL Upgrades', '')
                         individual_souls, soul_names, soul_costs = split_individual_abilities(raw_souls)                                        
                         for idx, single_soul in enumerate(individual_souls):
@@ -505,6 +535,8 @@ if __name__ == "__main__":
         for FACTION in FACTIONS:
             TIME = None
             HP = None
+            SIDE = None
+            CONDITIONS = []
             CSV_PATH = f"{FACTION}.csv"
             main_run()
         exit(0)
@@ -534,7 +566,6 @@ if __name__ == "__main__":
                     action,hp = comment_parts
                 elif len(comment_parts) == 3:
                     action,hp,all_conditions = comment_parts
-                    # print(action)
                     conditions = all_conditions.split('+')
                     conditions_parsed = []
                     for c in conditions:
@@ -558,6 +589,8 @@ if __name__ == "__main__":
         TIME = guide["timestamp"]
         HP = guide["hp"]
         ABILITY = guide["action"]
+        SIDE = guide["side"]                   # Extract Side from Guide Loop 
+        CONDITIONS = guide["conditions"]       # Extract Conditions Array from Guide Loop
         VIDEO_NAME = args.matchup
         for FACTION in FACTIONS:
             CSV_PATH = f"{FACTION}.csv"
