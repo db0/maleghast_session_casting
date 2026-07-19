@@ -28,6 +28,24 @@ ABILITY = None
 SIDE = None
 CONDITIONS = []
 
+# --- BADGE CONFIGURATION ---
+BADGE_SCALE = 1.25  # Tweak this multiplier to scale the badge up/down crisply
+BADGE_SPACING = 12  # Vertical pixel spacing between multiple badges
+
+# Add or modify conditions here. You can use CSS color names (e.g., 'red') or hex codes ('#d32f2f').
+CONDITION_COLORS = {
+    "Strength": {"left": "red", "right": "grey"},
+    "Weak": {"left": "grey", "right": "red"},
+    "Vitality": {"left": "green", "right": "pink"},
+    "Weak": {"left": "pink", "right": "green"},
+    "Speed": {"left": "yellow", "right": "brown"},
+    "Slow": {"left": "brown", "right": "yellow"},
+    "Miracle": {"left": "white", "right": "white"},
+    "Smite": {"left": "yellow", "right": "blue"},
+}
+# Fallback colors if a condition isn't found in the dictionary above
+DEFAULT_BADGE_COLORS = {"left": "#333333", "right": "#d32f2f"}
+
 # --- FONT FAMILY CONFIGURATION ---
 FONT_REGULAR = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 FONT_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
@@ -281,21 +299,26 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
                     c_name = cond.get("condition", "").capitalize()
                     c_amt = cond.get("amount", "")
                     
+                    # Fetch color from dict or fallback to default
+                    colors = CONDITION_COLORS.get(c_name, DEFAULT_BADGE_COLORS)
+                    b_left_color = colors.get("left", DEFAULT_BADGE_COLORS["left"])
+                    b_right_color = colors.get("right", DEFAULT_BADGE_COLORS["right"])
+                    
                     # Generate the SVG string from badgepy
                     svg_str = badgepy.badge(
                         left_text=c_name, 
                         right_text=c_amt,
-                        left_color="#333",
-                        right_color="#d32f2f"
+                        left_color=b_left_color,
+                        right_color=b_right_color
                     )
                     
-                    # Convert SVG byte-string to a Pillow-friendly PNG using cairosvg
-                    png_data = cairosvg.svg2png(bytestring=svg_str.encode('utf-8'))
+                    # Scale using cairosvg natively to preserve 100% crisp vector edges!
+                    png_data = cairosvg.svg2png(bytestring=svg_str.encode('utf-8'), scale=BADGE_SCALE)
                     badge_img = Image.open(io.BytesIO(png_data)).convert("RGBA")
                     
                     # Calculate horizontal placement based on the unit's 'side'
                     if SIDE == "Left":
-                        # Postion right border of the unit art
+                        # Position right border of the unit art
                         badge_x = img_x + usr_img.width - (badge_img.width // 2)
                     elif SIDE == "Right":
                         # Position left border of the unit art
@@ -308,7 +331,7 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
                     
                     # Paste with transparency support
                     card.paste(badge_img, (badge_x, badge_start_y), badge_img)
-                    badge_start_y += badge_img.height + 10
+                    badge_start_y += badge_img.height + BADGE_SPACING
             # --------------------------
             
     else:
@@ -589,8 +612,8 @@ if __name__ == "__main__":
         TIME = guide["timestamp"]
         HP = guide["hp"]
         ABILITY = guide["action"]
-        SIDE = guide["side"]                   # Extract Side from Guide Loop 
-        CONDITIONS = guide["conditions"]       # Extract Conditions Array from Guide Loop
+        SIDE = guide["side"]
+        CONDITIONS = guide["conditions"]
         VIDEO_NAME = args.matchup
         for FACTION in FACTIONS:
             CSV_PATH = f"{FACTION}.csv"
