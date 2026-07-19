@@ -11,23 +11,24 @@ from PIL import Image, ImageDraw, ImageFont
 FACTION = "necromancers"
 CSV_PATH = f"{FACTION}.csv"
 OUTPUT_DIR = "output_cards"
+HOMEDIR = os.path.expanduser("~")
 
 # --- FONT FAMILY CONFIGURATION ---
 FONT_REGULAR = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 FONT_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 FONT_ITALIC = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Oblique.ttf"
 FONT_BOLD_ITALIC = "/usr/share/fonts/truetype/dejavu/DejaVuSans-BoldOblique.ttf"
-FONT_MALEGHAST = "/home/db0/.local/share/fonts/maleghast.ttf"
+FONT_MALEGHAST = f"{HOMEDIR}/.local/share/fonts/maleghast.ttf"
 
 ICON_PATHS = {
-    'HP': '/home/db0/Documents/books/MAGNAGOTHICA/card design/hearts.png',
-    'DEF': '/home/db0/Documents/books/MAGNAGOTHICA/card design/shield.png',
-    'ARM': '/home/db0/Documents/books/MAGNAGOTHICA/card design/trench-body-armor.png',
-    'MV': '/home/db0/Documents/books/MAGNAGOTHICA/card design/barefoot.png'
+    'HP': f'{HOMEDIR}/Documents/books/MAGNAGOTHICA/card design/hearts.png',
+    'DEF': f'{HOMEDIR}/Documents/books/MAGNAGOTHICA/card design/shield.png',
+    'ARM': f'{HOMEDIR}/Documents/books/MAGNAGOTHICA/card design/trench-body-armor.png',
+    'MV': f'{HOMEDIR}/Documents/books/MAGNAGOTHICA/card design/barefoot.png'
 }
 
-UNIT_IMG_DIR = "/home/db0/Documents/books/MAGNAGOTHICA/all_units/sources/"
-NECROMANCER_DIR = "/home/db0/Documents/books/MAGNAGOTHICA/all_units/Necromancers"
+UNIT_IMG_DIR = f"{HOMEDIR}/Documents/books/MAGNAGOTHICA/all_units/sources/"
+NECROMANCER_DIR = f"{HOMEDIR}/Documents/books/MAGNAGOTHICA/all_units/Necromancers"
 CANVAS_SIZE = (400, 1080)
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
