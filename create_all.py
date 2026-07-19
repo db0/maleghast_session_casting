@@ -6,8 +6,9 @@ import difflib
 from PIL import Image, ImageDraw, ImageFont
 
 # --- CONFIGURATION & PATHS ---
-FACTION = "deadsouls"
+# FACTION = "deadsouls"
 # FACTION = "abhorrers"
+FACTION = "necromancers"
 CSV_PATH = f"{FACTION}.csv"
 OUTPUT_DIR = "output_cards"
 
@@ -26,6 +27,7 @@ ICON_PATHS = {
 }
 
 UNIT_IMG_DIR = "/home/db0/Documents/books/MAGNAGOTHICA/all_units/sources/"
+NECROMANCER_DIR = "/home/db0/Documents/books/MAGNAGOTHICA/all_units/Necromancers"
 CANVAS_SIZE = (400, 1080)
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -60,6 +62,11 @@ def clean_html_and_markdown(text):
 
 def find_fuzzy_image(target_name, directory):
     """Looks for a direct match or uses fuzzy string matching to find the file."""
+    if FACTION == "necromancers":
+        directory = NECROMANCER_DIR
+        target_name = target_name.replace("Leaders/", "")
+    print(target_name)
+    print(directory)
     if not target_name or not os.path.exists(directory):
         return None
         
@@ -75,7 +82,10 @@ def find_fuzzy_image(target_name, directory):
     if not available_files:
         return None
 
-    matches = difflib.get_close_matches(f"{FACTION}_{target_name}", available_files, n=1, cutoff=0.3)
+    if FACTION == "necromancers":
+        matches = difflib.get_close_matches(f"{target_name}", available_files, n=1, cutoff=0.3)
+    else:
+        matches = difflib.get_close_matches(f"{FACTION}_{target_name}", available_files, n=1, cutoff=0.3)
     if matches:
         print(f"Fuzzy Match: '{target_name}' mapped to disk asset -> '{matches[0]}'")
         return os.path.join(directory, matches[0])
@@ -233,11 +243,13 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None):
 
     # Paste Stat Icons & Overlay Values
     stat_layouts = {
-        'HP':  {'icon_pos': (10, 10),   'size': (120, 120), 'text_pos': (70, 40),  'val': f"/{row.get('HP','')}"},
-        'DEF': {'icon_pos': (200, 10),  'size': (120, 120), 'text_pos': (235, 40), 'val': f"{row.get('DEF','')}"},
+        'HP':  {'icon_pos': (10, 0),   'size': (140, 140), 'text_pos': (80, 30),  'val': f"/{row.get('HP','')}"},
+        'DEF': {'icon_pos': (200, 10),  'size': (120, 115), 'text_pos': (235, 40), 'val': f"{row.get('DEF','')}"},
         'ARM': {'icon_pos': (290, 10),  'size': (120, 120), 'text_pos': (338, 35), 'val': row.get('ARM','')},
-        'MV':  {'icon_pos': (120, 10),  'size': (120, 120), 'text_pos': (142, 40), 'val': row.get('MV','')}
+        'MV':  {'icon_pos': (140, 15),  'size': (100, 105), 'text_pos': (158, 50), 'val': row.get('MV','')}
     }
+    if ability_suffix_name is None:
+        stat_layouts['HP'] = {'icon_pos': (10, 0),   'size': (140, 140), 'text_pos': (55, 20),  'val': f"{row.get('HP','')}"}
     
     for stat, layout in stat_layouts.items():
         path = ICON_PATHS[stat]
@@ -256,6 +268,17 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None):
                 text_pos = (333, 35)
             if layout['val'] == "-":
                 text_pos = (343, 35)
+        if stat == "HP":
+            font_stat = ImageFont.truetype(FONT_BOLD, 50)
+            if int(row.get('HP','')) > 9:
+                font_stat = ImageFont.truetype(FONT_BOLD, 40)
+                text_pos = (65, 25)
+            if ability_suffix_name is None:
+                font_stat = ImageFont.truetype(FONT_BOLD, 80)
+                if int(row.get('HP','')) > 9:
+                    font_stat = ImageFont.truetype(FONT_BOLD, 60)
+                    text_pos = (40, 25)
+
         draw.text(text_pos, layout['val'], font=font_stat, fill="black")
 
     # --- TEXT BOX GEOMETRY ENGINE ---
@@ -340,30 +363,28 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None):
 
 
 if __name__ == "__main__":
-    if os.path.exists(CSV_PATH):
-        with open(CSV_PATH, mode='r', encoding='utf-8') as f:
-            reader = csv.DictReader(f, delimiter='\t')
-            for row in reader:
-                copies = int(row.get('Copies', 1) if row.get('Copies') else 1)
+    if not os.path.exists(CSV_PATH):
+        raise Exception(f"File not found: {CSV_PATH}")
+    with open(CSV_PATH, mode='r', encoding='utf-8') as f:
+        reader = csv.DictReader(f, delimiter='\t')
+        for row in reader:
+            copies = int(row.get('Copies', 1) if row.get('Copies') else 1)
+            
+            # Render standard core deck profiles
+            for _ in range(copies):
+                create_unit_card(row)
+            
+            # Split and execute separate ability focus variants
+            raw_abilities = row.get('ACT Abilities', '')
+            individual_abilities, ability_names = split_individual_abilities(raw_abilities)
+            
+            clean_unit_name = re.sub(r'\s+', '', row.get('Name', 'unit'))
+            sanitized_unit_base = "".join([c for c in clean_unit_name if c.isalnum()]).strip().capitalize()
+            
+            for idx, single_ability in enumerate(individual_abilities):
+                ability_title = ability_names[idx]
+                clean_ability = re.sub(r'\s+', '_', ability_title)
                 
-                # Render standard core deck profiles
-                for _ in range(copies):
-                    create_unit_card(row)
-                
-                # Split and execute separate ability focus variants
-                raw_abilities = row.get('ACT Abilities', '')
-                individual_abilities, ability_names = split_individual_abilities(raw_abilities)
-                print(ability_names)
-                
-                clean_unit_name = re.sub(r'\s+', '', row.get('Name', 'unit'))
-                sanitized_unit_base = "".join([c for c in clean_unit_name if c.isalnum()]).strip().capitalize()
-                
-                for idx, single_ability in enumerate(individual_abilities):
-                    ability_title = ability_names[idx]
-                    print(ability_title)
-                    clean_ability = re.sub(r'\s+', '_', ability_title)
-                    print(clean_ability)
-                    
-                    # Generate the full asset card focused exclusively on this layout string
-                    create_unit_card(row, focus_ability=single_ability, ability_suffix_name=clean_ability)
-                print("---")
+                # Generate the full asset card focused exclusively on this layout string
+                create_unit_card(row, focus_ability=single_ability, ability_suffix_name=clean_ability)
+            print("---")
