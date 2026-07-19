@@ -354,12 +354,17 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None):
     clean_name = re.sub(r'\s+', '', row.get('Name', 'unit'))
     sanitized_filename = "".join([c for c in clean_name if c.isalnum()]).strip().capitalize()
     
+    final_output_dir = OUTPUT_DIR
     if ability_suffix_name:
         output_filename = f"{FACTION}_{sanitized_filename}_{ability_suffix_name}.png"
+        final_output_dir = f"{OUTPUT_DIR}/{FACTION}"
+        os.makedirs(final_output_dir, exist_ok=True)
+        if FACTION == "necromancers":
+            final_output_dir = f"{OUTPUT_DIR}/{FACTION}/{sanitized_filename}"
+            os.makedirs(final_output_dir, exist_ok=True)            
     else:
         output_filename = f"{FACTION}_{sanitized_filename}.png"
-    
-    card.save(os.path.join(OUTPUT_DIR, output_filename), "PNG")
+    card.save(os.path.join(final_output_dir, output_filename), "PNG")
     print(f"Generated Sheet: {output_filename}")
 
 
@@ -368,24 +373,39 @@ if __name__ == "__main__":
         raise Exception(f"File not found: {CSV_PATH}")
     with open(CSV_PATH, mode='r', encoding='utf-8') as f:
         reader = csv.DictReader(f, delimiter='\t')
-        for row in reader:
-            copies = int(row.get('Copies', 1) if row.get('Copies') else 1)
-            
-            # Render standard core deck profiles
-            for _ in range(copies):
-                create_unit_card(row)
+        for row in reader:          
+            create_unit_card(row)
             
             # Split and execute separate ability focus variants
             raw_abilities = row.get('ACT Abilities', '')
             individual_abilities, ability_names = split_individual_abilities(raw_abilities)
-            
             clean_unit_name = re.sub(r'\s+', '', row.get('Name', 'unit'))
-            sanitized_unit_base = "".join([c for c in clean_unit_name if c.isalnum()]).strip().capitalize()
-            
+            sanitized_unit_base = "".join([c for c in clean_unit_name if c.isalnum()]).strip().capitalize()           
             for idx, single_ability in enumerate(individual_abilities):
                 ability_title = ability_names[idx]
-                clean_ability = re.sub(r'\s+', '_', ability_title)
-                
+                clean_ability = re.sub(r'\s+', '_', ability_title)                
                 # Generate the full asset card focused exclusively on this layout string
                 create_unit_card(row, focus_ability=single_ability, ability_suffix_name=clean_ability)
+            # I match factions based on the BG color for now. 
+            # TODO: Expand the CSV with factions codes.
+            bg_color = parse_rgb(row.get('card_background style', ''))
+            if FACTION == "necromancers":
+                ACTS_CSV_PATH = f"{FACTION}_ACTs.csv"
+                if not os.path.exists(ACTS_CSV_PATH):
+                    raise Exception(f"File not found: {ACTS_CSV_PATH}")                
+                with open(ACTS_CSV_PATH, mode='r', encoding='utf-8') as acts_f:
+                    acts_reader = csv.DictReader(acts_f, delimiter='\t')
+                    for act_upgrades_row in acts_reader:
+                        act_bg_color = parse_rgb(act_upgrades_row.get('card_background style', ''))
+                        if bg_color != act_bg_color:
+                            continue
+                        # print(bg_color)
+                        raw_acts = act_upgrades_row.get('ACT Upgrades', '')
+                        print(raw_acts)
+                        individual_acts, ability_acts = split_individual_abilities(raw_acts)                                        
+                        for idx, single_act in enumerate(individual_acts):
+                            act_title = ability_acts[idx]
+                            clean_act = re.sub(r'\s+', '_', act_title)                        
+                            # Generate the full asset card focused exclusively on this layout string
+                            create_unit_card(row, focus_ability=single_act, ability_suffix_name=clean_act)
             print("---")
