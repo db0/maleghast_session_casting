@@ -1,0 +1,17 @@
+Deployments - 0:14 - Deploy Holy Body
+Deployments - 0:47 - Deploy Banshee
+Deployments - 1:45 - Deploy Inquisitor 1
+Deployments - 2:02 - Deploy Lithogeist
+Deployments - 3:25 - Deploy Zealot
+Deployments - 3:43 - Deploy Thralls
+Deployments - 4:12 - Deploy Zealot
+Deployments - 4:23 - Deploy Bound Demon
+Deployments - 5:03 - Deploy Inquisitor
+Deployments - 5:13 - Deploy Dark Priest
+Deployments - 5:34 - Deploy Exorcist
+Deployments - 5:41 - Deploy Banshee
+Left - 7:55 - smite_4
+Right - 9:42 - strangle_3
+Left - 10:11 - zealot_4_vitality1+smite1+miracle1
+Left - 10:31 - zealot_4_smite1+miracle1
+Left - 1:00:52 - absolution_8

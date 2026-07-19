@@ -5,17 +5,21 @@ import re
 import difflib
 from PIL import Image, ImageDraw, ImageFont
 
+import argparse
+
 # --- CONFIGURATION & PATHS ---
 # FACTION = "deadsouls"
 # FACTION = "abhorrers"
-FACTION = "necromancers"
-CSV_PATH = f"{FACTION}.csv"
-OUTPUT_DIR = "output_cards"
-HOMEDIR = os.path.expanduser("~")
-TIME = "00:06:07"
-HP = "1"
-ABILITY = "Starmetal Godsword"
+# FACTION = "necromancers"
+# CSV_PATH = f"{FACTION}.csv"
 VIDEO_NAME = "Matchup1_Basic_Abhorrers_Deadsouls"
+FACTIONS = ["abhorrers", "deadsouls", "necromancers"]
+OUTPUT_DIR = "output_cards"
+GUIDES_FILE = "guides.txt"
+HOMEDIR = os.path.expanduser("~")
+# TIME = "00:06:07"
+# HP = "1"
+# ABILITY = "Starmetal Godsword"
 
 # --- FONT FAMILY CONFIGURATION ---
 FONT_REGULAR = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
@@ -36,6 +40,23 @@ NECROMANCER_DIR = f"{HOMEDIR}/Documents/books/MAGNAGOTHICA/all_units/Necromancer
 CANVAS_SIZE = (400, 1080)
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+
+# Create the parser
+parser = argparse.ArgumentParser(
+    description="Process raid/deployment guide files."
+)
+
+# Add the --matchup argument
+parser.add_argument(
+    "--matchup",
+    type=str,
+    default=None,
+    help="Specify the matchup string (e.g., 'boss_1' or 'pvp_season_2')",
+)
+
+# Parse the arguments from the command line
+args = parser.parse_args()
 
 def parse_rgb(rgb_str):
     """Fallback color handling if extraction fails"""
@@ -264,7 +285,7 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
         'ARM': {'icon_pos': (290, 10),  'size': (120, 120), 'text_pos': (338, 35), 'val': row.get('ARM','')},
         'MV':  {'icon_pos': (140, 15),  'size': (100, 105), 'text_pos': (158, 50), 'val': row.get('MV','')}
     }
-    if ability_suffix_name is None:
+    if HP is None:
         stat_layouts['HP'] = {'icon_pos': (10, 0),   'size': (140, 140), 'text_pos': (55, 20),  'val': f"{row.get('HP','')}"}
     
     for stat, layout in stat_layouts.items():
@@ -289,7 +310,7 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
             if int(row.get('HP','')) > 9:
                 font_stat = ImageFont.truetype(FONT_BOLD, 35)
                 text_pos = (75, 25)
-            if ability_suffix_name is None:
+            if HP is None:
                 font_stat = ImageFont.truetype(FONT_BOLD, 80)
                 if int(row.get('HP','')) > 9:
                     font_stat = ImageFont.truetype(FONT_BOLD, 60)
@@ -383,28 +404,30 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
         output_filename = f"{TIME}_{FACTION}_{sanitized_filename}_{ability_suffix_name}.png"
         final_output_dir = f"{OUTPUT_DIR}/{VIDEO_NAME}"
         os.makedirs(final_output_dir, exist_ok=True)
-        if FACTION == "necromancers":
-            final_output_dir = f"{OUTPUT_DIR}/{VIDEO_NAME}"
-            os.makedirs(final_output_dir, exist_ok=True)            
+    elif TIME:
+        output_filename = f"{TIME}_{FACTION}_{sanitized_filename}.png"
+        final_output_dir = f"{OUTPUT_DIR}/{VIDEO_NAME}"
+        os.makedirs(final_output_dir, exist_ok=True)
     else:
-        output_filename = f"{VIDEO_NAME}_{FACTION}_{sanitized_filename}.png"
+        output_filename = f"{FACTION}_{sanitized_filename}.png"
     card.save(os.path.join(final_output_dir, output_filename), "PNG")
     print(f"Generated Sheet: {output_filename}")
 
-
-if __name__ == "__main__":
+def main_run():
     if not os.path.exists(CSV_PATH):
         raise Exception(f"File not found: {CSV_PATH}")
     with open(CSV_PATH, mode='r', encoding='utf-8') as f:
         reader = csv.DictReader(f, delimiter='\t')
         for row in reader:
+            clean_unit_name = re.sub(r'\s+', '', row.get('Name', 'unit'))
             if not TIME:
                 create_unit_card(row)
-            
+            elif clean_unit_name.capitalize() == ABILITY:
+                create_unit_card(row)
+            # print([clean_unit_name.capitalize(),ABILITY])
             # Split and execute separate ability focus variants
             raw_abilities = row.get('ACT Abilities', '')
             individual_abilities, ability_names, _ = split_individual_abilities(raw_abilities)
-            clean_unit_name = re.sub(r'\s+', '', row.get('Name', 'unit'))
             sanitized_unit_base = "".join([c for c in clean_unit_name if c.isalnum()]).strip().capitalize()           
             for idx, single_ability in enumerate(individual_abilities):
                 ability_title = ability_names[idx]
@@ -443,11 +466,11 @@ if __name__ == "__main__":
                             act_title = act_names[idx]
                             clean_act = re.sub(r'\s+', '_', act_title)                        
                             # Generate the full asset card focused exclusively on this layout string
-                            if TIME and ABILITY == ability_title:
+                            if TIME and ABILITY == act_title:
                                 create_unit_card(row, focus_ability=single_act, ability_suffix_name=clean_act)
                 SOUL_CSV_PATH = f"{FACTION}_SOULs.csv"
                 if not os.path.exists(SOUL_CSV_PATH):
-                    raise Exception(f"File not found: {SOUL_CSV_PATH}")                
+                    raise Exception(f"File not found: {SOUL_CSV_PATH}")
                 with open(SOUL_CSV_PATH, mode='r', encoding='utf-8') as souls_f:
                     souls_reader = csv.DictReader(souls_f, delimiter='\t')
                     for soul_upgrades_row in souls_reader:
@@ -462,7 +485,72 @@ if __name__ == "__main__":
                             soul_cost = soul_costs[idx]
                             clean_soul = re.sub(r'\s+', '_', soul_title)                        
                             # Generate the full asset card focused exclusively on this layout string
-                            if TIME and ABILITY == ability_title:
+                            if TIME and ABILITY == soul_title:
                                 create_unit_card(row, focus_ability=f"{soul_cost}\n{single_soul}", ability_suffix_name=f"{clean_soul}")
             if not TIME:
                 print("---")
+
+def fix_timestamp(timestamp_str: str) -> str:
+    """Prepends '00:' to timestamps missing the hour mark and pads single-digit minutes."""
+    parts = timestamp_str.split(":")
+    if len(parts) == 2:
+        return f"00:{parts[0].zfill(2)}:{parts[1]}"
+    if len(parts) == 3:
+        return f"{parts[0].zfill(2)}:{parts[1]}:{parts[2]}"
+    return timestamp_str
+
+
+if __name__ == "__main__":
+    if not args.matchup:
+        for FACTION in FACTIONS:
+            TIME = None
+            HP = None
+            CSV_PATH = f"{FACTION}.csv"
+            main_run()
+        exit(0)
+    if args.matchup and not os.path.exists(args.matchup):
+        raise Exception(f"File not found: {args.matchup}")
+
+    guides = []
+
+    with open(args.matchup, "r", encoding="utf-8") as file:
+        for line in file:
+            cleaned_line = line.strip()
+
+            # Skip empty lines and lines starting with 'Deployments'
+            if not cleaned_line or cleaned_line.startswith("Deployments"):
+                continue
+
+            # Split the line by the ' - ' delimiter
+            # Example: "Left - 7:55 - smite_4" -> ['Left', '7:55', 'smite_4']
+            parts = [part.strip() for part in cleaned_line.split(" - ")]
+
+            # Ensure the line has exactly the 3 expected parts before parsing
+            if len(parts) == 3:
+                side, raw_time, comment = parts
+                conditions = []
+                comment_parts = comment.split('_')
+                if len(comment_parts) == 2:
+                    action,hp = comment_parts
+                elif len(comment_parts) == 3:
+                    action,hp,all_conditions = comment_parts
+                    # print(action)
+                    conditions = all_conditions.split('+')
+                    
+                line_data = {
+                    "side": side,
+                    "timestamp": fix_timestamp(raw_time),
+                    "action": action.capitalize(),
+                    "hp": hp,
+                    "conditions": conditions,
+                }
+                guides.append(line_data)
+
+    for guide in guides:
+        TIME = guide["timestamp"]
+        HP = guide["hp"]
+        ABILITY = guide["action"]
+        VIDEO_NAME = args.matchup
+        for FACTION in FACTIONS:
+            CSV_PATH = f"{FACTION}.csv"
+            main_run()
