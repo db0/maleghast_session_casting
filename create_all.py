@@ -82,6 +82,34 @@ def find_fuzzy_image(target_name, directory):
         
     return None
 
+def split_individual_abilities(raw_abilities_text):
+    """
+    Splits the composite abilities field into clean individual blocks
+    using the lookahead markdown **Header:** pattern.
+    """
+    if not raw_abilities_text:
+        return []
+    
+    # Fixed: Added raw_abilities_text as the string to split
+    ability_names = re.findall(r'\*\*([^*:\n]+)(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
+    blocks = re.split(r'\*\*([^*:\n]+)(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
+    refined_abilities = []
+    
+    for block in blocks:
+        b_str = block.strip()
+        if not b_str:
+            continue
+        # Strip structural forward slash delimiters and spacing fragments
+        lines = [line.strip() for line in b_str.split('/') if line.strip() and line.strip() != '/' and line.strip() not in ability_names]
+        if lines:
+            refined_abilities.append("\n\n".join(lines))
+    if len(ability_names) != len(refined_abilities):
+        raise Exception(f"Abilities count mismatch. Names: {ability_names} {len(ability_names)}, Texts: {refined_abilities} {len(refined_abilities)}")
+    for i in range(len(ability_names)):
+        refined_abilities[i] = f"**{ability_names[i]}**\n\n{refined_abilities[i]}"
+            
+    return (refined_abilities, ability_names)
+
 def parse_markdown_line(text):
     """Parses **bold** and *italic* tags into structured token chunks."""
     pattern = r'(\*\*\*.*?\*\*\*|\*\*.*?\*\*|\*.*?\*)'
@@ -102,10 +130,7 @@ def parse_markdown_line(text):
     return parsed_chunks
 
 def draw_rich_paragraph(draw, text, position, max_width, font_size, fill="black", force_font_style=None, dry_run=False):
-    """
-    Draws multi-styled wrapped text. If dry_run=True, handles calculations 
-    only and returns final boundary tracking height without updating the canvas.
-    """
+    """Draws multi-styled wrapped text and handles automatic word wrapping."""
     x_start, y = position
     x = x_start
     
@@ -170,12 +195,16 @@ def draw_rich_paragraph(draw, text, position, max_width, font_size, fill="black"
 
     return y
 
-def create_unit_card(row):
+def create_unit_card(row, focus_ability=None, ability_suffix_name=None):
+    """
+    Renders full cards. If focus_ability is passed, it preserves all art and 
+    stats but swaps the text block for just that upscaled ability.
+    """
     bg_color = parse_rgb(row.get('card_background style', ''))
     card = Image.new("RGB", CANVAS_SIZE, color=bg_color)
     draw = ImageDraw.Draw(card)
     
-    # Composite the Unit Artwork (Autocrop transparent margins & Width Fit)
+    # Composite the Unit Artwork
     unit_img_name = row.get('card_background', '')
     resolved_img_path = find_fuzzy_image(unit_img_name, UNIT_IMG_DIR)
     
@@ -183,17 +212,14 @@ def create_unit_card(row):
         with Image.open(resolved_img_path) as usr_img:
             usr_img = usr_img.convert("RGBA")
             
-            # 1. Trim transparency margins out completely
             bbox = usr_img.getbbox()
             if bbox:
                 usr_img = usr_img.crop(bbox)
                 
-            # 2. Scale up/down relative to target card width layout bounds (360px max width)
             target_width = 360
             scale_ratio = target_width / float(usr_img.width)
             target_height = int(float(usr_img.height) * scale_ratio)
             
-            # Safety limit to prevent massive character illustrations from devouring the text field
             if target_height > 500:
                 usr_img.thumbnail((360, 500), Image.Resampling.LANCZOS)
             else:
@@ -230,7 +256,6 @@ def create_unit_card(row):
                 text_pos = (333, 35)
             if layout['val'] == "-":
                 text_pos = (343, 35)
-            print(text_pos)
         draw.text(text_pos, layout['val'], font=font_stat, fill="black")
 
     # --- TEXT BOX GEOMETRY ENGINE ---
@@ -238,32 +263,49 @@ def create_unit_card(row):
     margin_x = 24
     max_text_width = CANVAS_SIZE[0] - (margin_x * 2)
     
-    # Process text blocks to measure heights first
     name_text = clean_html_and_markdown(row.get('Name', 'UNKNOWN'))
     
-    type_and_traits = []
-    if row.get('Type'): type_and_traits.append(row.get('Type'))
-    if row.get('Traits'): type_and_traits.append(clean_html_and_markdown(row.get('Traits')))
-    joined_traits = " • ".join(type_and_traits).strip(" • ") if type_and_traits else ""
-    
-    abilities_payload = clean_html_and_markdown(row.get('ACT Abilities')) if row.get('ACT Abilities') else ""
+    # Toggle logic depending on whether this execution is a single ability focus view
+    if focus_ability:
+        joined_traits = "" # Clear traits from focus views
+        abilities_payload = clean_html_and_markdown(focus_ability)
+        
+        # Upscale font size engine loop for single ability display
+        act_font_size = 24
+        while act_font_size > 14:
+            calc_y = text_start_y
+            calc_y = draw_rich_paragraph(draw, name_text.upper(), (margin_x, calc_y), max_text_width, font_size=32, force_font_style='name', dry_run=True)
+            calc_y = draw_rich_paragraph(draw, abilities_payload, (margin_x, calc_y), max_text_width, font_size=act_font_size, dry_run=True)
+            if (calc_y - text_start_y) <= (CANVAS_SIZE[1] - text_start_y - 40):
+                break
+            act_font_size -= 1
+    else:
+        type_and_traits = []
+        if row.get('Type'): type_and_traits.append(row.get('Type'))
+        if row.get('Traits'): type_and_traits.append(clean_html_and_markdown(row.get('Traits')))
+        joined_traits = " • ".join(type_and_traits).strip(" • ") if type_and_traits else ""
+        
+        abilities_payload = clean_html_and_markdown(row.get('ACT Abilities'))
+        act_font_size = 15
+        if len(abilities_payload + joined_traits) > 600:
+            act_font_size = 14
 
-    # Phase 1: Dry run to compute total text height space required
+    # Phase 1: Dry run calculation for layout box panel geometry
     calc_y = text_start_y
     calc_y = draw_rich_paragraph(draw, name_text.upper(), (margin_x, calc_y), max_text_width, font_size=32, force_font_style='name', dry_run=True)
     if joined_traits:
         calc_y = draw_rich_paragraph(draw, f"*{joined_traits}*", (margin_x, calc_y), max_text_width, font_size=16, dry_run=True) + 10
     if abilities_payload:
-        calc_y = draw_rich_paragraph(draw, abilities_payload, (margin_x, calc_y), max_text_width, font_size=15, dry_run=True)
+        calc_y = draw_rich_paragraph(draw, abilities_payload, (margin_x, calc_y), max_text_width, font_size=act_font_size, dry_run=True)
     
     total_text_height = calc_y - text_start_y
     padding = 20
     
-    # Phase 2: Create a blended semi-transparent layout box layer
+    # Phase 2: Create a blended semi-transparent panel box layer
     overlay = Image.new("RGBA", CANVAS_SIZE, (0, 0, 0, 0))
     overlay_draw = ImageDraw.Draw(overlay)
     
-    panel_color = get_light_tint(bg_color, factor=0.82)  # Generates light panel variation
+    panel_color = get_light_tint(bg_color, factor=0.82)
     panel_box = [
         margin_x - 10, 
         text_start_y - 10, 
@@ -271,30 +313,31 @@ def create_unit_card(row):
         text_start_y + total_text_height + padding
     ]
     
-    # Draw panel at 90% opacity (230 alpha) for robust contrast
     overlay_draw.rectangle(panel_box, fill=(panel_color[0], panel_color[1], panel_color[2], 230))
     card = Image.alpha_composite(card.convert("RGBA"), overlay).convert("RGB")
     draw = ImageDraw.Draw(card)
 
-    # Phase 3: Final actual text pass over the composited panel card
+    # Phase 3: Final rich text engine canvas render pass
     current_y = text_start_y
     current_y = draw_rich_paragraph(draw, name_text.upper(), (margin_x, current_y), max_text_width, font_size=32, force_font_style='name')
     if joined_traits:
         current_y = draw_rich_paragraph(draw, f"*{joined_traits}*", (margin_x, current_y), max_text_width, font_size=16, fill="#333333")
         current_y += 10
     if abilities_payload:
-        act_font_size = 15
-        if len(abilities_payload + joined_traits) > 600:
-            act_font_size = 14
         current_y = draw_rich_paragraph(draw, abilities_payload, (margin_x, current_y), max_text_width, font_size=act_font_size)
 
-    # Clean internal text spacing specifically for saving legible final files
+    # Filename serialization engine logic
     clean_name = re.sub(r'\s+', '', row.get('Name', 'unit'))
     sanitized_filename = "".join([c for c in clean_name if c.isalnum()]).strip().capitalize()
-    output_filename = f"{FACTION}_{sanitized_filename}.png"
+    
+    if ability_suffix_name:
+        output_filename = f"{FACTION}_{sanitized_filename}_{ability_suffix_name}.png"
+    else:
+        output_filename = f"{FACTION}_{sanitized_filename}.png"
     
     card.save(os.path.join(OUTPUT_DIR, output_filename), "PNG")
-    print(f"Generated Legible Layout: {output_filename}\n---")
+    print(f"Generated Sheet: {output_filename}")
+
 
 if __name__ == "__main__":
     if os.path.exists(CSV_PATH):
@@ -302,5 +345,25 @@ if __name__ == "__main__":
             reader = csv.DictReader(f, delimiter='\t')
             for row in reader:
                 copies = int(row.get('Copies', 1) if row.get('Copies') else 1)
+                
+                # Render standard core deck profiles
                 for _ in range(copies):
                     create_unit_card(row)
+                
+                # Split and execute separate ability focus variants
+                raw_abilities = row.get('ACT Abilities', '')
+                individual_abilities, ability_names = split_individual_abilities(raw_abilities)
+                print(ability_names)
+                
+                clean_unit_name = re.sub(r'\s+', '', row.get('Name', 'unit'))
+                sanitized_unit_base = "".join([c for c in clean_unit_name if c.isalnum()]).strip().capitalize()
+                
+                for idx, single_ability in enumerate(individual_abilities):
+                    ability_title = ability_names[idx]
+                    print(ability_title)
+                    clean_ability = re.sub(r'\s+', '_', ability_title)
+                    print(clean_ability)
+                    
+                    # Generate the full asset card focused exclusively on this layout string
+                    create_unit_card(row, focus_ability=single_ability, ability_suffix_name=clean_ability)
+                print("---")
