@@ -528,7 +528,7 @@ if __name__ == "__main__":
             # Ensure the line has exactly the 3 expected parts before parsing
             if len(parts) == 3:
                 side, raw_time, comment = parts
-                conditions = []
+                conditions_parsed = []
                 comment_parts = comment.split('_')
                 if len(comment_parts) == 2:
                     action,hp = comment_parts
@@ -536,13 +536,21 @@ if __name__ == "__main__":
                     action,hp,all_conditions = comment_parts
                     # print(action)
                     conditions = all_conditions.split('+')
-                    
+                    conditions_parsed = []
+                    for c in conditions:
+                        cregex = re.search(r'(\w+)([0-9])',c)
+                        if not cregex:
+                            raise Exception(f"Bad condition format in guide comment: {c}")
+                        conditions_parsed.append({
+                            "condition": cregex.group(1),
+                            "amount": cregex.group(2),
+                        })
                 line_data = {
                     "side": side,
                     "timestamp": fix_timestamp(raw_time),
                     "action": action.capitalize(),
                     "hp": hp,
-                    "conditions": conditions,
+                    "conditions": conditions_parsed,
                 }
                 guides.append(line_data)
 
