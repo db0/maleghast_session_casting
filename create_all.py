@@ -12,6 +12,10 @@ FACTION = "necromancers"
 CSV_PATH = f"{FACTION}.csv"
 OUTPUT_DIR = "output_cards"
 HOMEDIR = os.path.expanduser("~")
+TIME = "00:06:07"
+HP = "1"
+ABILITY = "Starmetal Godsword"
+VIDEO_NAME = "Matchup1_Basic_Abhorrers_Deadsouls"
 
 # --- FONT FAMILY CONFIGURATION ---
 FONT_REGULAR = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
@@ -66,8 +70,8 @@ def find_fuzzy_image(target_name, directory):
     if FACTION == "necromancers":
         directory = NECROMANCER_DIR
         target_name = target_name.replace("Leaders/", "")
-    print(target_name)
-    print(directory)
+    # print(target_name)
+    # print(directory)
     if not target_name or not os.path.exists(directory):
         return None
         
@@ -106,14 +110,14 @@ def split_individual_abilities(raw_abilities_text):
         ability_names_findall = re.findall(r'\*\*([^*:\n]+) (\([1-6] SOUL\))(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
         ability_names = [an[0] for an in ability_names_findall]
         soul_costs = [an[1] for an in ability_names_findall]
-        print("=======SOULS")
-        print(ability_names)
-        print(soul_costs)
+        # print("=======SOULS")
+        # print(ability_names)
+        # print(soul_costs)
         blocks = re.split(r'\*\*([^*:\n]+) (\([1-6] SOUL\))(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
     else:        
         ability_names = re.findall(r'\*\*([^*:\n]+)(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
-        print("=======NO SOULS")
-        print(ability_names)
+        # print("=======NO SOULS")
+        # print(ability_names)
         blocks = re.split(r'\*\*([^*:\n]+)(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
     refined_abilities = []
     
@@ -283,8 +287,8 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
         if stat == "HP":
             font_stat = ImageFont.truetype(FONT_BOLD, 50)
             if int(row.get('HP','')) > 9:
-                font_stat = ImageFont.truetype(FONT_BOLD, 40)
-                text_pos = (65, 25)
+                font_stat = ImageFont.truetype(FONT_BOLD, 35)
+                text_pos = (75, 25)
             if ability_suffix_name is None:
                 font_stat = ImageFont.truetype(FONT_BOLD, 80)
                 if int(row.get('HP','')) > 9:
@@ -292,6 +296,15 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
                     text_pos = (40, 25)
 
         draw.text(text_pos, layout['val'], font=font_stat, fill="black")
+        if stat == "HP" and HP is not None:
+            if int(row.get('HP','')) > 9:
+                if int(HP) > 9:
+                    draw.text((25, 25), HP, font=font_stat, fill="black")
+                else:
+                    draw.text((35, 25), HP, font=font_stat, fill="black")
+
+            else:
+                draw.text((40, 30), HP, font=font_stat, fill="black")
 
     # --- TEXT BOX GEOMETRY ENGINE ---
     text_start_y = 650
@@ -367,14 +380,14 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
     
     final_output_dir = OUTPUT_DIR
     if ability_suffix_name:
-        output_filename = f"{FACTION}_{sanitized_filename}_{ability_suffix_name}.png"
-        final_output_dir = f"{OUTPUT_DIR}/{FACTION}"
+        output_filename = f"{TIME}_{FACTION}_{sanitized_filename}_{ability_suffix_name}.png"
+        final_output_dir = f"{OUTPUT_DIR}/{VIDEO_NAME}"
         os.makedirs(final_output_dir, exist_ok=True)
         if FACTION == "necromancers":
-            final_output_dir = f"{OUTPUT_DIR}/{FACTION}/{sanitized_filename}"
+            final_output_dir = f"{OUTPUT_DIR}/{VIDEO_NAME}"
             os.makedirs(final_output_dir, exist_ok=True)            
     else:
-        output_filename = f"{FACTION}_{sanitized_filename}.png"
+        output_filename = f"{VIDEO_NAME}_{FACTION}_{sanitized_filename}.png"
     card.save(os.path.join(final_output_dir, output_filename), "PNG")
     print(f"Generated Sheet: {output_filename}")
 
@@ -384,8 +397,9 @@ if __name__ == "__main__":
         raise Exception(f"File not found: {CSV_PATH}")
     with open(CSV_PATH, mode='r', encoding='utf-8') as f:
         reader = csv.DictReader(f, delimiter='\t')
-        for row in reader:          
-            create_unit_card(row)
+        for row in reader:
+            if not TIME:
+                create_unit_card(row)
             
             # Split and execute separate ability focus variants
             raw_abilities = row.get('ACT Abilities', '')
@@ -396,7 +410,8 @@ if __name__ == "__main__":
                 ability_title = ability_names[idx]
                 clean_ability = re.sub(r'\s+', '_', ability_title)                
                 # Generate the full asset card focused exclusively on this layout string
-                create_unit_card(row, focus_ability=single_ability, ability_suffix_name=clean_ability)
+                if TIME and ABILITY == ability_title:
+                    create_unit_card(row, focus_ability=single_ability, ability_suffix_name=clean_ability)
             # I match factions based on the BG color for now. 
             # TODO: Expand the CSV with factions codes.
             bg_color = parse_rgb(row.get('card_background style', ''))
@@ -408,7 +423,8 @@ if __name__ == "__main__":
                     soul_cost = soul_costs[idx]
                     clean_ability = re.sub(r'\s+', '_', ability_title)                
                     # Generate the full asset card focused exclusively on this layout string
-                    create_unit_card(row, focus_ability=f"{soul_cost}\n{single_ability}", ability_suffix_name=f"{clean_ability}")
+                    if TIME and ABILITY == ability_title:
+                        create_unit_card(row, focus_ability=f"{soul_cost}\n{single_ability}", ability_suffix_name=f"{clean_ability}")
 
                 ACTS_CSV_PATH = f"{FACTION}_ACTs.csv"
                 if not os.path.exists(ACTS_CSV_PATH):
@@ -421,13 +437,14 @@ if __name__ == "__main__":
                             continue
                         # print(bg_color)
                         raw_acts = act_upgrades_row.get('ACT Upgrades', '')
-                        print(raw_acts)
+                        # print(raw_acts)
                         individual_acts, act_names, _ = split_individual_abilities(raw_acts)                                        
                         for idx, single_act in enumerate(individual_acts):
                             act_title = act_names[idx]
                             clean_act = re.sub(r'\s+', '_', act_title)                        
                             # Generate the full asset card focused exclusively on this layout string
-                            create_unit_card(row, focus_ability=single_act, ability_suffix_name=clean_act)
+                            if TIME and ABILITY == ability_title:
+                                create_unit_card(row, focus_ability=single_act, ability_suffix_name=clean_act)
                 SOUL_CSV_PATH = f"{FACTION}_SOULs.csv"
                 if not os.path.exists(SOUL_CSV_PATH):
                     raise Exception(f"File not found: {SOUL_CSV_PATH}")                
@@ -439,12 +456,13 @@ if __name__ == "__main__":
                             continue
                         # print(bg_color)
                         raw_souls = soul_upgrades_row.get('SOUL Upgrades', '')
-                        print(raw_souls)
                         individual_souls, soul_names, soul_costs = split_individual_abilities(raw_souls)                                        
                         for idx, single_soul in enumerate(individual_souls):
                             soul_title = soul_names[idx]
                             soul_cost = soul_costs[idx]
                             clean_soul = re.sub(r'\s+', '_', soul_title)                        
                             # Generate the full asset card focused exclusively on this layout string
-                            create_unit_card(row, focus_ability=f"{soul_cost}\n{single_soul}", ability_suffix_name=f"{clean_soul}")
-            print("---")
+                            if TIME and ABILITY == ability_title:
+                                create_unit_card(row, focus_ability=f"{soul_cost}\n{single_soul}", ability_suffix_name=f"{clean_soul}")
+            if not TIME:
+                print("---")
