@@ -10,7 +10,7 @@ Copies	Nickname	card_background	card_background style	Name	Name style	Type	MV	HP
 *On hit:* 1 damage and inflict 1 plague. Then, may immediately remove a plague token on target to deal 1 toxic damage, again (effect: 3+) once more, (5+) once more."	"**Infest (1 SOUL):** *Any turn, Range 1-3.* Trigger: Turn start. Effect: Grant 2 plague tokens to a unit in range.
 /
 **Slime Form (3 SOUL): ***Any Turn. Trigger:* Turn start. *Effect:* MOVE with free movement. Can pass through walls and units during this movement. After the movement finishes, push or pull all units in range 2 one space (5+) two spaces."
-1		Leaders/darkpriest_processed.png	"{outlineColor:rgba(97, 231, 255, 1)}"	D ark P riest	"{color:rgba(145, 255, 239, 1)}"	Deadsouls Necromancer	4	8	4+	M	<ul><li>*Dread Presence:* May move through walls. Foes count as isolated when adjacent to this unit unless they have two or more allies adjacent.</li></ul>	"**Doomblade:** *Attack, range 1-2*
+1		Leaders/darkpriest_processed.png	"{outlineColor:rgba(145, 255, 239, 1)}"	D ark P riest	"{color:rgba(145, 255, 239, 1)}"	Deadsouls Necromancer	4	8	4+	M	<ul><li>*Dread Presence:* May move through walls. Foes count as isolated when adjacent to this unit unless they have two or more allies adjacent.</li></ul>	"**Doomblade:** *Attack, range 1-2*
 /
 *On hit:* 1 curse damage and Doom isolated foes. Effect: +1 damage on hit and +1D on attacks against doomed foes."	"**Cyclopean Monolith (1 SOUL): **Own or Allied Turn. *Range 2-3. Trigger: Start of turn. Effect: *Create a wall in range and (4+) and inflict 1 weak on an adjacent foe to the wall.
 /

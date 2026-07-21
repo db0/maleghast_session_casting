@@ -6,6 +6,7 @@ import difflib
 import io
 import badgepy
 import cairosvg
+import xml.etree.ElementTree as ET
 from PIL import Image, ImageDraw, ImageFont
 
 import argparse
@@ -37,11 +38,15 @@ CONDITION_COLORS = {
     "Strength": {"left": "red", "right": "grey"},
     "Weak": {"left": "grey", "right": "red"},
     "Vitality": {"left": "green", "right": "pink"},
-    "Weak": {"left": "pink", "right": "green"},
+    "Vulnerability": {"left": "pink", "right": "green"},
     "Speed": {"left": "yellow", "right": "brown"},
-    "Slow": {"left": "brown", "right": "yellow"},
+    "Slow": {"left": "#987654", "right": "yellow"},
     "Miracle": {"left": "white", "right": "white"},
     "Smite": {"left": "yellow", "right": "blue"},
+    "Doom": {"left": "#91ffef", "right": "#91ffef"},
+    "Winch": {"left": "#987654", "right": "#C0C0C0"},
+    "Curseproof": {"left": "black", "right": "white"},
+    "Grace": {"left": "purple", "right": "white"},
 }
 # Fallback colors if a condition isn't found in the dictionary above
 DEFAULT_BADGE_COLORS = {"left": "#333333", "right": "#d32f2f"}
@@ -136,7 +141,7 @@ def find_fuzzy_image(target_name, directory):
     else:
         matches = difflib.get_close_matches(f"{FACTION}_{target_name}", available_files, n=1, cutoff=0.3)
     if matches:
-        print(f"Fuzzy Match: '{target_name}' mapped to disk asset -> '{matches[0]}'")
+        # print(f"Fuzzy Match: '{target_name}' mapped to disk asset -> '{matches[0]}'")
         return os.path.join(directory, matches[0])
         
     return None
@@ -258,6 +263,47 @@ def draw_rich_paragraph(draw, text, position, max_width, font_size, fill="black"
 
     return y
 
+def adjust_svg_text_color(svg_str, c_name, c_amt, left_bg, right_bg):
+    """Intercepts the SVG string from pybadges and forces text to black if the panel is white."""
+    try:
+        white_colors = ["white", "#ffffff", "#fff", "#91ffef", "pink"]
+        left_needs_black = left_bg.lower() in white_colors
+        right_needs_black = right_bg.lower() in white_colors
+        
+        # Fast exit if we don't need to change anything
+        if not (left_needs_black or right_needs_black):
+            return svg_str
+
+        # Register standard SVG namespace so ElementTree doesn't output generic tags
+        ET.register_namespace('', 'http://www.w3.org/2000/svg')
+        root = ET.fromstring(svg_str)
+        
+        # Iterate over elements ignoring namespace prefixes for robustness
+        for elem in root.iter():
+            if elem.tag.endswith('text'):
+                # Check for Left Panel match
+                if elem.text == c_name and left_needs_black:
+                    # Strip any pybadges drop-shadow attributes for clear readability
+                    if 'fill' in elem.attrib:
+                        del elem.attrib['fill']
+                    if 'fill-opacity' in elem.attrib:
+                        del elem.attrib['fill-opacity']
+                    elem.set('fill', '#000000') # Force black text
+                
+                # Check for Right Panel match
+                elif elem.text == str(c_amt) and right_needs_black:
+                    if 'fill' in elem.attrib:
+                        del elem.attrib['fill']
+                    if 'fill-opacity' in elem.attrib:
+                        del elem.attrib['fill-opacity']
+                    elem.set('fill', '#000000') # Force black text
+                    
+        return ET.tostring(root, encoding='unicode')
+    except Exception as e:
+        print(f"SVG color adjustment failed: {e}")
+        return svg_str
+
+
 def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cost=None):
     """
     Renders full cards. If focus_ability is passed, it preserves all art and 
@@ -304,13 +350,16 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
                     b_left_color = colors.get("left", DEFAULT_BADGE_COLORS["left"])
                     b_right_color = colors.get("right", DEFAULT_BADGE_COLORS["right"])
                     
-                    # Generate the SVG string from badgepy
+                    # Generate the standard SVG string from badgepy
                     svg_str = badgepy.badge(
                         left_text=c_name, 
                         right_text=c_amt,
                         left_color=b_left_color,
                         right_color=b_right_color
                     )
+                    
+                    # Intercept the SVG to override text colors if the background is white
+                    svg_str = adjust_svg_text_color(svg_str, c_name, c_amt, b_left_color, b_right_color)
                     
                     # Scale using cairosvg natively to preserve 100% crisp vector edges!
                     png_data = cairosvg.svg2png(bytestring=svg_str.encode('utf-8'), scale=BADGE_SCALE)
@@ -475,14 +524,16 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
 def main_run():
     if not os.path.exists(CSV_PATH):
         raise Exception(f"File not found: {CSV_PATH}")
+    found_match = False
     with open(CSV_PATH, mode='r', encoding='utf-8') as f:
         reader = csv.DictReader(f, delimiter='\t')
         for row in reader:
             clean_unit_name = re.sub(r'\s+', '', row.get('Name', 'unit'))
             if not TIME:
                 create_unit_card(row)
-            elif clean_unit_name.capitalize() == ABILITY:
+            elif clean_unit_name.capitalize() == re.sub(r'\s+', '', ABILITY).capitalize():
                 create_unit_card(row)
+                return True
             # Split and execute separate ability focus variants
             raw_abilities = row.get('ACT Abilities', '')
             individual_abilities, ability_names, _ = split_individual_abilities(raw_abilities)
@@ -491,8 +542,9 @@ def main_run():
                 ability_title = ability_names[idx]
                 clean_ability = re.sub(r'\s+', '_', ability_title)                
                 # Generate the full asset card focused exclusively on this layout string
-                if TIME and ABILITY == ability_title:
+                if TIME and ABILITY == ability_title.capitalize():
                     create_unit_card(row, focus_ability=single_ability, ability_suffix_name=clean_ability)
+                    return True
             bg_color = parse_rgb(row.get('card_background style', ''))
             if FACTION == "necromancers":
                 soul_abilities = row.get('SOUL Abilities', '')
@@ -502,8 +554,9 @@ def main_run():
                     soul_cost = soul_costs[idx]
                     clean_ability = re.sub(r'\s+', '_', ability_title)                
                     # Generate the full asset card focused exclusively on this layout string
-                    if TIME and ABILITY == ability_title:
+                    if TIME and ABILITY == ability_title.capitalize():
                         create_unit_card(row, focus_ability=f"{soul_cost}\n{single_ability}", ability_suffix_name=f"{clean_ability}")
+                        return True
 
                 ACTS_CSV_PATH = f"{FACTION}_ACTs.csv"
                 if not os.path.exists(ACTS_CSV_PATH):
@@ -520,8 +573,9 @@ def main_run():
                             act_title = act_names[idx]
                             clean_act = re.sub(r'\s+', '_', act_title)                        
                             # Generate the full asset card focused exclusively on this layout string
-                            if TIME and ABILITY == act_title:
+                            if TIME and ABILITY == act_title.capitalize():
                                 create_unit_card(row, focus_ability=single_act, ability_suffix_name=clean_act)
+                                return True
                 SOUL_CSV_PATH = f"{FACTION}_SOULs.csv"
                 if not os.path.exists(SOUL_CSV_PATH):
                     raise Exception(f"File not found: {SOUL_CSV_PATH}")
@@ -538,10 +592,15 @@ def main_run():
                             soul_cost = soul_costs[idx]
                             clean_soul = re.sub(r'\s+', '_', soul_title)                        
                             # Generate the full asset card focused exclusively on this layout string
-                            if TIME and ABILITY == soul_title:
+                            # if ABILITY == "Twist sinews":
+                            #     print([ABILITY,soul_title.capitalize()])
+                            if TIME and ABILITY == soul_title.capitalize():
                                 create_unit_card(row, focus_ability=f"{soul_cost}\n{single_soul}", ability_suffix_name=f"{clean_soul}")
+                                return True
             if not TIME:
                 print("---")
+    return False
+
 
 def fix_timestamp(timestamp_str: str) -> str:
     """Prepends '00:' to timestamps missing the hour mark and pads single-digit minutes."""
@@ -561,6 +620,7 @@ if __name__ == "__main__":
             SIDE = None
             CONDITIONS = []
             CSV_PATH = f"{FACTION}.csv"
+            ABILITY = None
             main_run()
         exit(0)
     if args.matchup and not os.path.exists(args.matchup):
@@ -573,32 +633,44 @@ if __name__ == "__main__":
             cleaned_line = line.strip()
 
             # Skip empty lines and lines starting with 'Deployments'
-            if not cleaned_line or cleaned_line.startswith("Deployments"):
+            if not cleaned_line or cleaned_line.startswith("Deployments") or cleaned_line.startswith("Dupl"):
                 continue
 
             # Split the line by the ' - ' delimiter
             # Example: "Left - 7:55 - smite_4" -> ['Left', '7:55', 'smite_4']
             parts = [part.strip() for part in cleaned_line.split(" - ")]
-
             # Ensure the line has exactly the 3 expected parts before parsing
             if len(parts) == 3:
                 side, raw_time, comment = parts
                 conditions_parsed = []
                 comment_parts = comment.split('_')
+                if len(comment_parts) > 3:
+                    raise Exception(f"Bad format in guide line: {cleaned_line}")
                 if len(comment_parts) == 2:
                     action,hp = comment_parts
+                    if not hp.isdigit():
+                        raise Exception(f"Bad format in guide line: {cleaned_line}")
                 elif len(comment_parts) == 3:
                     action,hp,all_conditions = comment_parts
                     conditions = all_conditions.split('+')
                     conditions_parsed = []
                     for c in conditions:
-                        cregex = re.search(r'(\w+)([0-9])',c)
+                        cregex = re.search(r'([A-Za-z ]+)([0-9]?)',c)
+                        
                         if not cregex:
-                            raise Exception(f"Bad condition format in guide comment: {c}")
+                            raise Exception(f"Bad condition format in guide comment: {comment}")
+                        c_replacements = {
+                            "Doomed": "Doom",
+                            "Weakness": "Weak",
+                        }
+                        cname = c_replacements[cregex.group(1).capitalize()] if cregex.group(1).capitalize() in c_replacements else cregex.group(1).capitalize()
+                        # print(cname)
                         conditions_parsed.append({
-                            "condition": cregex.group(1),
-                            "amount": cregex.group(2),
+                            "condition": cname,
+                            "amount": cregex.group(2) if cregex.group(2) else "1",
                         })
+                conditions_parsed.sort(key=lambda x: x["condition"])
+                # For when I forget the proper name
                 line_data = {
                     "side": side,
                     "timestamp": fix_timestamp(raw_time),
@@ -609,12 +681,16 @@ if __name__ == "__main__":
                 guides.append(line_data)
 
     for guide in guides:
-        TIME = guide["timestamp"]
+        TIME = guide["timestamp"]  
         HP = guide["hp"]
         ABILITY = guide["action"]
         SIDE = guide["side"]
         CONDITIONS = guide["conditions"]
         VIDEO_NAME = args.matchup
+        found_match = False
         for FACTION in FACTIONS:
-            CSV_PATH = f"{FACTION}.csv"
-            main_run()
+            CSV_PATH = f"{FACTION}.csv"            
+            if main_run():
+                found_match = True
+        if not found_match:
+            print(f"=== Could not match ability/unit: {ABILITY}")

@@ -10,8 +10,120 @@ Deployments - 5:03 - Deploy Inquisitor
 Deployments - 5:13 - Deploy Dark Priest
 Deployments - 5:34 - Deploy Exorcist
 Deployments - 5:41 - Deploy Banshee
-Left - 7:55 - smite_4
+Left - 7:55 - smite_4_miracle
+Duplicate - 8:25 - zealot_4_smite1+miracle1+vitality1
 Right - 9:42 - strangle_3
 Left - 10:11 - zealot_4_vitality1+smite1+miracle1
 Left - 10:31 - zealot_4_smite1+miracle1
-Left - 1:00:52 - absolution_8
+Left - 17:09 - winch_4_winch+miracle
+Right - 17:36 - beckon_2
+Left - 17:38 - zealot_4_smite+miracle
+Duplicate - 18:20 - beckon_2
+Left - 18:25 - zealot_3_smite+miracle
+Left - 20:31 - holy water_3_miracle
+Right - 20:45 - sacrifice_2
+Right - 20:59 - sacrifice_1
+Right - 22:20 - bale scream_3
+Left - 22:36 - penitent_3_miracle
+Right - 22:56 - banshee_3_strength
+Left - 22:58 - penitent_2_miracle
+Left - 23:11 - whirling chain_4_miracle
+Right - 24:28 - tombstone_3
+Left - 25:40 - holy body_3_vitality3+weak+doomed
+Left - 25:48 - exorcist_10_weak+doomed
+Left - 25:55 - zealot_4_weak+doomed+miracle
+Left - 26:23 - redempta_10_weak1+doom1
+Right - 26:36 - holy body_3_vitality5
+Left - 26:37 - redempta_10_weakness2+doom2
+Right - 29:44 - beckon lamb_6
+Left - 30:13 - holy body_3_vitality5+weak2
+Left - 31:42 - bolides_3_vitality5+weak2
+Right - 33:56 - doomblade_8
+Left - 33:58 - zealot_3_smite+miracle
+Left - 34:18 - zealot_2_smite+miracle
+Right - 37:17 - shudder_2
+Left - 37:19 - zealot_2_smite+miracle
+Left - 37:34 - zealot_1_smite+miracle+doom
+Right - 37:48 - beckon_1
+Right - 38:01 - inquisitor_4_winch+miracle
+Left - 39:39 - mea culpa_2_miracle
+Right - 39:52 - holy body_3_vitality5+weak1
+Right - 39:58 - zealot_4_miracle+doom
+Left - 40:06 - mea culpa_2_miracle+strength2
+Right - 40:43 - bale scream_3
+Right - 40:50 - bale scream_2
+Left - 40:56 - inquisitor_1_winch+miracle
+Left - 41:21 - exorcist_8_doom2+weak2
+Left - 43:43 - Requiesce en Pace_1_miracle+winch
+Right - 43:46 - banshee_2
+Right - 44:52 - twist sinews_8
+Left - 44:55 - penitent_2_miracle+strength2
+Left - 45:13 - penitent_1_miracle+strength2
+Right - 45:24 - strangle_3
+Left - 46:12 - indignation_3_vitality5+weak
+Right - 46:38 - sacrifice_1
+Right - 46:54 - banshee_2
+Left - 46:56 - indignation_3_vitality3
+Right - 47:49 - tombstone_1
+Left - 48:05 - holy body_3_vitality3+weak
+Left - 48:12 - zealot_4_weak+miracle
+Left - 48:17 - penitent_1_miracle+strength
+Left - 48:54 - zealot_1_smite
+Right - 49:35 - horrendous end_6
+Left - 49:39 - penitent_1_miracle+strength
+Left - 52:02 - absolution_8_doom2+weak2
+Left - 52:22 - absolution_7_weak2+doom2
+Right - 52:27 - inquisitor_1_vitality2+miracle
+Left - 53:59 - redempta_7_doom3+weak3
+Right - 54:01 - zealot_4_vitality2+miracle
+Right - 54:33 - twist sinews_8
+Left - 54:35 - penitent_1_strength+miracle
+Left - 55:25 - grace_7_doom3+weak3
+Right - 55:28 - zealot_4_vitality2+grace+curseproof+miracle
+Left - 55:47 - whirling chain_4_vitality2+miracle+grace+curseproof
+Right - 55:49 - bound devil_6
+Right - 56:02 - bound devil_4
+Rounds - 56:59 - Round 3
+Left - 57:57 - bolides_3_vitality3+weak
+Right - 1:00:03 - strangle_3
+Left - 1:00:06 - holy body_3_vitality3
+Left - 1:00:52 - will of god_7_doom3+weak3
+Left - 1:02:22 - Requiesce en Pace_1_vitality2+miracle
+Right - 1:02:33 - bound devil_4
+Right - 1:03:16 - beckon_1
+Left - 1:03:38 - holy body_3_vitality2
+Left - 1:04:43 - redempta_7_doom3+weak3
+Right - 1:04:52 - zealot_1_smite+vitality
+Right - 1:05:11 - twist sinews_8
+Left - 1:05:15 - banshee_1
+Right - 1:07:18 - tombstone_1
+Left - 1:07:29 - inquisitor_1_vitality+weak
+Left - 1:07:39 - zealot_4_vitality+miracle+weak+grace+curseproof
+Left - 1:08:44 - zealot_1_smite
+Right - 1:08:53 - banshee_1
+Right - 1:09:59 - Lathean Devil Whip_8
+Left - 1:10:04 - zealot_1
+Left - 1:12:41 - whirling chain_4_miracle+vitality2+curseproof+grace
+Right - 1:12:43 - sacrifice_1
+Rounds - 1:13:09 - Round 4
+Right - 1:13:55 - strangle_3
+Left - 1:14:01 - inquisitor_1_vitality1+miracle+weak
+Left - 1:16:16 - redempta_3_weak4+doom4
+Right - 1:16:20 - inquisitor_1_vitality1+miracle+curseproof
+Right - 1:19:32 - doomblade_8
+Left - 1:19:43 - inquisitor_1_vitality+miracle+curseproof
+Left - 1:21:05 - bolides_3_vitality1
+Left - 1:22:05 - smite_4_vitality2+smite+miracle
+Left - 1:23:04 - winch_1_winch+miracle
+Right - 1:24:16 - twist sinews_7
+Left - 1:24:21 - inquisitor_1_vitality1+miracle+curseproof
+Rounds - 1:24:39 - Round 5
+Left - 1:24:48 - exorcist_3_weak4+doom4
+Left - 1:25:23 - Requiesce en Pace_1_winch+miracle
+Right - 1:25:29 - dark priest_8
+Right - 1:25:46 - dark priest_7
+Left - 1:26:03 - grace_3_doom4+weak4
+Right - 1:26:08 - inquisitor_1_grace+curseproof
+Right - 1:26:23 - twist sinews_7
+Right - 1:26:45 - Lathean Devil Whip_6
+Left - 1:26:56 - exorcist_3_weak4+doom4
