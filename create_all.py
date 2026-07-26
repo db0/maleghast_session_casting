@@ -550,7 +550,7 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
 def generate_desc_card(desc_text, faction_color_name):
     """
     Generates a generic 800x200 banner image matching the text overlay style
-    of the main unit cards, centered horizontally and vertically.
+    of the main unit cards, centered horizontally and vertically, with rich text.
     """
     # 1. Determine Base Background
     bg_color = (200, 200, 200) # Fallback gray
@@ -571,31 +571,84 @@ def generate_desc_card(desc_text, faction_color_name):
     card = Image.alpha_composite(card.convert("RGBA"), overlay).convert("RGB")
     draw = ImageDraw.Draw(card)
     
-    # 3. Handle Font & Text Wrapping
-    font = ImageFont.truetype(FONT_REGULAR, 24)
+    # 3. Setup Fonts
+    font_size = 24
+    fonts = {
+        'regular': ImageFont.truetype(FONT_REGULAR, font_size),
+        'bold': ImageFont.truetype(FONT_BOLD, font_size),
+        'italic': ImageFont.truetype(FONT_ITALIC, font_size),
+        'bold_italic': ImageFont.truetype(FONT_BOLD_ITALIC, font_size)
+    }
     
-    # Safely handle user passing "\n" strings in command line args
+    sample_box = draw.textbbox((0, 0), "Hg", font=fonts['regular'])
+    line_height = int((sample_box[3] - sample_box[1]) * 1.25)
+    
+    # 4. Parse Lines & Wrap
     lines = desc_text.split('\\n')
     if len(lines) == 1 and '\n' in desc_text:
         lines = desc_text.split('\n')
         
-    wrapped_lines = []
-    for line in lines:
-        # Wrap characters strictly based on the 800px width limit ~60-65 chars is safe for 24pt
-        wrapped_lines.extend(textwrap.wrap(line, width=65))
-    wrapped_text = '\n'.join(wrapped_lines)
+    max_width = 800 - 40 # 20px padding each side
+    wrapped_rich_lines = []
     
-    # 4. Draw Centered Text
-    draw.multiline_text(
-        (400, 100),            # Center (X: 800/2, Y: 200/2)
-        wrapped_text, 
-        font=font, 
-        fill="black", 
-        align="center", 
-        anchor="mm"            # Middle/Middle anchor is critical for true vertical/horizontal centering
-    )
+    for raw_line in lines:
+        if not raw_line.strip():
+            wrapped_rich_lines.append([]) # Empty line
+            continue
+            
+        chunks = parse_markdown_line(raw_line)
+        words_with_styles = []
+        for text_chunk, style in chunks:
+            words = text_chunk.split(' ')
+            for i, word in enumerate(words):
+                space = " " if i < len(words) - 1 else ""
+                words_with_styles.append((word + space, style))
+                
+        current_line = []
+        current_line_width = 0
+        
+        for word, style in words_with_styles:
+            box = draw.textbbox((0, 0), word, font=fonts[style])
+            word_width = box[2] - box[0]
+            
+            # If adding this word exceeds max width (and the line isn't empty)
+            if current_line_width + word_width > max_width and current_line:
+                wrapped_rich_lines.append(current_line)
+                current_line = [(word, style, word_width)]
+                current_line_width = word_width
+            else:
+                current_line.append((word, style, word_width))
+                current_line_width += word_width
+                
+        if current_line:
+            wrapped_rich_lines.append(current_line)
+            
+    # 5. Calculate vertical offset to center block
+    total_height = len(wrapped_rich_lines) * line_height
+    start_y = (200 - total_height) // 2
     
-    # 5. Save Artifact
+    # 6. Draw Centered Lines
+    current_y = start_y
+    for line_data in wrapped_rich_lines:
+        # Calculate horizontal offset for true center alignment 
+        # (ignoring the width of the final trailing space for accurate visual alignment)
+        line_width = 0
+        for i, (word, style, word_width) in enumerate(line_data):
+            if i == len(line_data) - 1 and word.endswith(' '):
+                box = draw.textbbox((0, 0), word[:-1], font=fonts[style])
+                line_width += (box[2] - box[0])
+            else:
+                line_width += word_width
+
+        current_x = (800 - line_width) // 2
+        
+        for word, style, word_width in line_data:
+            draw.text((current_x, current_y), word, font=fonts[style], fill="black")
+            current_x += word_width
+            
+        current_y += line_height
+    
+    # 7. Save Artifact
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     safe_name = "".join([c for c in desc_text[:15] if c.isalnum()]).strip()
     color_label = faction_color_name.lower() if faction_color_name else "default"
