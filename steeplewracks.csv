@@ -1,0 +1,69 @@
+Copies	Nickname	card_background	card_background style	Name	Name style	Type	MV	HP	DEF	ARM	Traits	ACT Abilities	Upgrade1 Name	Upgrade1	Upgrade2 Name	Upgrade2	Upgrade3 Name	Upgrade3
+1		flock4_processed.png	"{outlineColor:rgba(242, 13, 13, 1)}"	F L O C K	"{color:rgba(242, 13, 13, 1)}"	Steeplewrack Thrall	3	1	5+		"<ul><li>*Endless:* For every unit slot spent on Flock, you may summon an additional flock unit in free space adjacent to an allied unit at the end of every odd
+/
+round.
+/
+*Thrall:* 2 of these units are worth 1 unit slot. Can be activated two at a time.</li></ul>"	"**Bloodletting:*** Melee, Attack*
+/
+*On hit:* 1 damage. Rip Apart (3+): gains piercing on hit. **Call to Feast:** This unit gains 1 or (6+) 2 speed. It may then immediately spend two speed tokens to summon an additional Flock unit in a free adjacent space."	THEREDWETHUE	"**Bloodletting **gains *Rip Apart (5+):* and deal 1
+/
+curse damage again"	Blood Frenzy	"At round 5+, become immune to graze, line, and splash damage."	Rabid	This faction’s dive bomb trait can be used for free on one flock unit around.
+1		harpy3_processed.png	"{outlineColor:rgba(242, 13, 13, 1)}"	H A R P Y	"{color:rgba(242, 13, 13, 1)}"	Steeplewrack Scion	4	4	4+		<ul><li>*Feral Dodge:* May spend a speed token when attacked by an ACT ability to give the attacker -1D on the attack roll and step 1 after the ability resolves.</li></ul>	"**Disembowel:*** Melee, Attack*
+/
+*On hit:* 1 damage. Rip Apart (2+): +1 damage and gain 1 speed, *Rip Apart (4+): *and gain 1 strength and summon a flock adjacent to the target,
+/
+**Raise Roost:*** Range 1-3*
+/
+*Effect:* Create a wall in range, then grant 1 speed to one (3+) or two, (5+) or all allied units to the wall.
+/
+**Cannibalize:** *Melee*
+/
+*Effect:* Slay an adjacent allied unit. This unit gains 1 strength, 1 speed, and may MOVE again"	Sinew	"At 1 hp or lower, this unit is immune to damage from
+/
+grazes, lines, and splash effects"	Voracious	"**Cannibalize** can also be used on an enemy unit at 1 hp or lower, but does not grant tokens if used this way"	The Noose	"**Raise Roost** gains +1 range and when it creates a wall, it may first pull a unit in range 2 one space."
+1		siren2_processed.png	"{outlineColor:rgba(242, 13, 13, 1)}"	S IR E N	"{color:rgba(242, 13, 13, 1)}"	Steeplewrack Freak	4	3	5+	M	"<ul><li>*Flight:* Ignores adverse terrain, and elevation attack and movement penalties.</li></ul>"	"**Paranoia:*** Curse, Range 1-4*
+/
+*Effect:* Target enemy unit always counts as having +2 of your units adjacent to it, even when alone. This effect lasts until this ability is used again or the Siren is slain.
+/
+**Sonic Screech: ***Self*
+/
+*Effects:* Splash (self): 1 curse damage. Push all units one (4+) or two spaces.
+/
+**Siren’s Song:** *Self*
+/
+*Effects:* Until the start of this unit’s next turn, adjacent enemy units take -1D on attacks, and adjacent allies are immune to graze damage"	Melodious	**Sonic Screech** does not damage allies and grants one ally targeted 1 speed.	Painful Whispers	"**Paranoia** deals 1 piercing curse damage, but only counts as +1 adjacent unit"	Lullaby	"When **Siren’s Song** expires, up to three adjacent allies gain 1 speed."
+1		stiltwalker2_processed.png	"{outlineColor:rgba(242, 13, 13, 1)}"	S T IL T W  A L K E R	"{color:rgba(242, 13, 13, 1)}"	Steeplewrack Horror	4	3	5+	M	"<ul><li>*Long Stilts:* May move through walls, but not end its turn in one. When moving through a wall, gain free movement until end of turn.</li></ul>"	"**Prepare the Pole:** *Self*
+/
+*Effect:* Step 2, then create a wall in a free adjacent space (4+) and gain 1 speed.
+/
+**Hang for the Owls:*** Attack, Melee*
+/
+*On hit:* 1 damage. Rip Apart (2+): with pierce, Rip Apart (4+): then 1 damage again, and summon a flock unit adjacent to target."	Perching	"If starting turn adjacent to a wall, gain 1 speed and
+/
+clear a negative token"	Writhing	"While target is adjacent to a wall, damage always gains pierce and ignores vitality."	Clinging	"While adjacent to a wall, is
+/
+*curseproof*."
+1		owl_processed.png	"{outlineColor:rgba(242, 13, 13, 1)}"	"C A R N IP H A G O U S
+/
+O W  L"	"{color:rgba(242, 13, 13, 1)}"	Steeplewrack Tyrant	4	5	4+	S	"<ul><li>*Circling:* Do not deploy the owl normally. Instead, it arrives at the start of round 3 but may be deployed in any free space. When it lands, it may destroy any walls under its space before being placed.</li><li>*Flesh Sacrifice: *The owl counts as two allied units for the purposes of *Rip Apart,* but not to itself.</li><li>*Large:* 2x2 unit (see entry)</li></ul>"	"**Guzzle: ***Attack, Melee*
+/
+*On hit:* 2 damage. Rip Apart (2+): +1 damage. Rip Apart (4+): +1 damage, and obliterate target if it is slain.
+/
+**Fleshgorger: ***Self, Splash*
+/
+*Splash (self):* 1 damage. Then, for every unit slain, clear one token, and gain 1 speed or strength. Then, step 1 per unit slain, and may destroy walls during this movement.
+/
+**Concussive Shriek:** *Range 2-4*
+/
+*Splash (target):* Deal 1 curse damage once, to a unit in the area for each wall in the area, up to three times. The same unit can be targeted more than once."	Messy Arrival	"When it first arrives, the Owl may slay all adjacent allied units, gaining 1 speed or strength for each."	Sleek Owl	The Owl loses *Large* (it becomes 1x1) and gains free movement.	Bone Resonance	"**Concussive Shriek** also slays allied units in the area, counting each as a wall for purposes of the ability."
+1		storkunit3_processed.png	"{outlineColor:rgba(242, 13, 13, 1)}"	G R E A T   S T O R K	"{color:rgba(242, 13, 13, 1)}"	Steeplewrack Scion	4	3	5+		**Longlegs:** This unit also counts as wall. It blocks line of sight and can be used for cover like a wall. Effects that would destroy walls have no effect on this unit.	"**Flense:*** Attack, Melee*
+/
+On hit: 1 damage. Rip Apart (2+): +1 damage (4+): +1 damage.
+/
+**Feeding Call:*** Self*
+/
+*Effect:* Until end of this unit’s next turn, after any adjacent unit is slain, summon a flock in free space in range. This effect cannot trigger more than once a turn.
+/
+**Horrendous Pecking: ***Self*
+/
+*Effect:* Any foe that ends a MOVE or ACT in an adjacent space takes 1 piercing damage. On slay, this unit gains 1 speed. This effect cannot trigger more than once a turn, and lasts indefinitely or until it MOVEs or steps."	Entrail Scatter	"If **Feeding Call** triggers two or more times before it expires, this unit gains 2 strength."	Jitter	**Horrendous Pecking** does not break if this unit moves out of its turn.	Wolf Down	**Flense** ignores armor and vitality if its target has 1 hp or lower.

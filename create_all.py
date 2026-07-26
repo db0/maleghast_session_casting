@@ -17,7 +17,7 @@ import argparse
 # FACTION = "necromancers"
 # CSV_PATH = f"{FACTION}.csv"
 VIDEO_NAME = "Matchup1_Basic_Abhorrers_Deadsouls"
-FACTIONS = ["abhorrers", "deadsouls", "necromancers"]
+FACTIONS = ["steeplewracks", "goregrinders", "necromancers"]
 OUTPUT_DIR = "output_cards"
 GUIDES_FILE = "guides.txt"
 HOMEDIR = os.path.expanduser("~")
@@ -47,6 +47,15 @@ CONDITION_COLORS = {
     "Winch": {"left": "#987654", "right": "#C0C0C0"},
     "Curseproof": {"left": "black", "right": "white"},
     "Grace": {"left": "purple", "right": "white"},
+    "Berserk": {"left": "orange", "right": "orange"},
+}
+
+FACTION_RGBS = {
+    "carcass": (242, 13, 175),
+    "goregrinders": (255, 201, 59),
+    "abhorrers": (255, 201, 59),
+    "deadsouls": (145, 255, 239),
+    "steeplewracks": (242, 13, 13),
 }
 # Fallback colors if a condition isn't found in the dictionary above
 DEFAULT_BADGE_COLORS = {"left": "#333333", "right": "#d32f2f"}
@@ -121,10 +130,11 @@ def find_fuzzy_image(target_name, directory):
     if FACTION == "necromancers":
         directory = NECROMANCER_DIR
         target_name = target_name.replace("Leaders/", "")
-    if not target_name or not os.path.exists(directory):
+    tn = target_name.replace("Units/", "").replace("/","_").replace("2","").replace("unit","").lower()
+    if not tn or not os.path.exists(directory):
         return None
         
-    direct_path = os.path.join(directory, target_name)
+    direct_path = os.path.join(directory, tn)
     if os.path.exists(direct_path):
         return direct_path
         
@@ -135,13 +145,12 @@ def find_fuzzy_image(target_name, directory):
         
     if not available_files:
         return None
-
     if FACTION == "necromancers":
         matches = difflib.get_close_matches(f"{target_name}", available_files, n=1, cutoff=0.3)
     else:
-        matches = difflib.get_close_matches(f"{FACTION}_{target_name}", available_files, n=1, cutoff=0.3)
+        matches = difflib.get_close_matches(f"{FACTION}_{tn}", available_files, n=1, cutoff=0.6)
     if matches:
-        # print(f"Fuzzy Match: '{target_name}' mapped to disk asset -> '{matches[0]}'")
+        print(f"Fuzzy Match: '{tn}' mapped to disk asset -> '{matches[0]}'")
         return os.path.join(directory, matches[0])
         
     return None
@@ -633,7 +642,7 @@ if __name__ == "__main__":
             cleaned_line = line.strip()
 
             # Skip empty lines and lines starting with 'Deployments'
-            if not cleaned_line or cleaned_line.startswith("Deployments") or cleaned_line.startswith("Dupl"):
+            if not cleaned_line or cleaned_line.startswith("Deployments") or cleaned_line.startswith("Dupl") or cleaned_line.startswith("Rounds"):
                 continue
 
             # Split the line by the ' - ' delimiter
