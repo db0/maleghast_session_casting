@@ -4,6 +4,7 @@ import ast
 import re
 import difflib
 import io
+import textwrap
 import badgepy
 import cairosvg
 import xml.etree.ElementTree as ET
@@ -52,7 +53,7 @@ CONDITION_COLORS = {
 
 FACTION_RGBS = {
     "carcass": (242, 13, 175),
-    "goregrinders": (255, 201, 59),
+    "goregrinders": (255, 120, 41),
     "abhorrers": (255, 201, 59),
     "deadsouls": (145, 255, 239),
     "steeplewracks": (242, 13, 13),
@@ -92,6 +93,21 @@ parser.add_argument(
     type=str,
     default=None,
     help="Specify the matchup string (e.g., 'boss_1' or 'pvp_season_2')",
+)
+
+# New arguments for the description image feature
+parser.add_argument(
+    "--desc",
+    type=str,
+    default=None,
+    help="Generate an 800x200 banner with this text centered.",
+)
+
+parser.add_argument(
+    "--color",
+    type=str,
+    default=None,
+    help="Specify a faction name to use for the --desc panel background color.",
 )
 
 # Parse the arguments from the command line
@@ -530,6 +546,66 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
     card.save(os.path.join(final_output_dir, output_filename), "PNG")
     print(f"Generated Sheet: {output_filename}")
 
+
+def generate_desc_card(desc_text, faction_color_name):
+    """
+    Generates a generic 800x200 banner image matching the text overlay style
+    of the main unit cards, centered horizontally and vertically.
+    """
+    # 1. Determine Base Background
+    bg_color = (200, 200, 200) # Fallback gray
+    if faction_color_name and faction_color_name.lower() in FACTION_RGBS:
+        bg_color = FACTION_RGBS[faction_color_name.lower()]
+        
+    card = Image.new("RGB", (800, 200), color=bg_color)
+    
+    # 2. Render Text Box Overlay using the same `get_light_tint` formula
+    overlay = Image.new("RGBA", (800, 200), (0, 0, 0, 0))
+    overlay_draw = ImageDraw.Draw(overlay)
+    
+    panel_color = get_light_tint(bg_color, factor=0.82)
+    margin = 10
+    panel_box = [margin, margin, 800 - margin, 200 - margin]
+    
+    overlay_draw.rectangle(panel_box, fill=(panel_color[0], panel_color[1], panel_color[2], 230))
+    card = Image.alpha_composite(card.convert("RGBA"), overlay).convert("RGB")
+    draw = ImageDraw.Draw(card)
+    
+    # 3. Handle Font & Text Wrapping
+    font = ImageFont.truetype(FONT_REGULAR, 24)
+    
+    # Safely handle user passing "\n" strings in command line args
+    lines = desc_text.split('\\n')
+    if len(lines) == 1 and '\n' in desc_text:
+        lines = desc_text.split('\n')
+        
+    wrapped_lines = []
+    for line in lines:
+        # Wrap characters strictly based on the 800px width limit ~60-65 chars is safe for 24pt
+        wrapped_lines.extend(textwrap.wrap(line, width=65))
+    wrapped_text = '\n'.join(wrapped_lines)
+    
+    # 4. Draw Centered Text
+    draw.multiline_text(
+        (400, 100),            # Center (X: 800/2, Y: 200/2)
+        wrapped_text, 
+        font=font, 
+        fill="black", 
+        align="center", 
+        anchor="mm"            # Middle/Middle anchor is critical for true vertical/horizontal centering
+    )
+    
+    # 5. Save Artifact
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    safe_name = "".join([c for c in desc_text[:15] if c.isalnum()]).strip()
+    color_label = faction_color_name.lower() if faction_color_name else "default"
+    
+    output_filename = f"Desc_{color_label}_{safe_name}.png"
+    out_path = os.path.join(OUTPUT_DIR, output_filename)
+    card.save(out_path, "PNG")
+    print(f"Generated Description Banner: {out_path}")
+
+
 def main_run():
     if not os.path.exists(CSV_PATH):
         raise Exception(f"File not found: {CSV_PATH}")
@@ -622,6 +698,11 @@ def fix_timestamp(timestamp_str: str) -> str:
 
 
 if __name__ == "__main__":
+    # --- Intercept Description generation request ---
+    if args.desc:
+        generate_desc_card(args.desc, args.color)
+        exit(0)
+
     if not args.matchup:
         for FACTION in FACTIONS:
             TIME = None
