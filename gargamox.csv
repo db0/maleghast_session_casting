@@ -1,0 +1,51 @@
+Copies	Nickname	card_background	card_background style	Name	Name style	Type	MV	HP	DEF	ARM	Traits	ACT Abilities	Upgrade1 Name	Upgrade1	Upgrade2 Name	Upgrade2	Upgrade3 Name	Upgrade3
+1		Units/Gargamox/scum4_processed.png	"{outlineColor:rgba(41, 255, 60, 1)}"	S C U M	"{color:rgba(41, 255, 60, 1)}"	Gargamox Thrall	3	1	3+	S	"<ul><li>*Toxic Revenge: *Has Deathburst: Splash (self): 1 plague, and 1 toxic damage to already plagued foes.</li><li>*Thrall: *2 of these units are worth 1 unit slot. Can be activated two at a time.</li></ul>"	"**Pseudopod:** *Range 2-3*
+/
+*Effect:* Pull unit one space. Effect: May spend plague tokens to gain +1 max range and pull for each plague token spent, up to 3
+/
+**Shamble:*** Attack, melee*
+/
+On hit: 1 damage and 1 plague"	Bloat	**Toxic Revenge**’s splash effect pushes 1 if this unit is plagued.	Tentacle Whip	**Pseudopod** inflicts 1 slow on plagued units.	Aftermath	**Toxic Revenge** leaves a hazard instead of a corpse.
+1		Units/Gargamox/rotten_processed.png	"{outlineColor:rgba(41, 255, 60, 1)}"	R O T T E N	"{color:rgba(41, 255, 60, 1)}"	Gargamox Scion	4	4	3+	P	<ul><li>*Plaguebearer:* Immune to hazards. May treat plague tokens as strength</li></ul>	"**Pustulate:** *Range 1-3*
+/
+*Effect: *Create a hazard in free space in range 3 and inflict plague on an adjacent unit to the hazard (4+) two adjacent units (6+) all
+/
+*adjacent unit.***Vomitous Mass:** *Line 4*
+/
+Line: 1 plague. Already plagued foes gain 1 slow.
+/
+**Rotblade:** *Attack, Melee*
+/
+*On hit:* 1 toxic damage and infect: 1 toxic damage"	Catalyze	**Vomitous Mass** deals 1 toxic damage to units standing in hazards	Invigorating Viscera	Gain *death burst:* splash (self): Up to three allies in the area gain 1strength	Smog Shroud	*Curseproof* and cover from all directions while standing in a hazard.
+1		Units/Gargamox/leech_processed.png	"{outlineColor:rgba(41, 255, 60, 1)}"	L E E C H	"{color:rgba(41, 255, 60, 1)}"	Gargamox Freak	4	4	4+	M	<ul><li>*Deathwash: *Has Deathburst: Splash (self) Remove any 1 token from all units in the area.</li></ul>	"**Suppurate: ***Curse, Range 1-3*
+/
+*Effect:* Unit permanently gains death burst: splash (self): 1 toxic damage and 1 plague. This effect cannot stack with itself but stacks with other death burst effects.
+/
+**Evolve Strain:** *Curse, Range 1-3*
+/
+*Effect:* Strip all plague tokens from a unit in range. Foes take 1 toxic damage. Then, they gain 1 slow per token removed. Allies gain 1 strength per token removed.
+/
+**Swell with Corruption: ***Range 1-3*
+/
+*Effect:* Unit triggers deathburst without being slain."	Massive Swell	**Swell with Corruption** has a 6+ effect chance to trigger twice.	Pandemic	"**Evolve Strain** can choose up to two targets in range, but only removes 1 plague token."	Acid Blood	**Suppurate** also grants *deathburst:* Create a hazard instead of a corpse
+1		Units/Gargamox/host2_processed.png	"{outlineColor:rgba(41, 255, 60, 1)}"	H O S T	"{color:rgba(41, 255, 60, 1)}"	Gargamox Hunter	3	4	3+		<ul><li>*Swarm release:* Has deathburst: create two hazards in free adjacent spaces.</li></ul>	"**Propagate Swarm:** *Range 2-4*
+/
+*Effect:* Create one, (3+) two, or (5+) three hazards in range. May spend a plague token on self to re-roll the effect die once.
+/
+**Driving Vermin:** *Attack, Range 2-4*
+/
+*On hit:* 1 damage, 1 plague, then pull 1. Infect: 1 plague, then pull 1."	Overfeed	"If at 3 or more plague tokens, gain +1D on attacks and +1 range on all abilities."	Toxic Avenger	"Immune to hazards. While standing in a hazard, gain 1 plague at turn start."	Defiler	**Driving Vermin** gains effect (5+) create a hazard under target before the attack.
+1		Units/Gargamox/slime_processed.png	"{outlineColor:rgba(41, 255, 60, 1)}"	S L I M  E	"{color:rgba(41, 255, 60, 1)}"	Gargamox Horror	4	4	4+		"<ul><li>Vile Rupture: This unit has *deathburst:* Remove up to three plague tokens on this unit, then splash (self): 1 toxic damage, once, per plague token removed.</li></ul>"	"**Percolate:** *Self*
+/
+*Effect:* Inflict two, (5+) or three plague on self, then may inflict 1 slow on an adjacent unit per plague token gained.
+/
+**Surge:*** Self*
+/
+*Effect:* Next MOVE has free movement. During this move, this unit is immune to hazards and may move through walls and units. Any foe this unit passes through takes 1 toxic damage and this unit may pass off any plague tokens on this unit to affected units."	Rotten Surge	"After **Surge,** inflict 1 plague on self for each unit passed through."	Sticky Trail	"**During Surge**, may create a hazard in one space passed through."	The Gunk	**Surge **inflicts 2 slow on the first unit affected.
+1		Units/Gargamox/belcherunit5_processed.png	"{outlineColor:rgba(41, 255, 60, 1)}"	B E L C H E R	"{color:rgba(41, 255, 60, 1)}"	Gargamox Thrall	3	1	4+		<ul><li>*Burst Guts:* Has deathburst: summon a slimelet in a free adjacent space.</li><li>*Thrall:* 2 of these units are worth 1 unit slot. Can be activated two at a time.</li></ul>	"**Toxic Spit:*** Attack, range 2-3*
+/
+**On hit:** 1 toxic damage (5+) and create a hazard under target. Gains pierce against units already in hazards.
+/
+**Projectile Vomit: ***Range 1-2*
+/
+*Effect:* Push target unit 1 space, then create one hazard in a space they vacated. If this unit is plagued, push 2 instead."	Congealed	Slimelets have MAG armor	Putridity	"For both units, toxic spit also inflicts 1 plague against units already in hazards."	Stuffed	"When *Burst Guts* activates, it has a 5+ effect chance to summon two slimelets instead."

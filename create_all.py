@@ -49,6 +49,8 @@ CONDITION_COLORS = {
     "Curseproof": {"left": "black", "right": "white"},
     "Grace": {"left": "purple", "right": "white"},
     "Berserk": {"left": "orange", "right": "orange"},
+    "Tinker": {"left": "grey", "right": "orange"},
+    "Paranoia": {"left": "red", "right": "purple"},
 }
 
 FACTION_RGBS = {
@@ -412,14 +414,15 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
         print(f"Warning: Could not match image resource for asset target: '{unit_img_name}'")
 
     # Paste Stat Icons & Overlay Values
+    max_hp = MAX_HP if MAX_HP is not None else row.get('HP','')
     stat_layouts = {
-        'HP':  {'icon_pos': (10, 0),   'size': (140, 140), 'text_pos': (80, 30),  'val': f"/{row.get('HP','')}"},
+        'HP':  {'icon_pos': (10, 0),   'size': (140, 140), 'text_pos': (80, 30),  'val': f"/{max_hp}"},
         'DEF': {'icon_pos': (200, 10),  'size': (120, 115), 'text_pos': (235, 40), 'val': f"{row.get('DEF','')}"},
         'ARM': {'icon_pos': (290, 10),  'size': (120, 120), 'text_pos': (338, 35), 'val': row.get('ARM','')},
         'MV':  {'icon_pos': (140, 15),  'size': (100, 105), 'text_pos': (158, 50), 'val': row.get('MV','')}
     }
     if HP is None:
-        stat_layouts['HP'] = {'icon_pos': (10, 0),   'size': (140, 140), 'text_pos': (55, 20),  'val': f"{row.get('HP','')}"}
+        stat_layouts['HP'] = {'icon_pos': (10, 0),   'size': (140, 140), 'text_pos': (55, 20),  'val': f"{max_hp}"}
     
     for stat, layout in stat_layouts.items():
         path = ICON_PATHS[stat]
@@ -440,18 +443,18 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
                 text_pos = (343, 35)
         if stat == "HP":
             font_stat = ImageFont.truetype(FONT_BOLD, 50)
-            if int(row.get('HP','')) > 9:
+            if int(max_hp) > 9:
                 font_stat = ImageFont.truetype(FONT_BOLD, 35)
                 text_pos = (75, 25)
             if HP is None:
                 font_stat = ImageFont.truetype(FONT_BOLD, 80)
-                if int(row.get('HP','')) > 9:
+                if int(max_hp) > 9:
                     font_stat = ImageFont.truetype(FONT_BOLD, 60)
                     text_pos = (40, 25)
 
         draw.text(text_pos, layout['val'], font=font_stat, fill="black")
         if stat == "HP" and HP is not None:
-            if int(row.get('HP','')) > 9:
+            if int(max_hp) > 9:
                 if int(HP) > 9:
                     draw.text((25, 25), HP, font=font_stat, fill="black")
                 else:
@@ -552,20 +555,21 @@ def generate_desc_card(desc_text, faction_color_name):
     Generates a generic 800x200 banner image matching the text overlay style
     of the main unit cards, centered horizontally and vertically, with rich text.
     """
+    description_box_width = 1100
     # 1. Determine Base Background
     bg_color = (200, 200, 200) # Fallback gray
     if faction_color_name and faction_color_name.lower() in FACTION_RGBS:
         bg_color = FACTION_RGBS[faction_color_name.lower()]
         
-    card = Image.new("RGB", (800, 200), color=bg_color)
+    card = Image.new("RGB", (description_box_width, 200), color=bg_color)
     
     # 2. Render Text Box Overlay using the same `get_light_tint` formula
-    overlay = Image.new("RGBA", (800, 200), (0, 0, 0, 0))
+    overlay = Image.new("RGBA", (description_box_width, 200), (0, 0, 0, 0))
     overlay_draw = ImageDraw.Draw(overlay)
     
     panel_color = get_light_tint(bg_color, factor=0.82)
     margin = 10
-    panel_box = [margin, margin, 800 - margin, 200 - margin]
+    panel_box = [margin, margin, description_box_width - margin, 200 - margin]
     
     overlay_draw.rectangle(panel_box, fill=(panel_color[0], panel_color[1], panel_color[2], 230))
     card = Image.alpha_composite(card.convert("RGBA"), overlay).convert("RGB")
@@ -588,7 +592,7 @@ def generate_desc_card(desc_text, faction_color_name):
     if len(lines) == 1 and '\n' in desc_text:
         lines = desc_text.split('\n')
         
-    max_width = 800 - 40 # 20px padding each side
+    max_width = description_box_width - 40 # 20px padding each side
     wrapped_rich_lines = []
     
     for raw_line in lines:
@@ -640,7 +644,7 @@ def generate_desc_card(desc_text, faction_color_name):
             else:
                 line_width += word_width
 
-        current_x = (800 - line_width) // 2
+        current_x = (description_box_width - line_width) // 2
         
         for word, style, word_width in line_data:
             draw.text((current_x, current_y), word, font=fonts[style], fill="black")
@@ -749,6 +753,14 @@ def fix_timestamp(timestamp_str: str) -> str:
         return f"{parts[0].zfill(2)}:{parts[1]}:{parts[2]}"
     return timestamp_str
 
+def determine_hp(hp_text, guide_text):
+    hpsplit = hp_text.split("max")
+    if not hpsplit[0].isdigit():
+        raise Exception(f"Bad format in guide line: {guide_text}")
+    if len(hpsplit) == 1:
+        return (hpsplit[0], None)
+    else:
+        return (hpsplit[0], hpsplit[1])
 
 if __name__ == "__main__":
     # --- Intercept Description generation request ---
@@ -760,6 +772,7 @@ if __name__ == "__main__":
         for FACTION in FACTIONS:
             TIME = None
             HP = None
+            MAX_HP = None
             SIDE = None
             CONDITIONS = []
             CSV_PATH = f"{FACTION}.csv"
@@ -783,49 +796,52 @@ if __name__ == "__main__":
             # Example: "Left - 7:55 - smite_4" -> ['Left', '7:55', 'smite_4']
             parts = [part.strip() for part in cleaned_line.split(" - ")]
             # Ensure the line has exactly the 3 expected parts before parsing
-            if len(parts) == 3:
-                side, raw_time, comment = parts
+            if len(parts) != 3:
+                raise Exception(f"Bad Guide format: {cleaned_line}")
+            side, raw_time, comment = parts
+            conditions_parsed = []
+            comment_parts = comment.split('_')
+            if len(comment_parts) > 3:
+                raise Exception(f"Bad format in guide line: {cleaned_line}")
+            if len(comment_parts) == 2:
+                action,hptext = comment_parts
+                hp,max_hp = determine_hp(hptext,cleaned_line)
+            elif len(comment_parts) == 3:
+                action,hptext,all_conditions = comment_parts
+                hp,max_hp = determine_hp(hptext,cleaned_line)
+                conditions = all_conditions.split('+')
                 conditions_parsed = []
-                comment_parts = comment.split('_')
-                if len(comment_parts) > 3:
-                    raise Exception(f"Bad format in guide line: {cleaned_line}")
-                if len(comment_parts) == 2:
-                    action,hp = comment_parts
-                    if not hp.isdigit():
-                        raise Exception(f"Bad format in guide line: {cleaned_line}")
-                elif len(comment_parts) == 3:
-                    action,hp,all_conditions = comment_parts
-                    conditions = all_conditions.split('+')
-                    conditions_parsed = []
-                    for c in conditions:
-                        cregex = re.search(r'([A-Za-z ]+)([0-9]?)',c)
-                        
-                        if not cregex:
-                            raise Exception(f"Bad condition format in guide comment: {comment}")
-                        c_replacements = {
-                            "Doomed": "Doom",
-                            "Weakness": "Weak",
-                        }
-                        cname = c_replacements[cregex.group(1).capitalize()] if cregex.group(1).capitalize() in c_replacements else cregex.group(1).capitalize()
-                        # print(cname)
-                        conditions_parsed.append({
-                            "condition": cname,
-                            "amount": cregex.group(2) if cregex.group(2) else "1",
-                        })
-                conditions_parsed.sort(key=lambda x: x["condition"])
-                # For when I forget the proper name
-                line_data = {
-                    "side": side,
-                    "timestamp": fix_timestamp(raw_time),
-                    "action": action.capitalize(),
-                    "hp": hp,
-                    "conditions": conditions_parsed,
-                }
-                guides.append(line_data)
+                for c in conditions:
+                    cregex = re.search(r'([A-Za-z ]+)([0-9]?)',c)
+                    
+                    if not cregex:
+                        raise Exception(f"Bad condition format in guide comment: {comment}")
+                    c_replacements = {
+                        "Doomed": "Doom",
+                        "Weakness": "Weak",
+                    }
+                    cname = c_replacements[cregex.group(1).capitalize()] if cregex.group(1).capitalize() in c_replacements else cregex.group(1).capitalize()
+                    # print(cname)
+                    conditions_parsed.append({
+                        "condition": cname,
+                        "amount": cregex.group(2) if cregex.group(2) else "1",
+                    })
+            conditions_parsed.sort(key=lambda x: x["condition"])
+            # For when I forget the proper name
+            line_data = {
+                "side": side,
+                "timestamp": fix_timestamp(raw_time),
+                "action": action.capitalize(),
+                "hp": hp,
+                "conditions": conditions_parsed,
+                "max_hp": max_hp,
+            }
+            guides.append(line_data)
 
     for guide in guides:
         TIME = guide["timestamp"]  
         HP = guide["hp"]
+        MAX_HP = guide["max_hp"]
         ABILITY = guide["action"]
         SIDE = guide["side"]
         CONDITIONS = guide["conditions"]

@@ -1,0 +1,59 @@
+Copies	Nickname	card_background	card_background style	Name	Name style	Type	MV	HP	DEF	ARM	Traits	ACT Abilities	Upgrade1 Name	Upgrade1	Upgrade2 Name	Upgrade2	Upgrade3 Name	Upgrade3
+1		Units/Igorri/stitch_processed.png	"{outlineColor:rgba(159, 0, 255, 1)}"	 S T IT C H	"{color:rgba(159, 0, 255, 1)}"	Igorri Thrall	3	2	4+		"<ul><li>*Fall to Shambles: *When slain, leaves an extra corpse token in an adjacent space (two corpses total)</li><li>Thrall: 2 of these units are worth 1 unit slot. Can be activated two at a time.</li></ul>"	"**Unstable Mutation: ***Self*
+/
+*Effect: *Gain 1 strength, (4+) 1 speed, (5+) and 1 vitality, (6+) and explode for splash (self): 1 damage. Spare parts: Roll +1D per corpse and pick the highest result.
+/
+**Twisting Strike: ***Attack, Melee*
+/
+*On hit:* 1 damage and mutate."	Genestealer	"**Twisting strike** gains *Effect(5+):* On hit, steal a positive token from target."	Spread Mutate 	**Twisting strike** also causes an adjacent ally to mutate on hit.	Warping Mutate	May step 1 (4+) or 3 spaces before **Unstable mutation**
+1		Units/Igorri/chopdoc_processed.png	"{outlineColor:rgba(159, 0, 255, 1)}"	C H O P D O C	"{color:rgba(159, 0, 255, 1)}"	Igorri Freak	4	4	4+	M	"<ul><li>*Leftovers:* After MOVEing, drop a corpse in a free adjacent space</li></ul>"	"**Inject Mutagen:*** Range 1-3*
+/
+*Effect:* One or two units in range mutate. Spare parts: and also grant one of these units 1 strength if at least one corpse was consumed.
+/
+**Purge:** *Curse, Range 1-3*
+/
+*Effect:* A unit in range removes one token of this unit’s choice (3+): two (5+) all
+/
+**Marriage:** *Range 1-2*
+/
+*Effect:* Instantly slay self or an allied unit in range. Another allied unit in range gains 2 speed, vitality, and strength, or just 1 if the slain unit was a thrall."	Absorb	May grant one of the tokens stolen by **Purge** to another unit in range	Scour Flesh	**Purge** deals 1 piercing toxic damage to foes	Conjoin	"If targeting self, **Marriage** alsoclears all negative tokens on target first"
+1		Units/Igorri/lycan_processed.png	"{outlineColor:rgba(159, 0, 255, 1)}"	L Y C A N	"{color:rgba(159, 0, 255, 1)}"	Igorri Horror	4	4	4+		<ul><li>*Lope:* Has free movement and ignores hazards in spaces occupied by corpses.</li></ul>	"**Bloodgorger:*** Self*
+/
+*Effect:* Mutate, then gain 1 strength. Spare Parts: Then gain (3+) 1 speed, (5+) and 1 vitality, (6+) then mutate again. Roll +1D per corpse and pick the highest result.
+/
+**Bloody Slashes:** *Melee, Attack*
+/
+*On hit:* 1 damage and splash (self): 1 damage."	The Hunger	"If starting turn in range 2 of a corpse, may step 2"	Autophagia	"At turn start, may deal 1 damage to self, ignoring armor, to generate a corpse in an adjacent space"	Hunch	May use corpses as cover spaces
+1		Units/Igorri/strigoi_processed.png	"{outlineColor:rgba(159, 0, 255, 1)}"	S T R IG O I	"{color:rgba(159, 0, 255, 1)}"	Igorri Hunter	3	4	4+		<ul><li>*Flight:* Ignores adverse terrain and elevation attack and movement penalties</li></ul>	"**Regurgitate:*** Range 2-4*
+/
+Effect: Splash (target): Create a corpse in the area for every unit in the area, up to three times, then mutate.
+/
+**Sin Eater:*** Range 2-4, Attack*
+/
+*On hit:* 1 toxic damage. Effect: Steal a positive token from target. If target has no positive tokens, gain 1 strength instead of stealing a token. *Spare Parts: *steal 1 more token per corpse consumed."	Drown in Viscera	"**Regurgitate** has a 5+ effect chance to strip a token of
+/
+your choice from each foe in the area."	Rapid Adaptation	May *mutate* once for each corpse created with **Regurgitate** instead.	Cleansing Wash	**Regurgitate** has a 5+ effect chance to remove a negative token from an ally caught in the area
+1		Units/Igorri/homonculus_processed.png	"{outlineColor:rgba(159, 0, 255, 1)}"	H O M O N C U L U S	"{color:rgba(159, 0, 255, 1)}"	Igorri Tyrant	4	6	3+		<ul><li>*Warpflesh:* Starts combat with 3</li></ul>mutation tokens<ul><li>*Large:* 2x2 unit. See entry.</li></ul>	"**Sculpt Flesh:*** Self*
+/
+*Effect:* Gain 1 strength, OR 1 speed, OR 1 vitality. Spare parts: Repeat this effect once for each corpse consumed, up to three times.
+/
+**Absorb:*** Melee*
+/
+*Effect:* Deal 1 devil damage to an adjacent unit. If reduce to 0 hp, obliterates unit and the homunculus gains any tokens the absorbed unit had.
+/
+**Flesh Whip:** *Attack, Range 1-2*
+/
+*On hit:* 1 damage and splash (target): 1 damage and create one or (5+) or two corpses in an adjacent space to target."	Ball of Limbs	"When choosing to MOVE again, destroys walls and absorbs corpses it moves over, *mutating* each time"	Meld	"When **absorbing** allies, slays instead of obliterating them, and this unit mutates."	Form Carapace	"If **absorb** destroys a unit, gains *physical armor* for the rest of combat."
+1		Units/Igorri/vesselunit_processed.png	"{outlineColor:rgba(159, 0, 255, 1)}"	V E S S E L	"{color:rgba(159, 0, 255, 1)}"	Igorri Tyrant	4	\*	2+		"<ul><li>*Warpflesh:* Starts combat with 4 mutation</li></ul>tokens.<ul><li>*Mutant Heart:* This unit’s HP equals the number of mutation tokens it has (max 6). When it takes damage, it discards that many mutation tokens instead. If at start or end of any turn it has 0 mutation tokens, it is slain.</li><li>*Large:* 2x2 unit (see entry)</li></ul>"	"**Perfect Vessel:** *Attack, range 1-2*
+/
+2 damage (5+) and gain 1 strength. *Spare Parts:* Gain 1D and 1 max range on the attack if at least one corpse was consumed.
+/
+**Ecdysis: ***Range 1-2*
+/
+*Effect:* Create a wall in range. The wall also counts as two corpses. If both corpses are consumed, remove the wall.
+/
+**Necrogenesis:** *Self*
+/
+*Effect:* Spend 2 mutation tokens. Summon a duplicate of this character in range 1-2 without this ability. Then duplicate all positive tokens on this character and place them on the copy.<ul><li>This ability can only be used once per combat.</li><li>May destroy all walls in the duplicate’s space before placing it.</li></ul>"	Relentless	"When choosing to MOVE again, destroys all walls it
+/
+moves into."	Shed	"Once a round, when discarding a mutation token, may drop a corpse in an adjacent space."	Strengthened Heart	**Necrogenesis** can be used an additional time at or after round 5+.

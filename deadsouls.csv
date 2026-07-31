@@ -1,5 +1,5 @@
 Copies	Nickname	card_background	card_background style	Name	Name style	Type	MV	HP	DEF	ARM	Traits	ACT Abilities	Upgrade1 Name	Upgrade1	Upgrade2 Name	Upgrade2	Upgrade3 Name	Upgrade3
-1		Units/Deadsouls/sacrifice4_processed.png	"{outlineColor:rgba(145, 255, 239, 1)}"	S A C R IF IC E	"{color:rgba(145, 255, 239, 1)}"	Deadsouls Thrall	4	2	4+		"<ul><li>*Inverted Crucifix:* When slain, has a 4+ effect chance to not remove Doom.</li><li>*Thrall: *2 of these units are worth 1 unit slot. Can be activated two at a time.</li></ul>"	"**Beckon:** *Range 2-3*
+1		Units/Deadsouls/sacrifice4_processed.png	"{outlineColor:rgba(145, 255, 239, 1)}"	S A C R IF IC E	"{color:rgba(145, 255, 239, 1)}"	Deadsouls Thrall	4	2	4+		"<ul><li>*Inverted Crucifix:* When slain, has a 4+ chance to create a wall in its space and not remove Doom from attacker.</li><li>*Thrall: *2 of these units are worth 1 unit slot. Can be activated two at a time.</li></ul>"	"**Beckon:** *Range 2-3*
 /
 *Effect:* Pull 1 or (5+) 2 spaces. Ignores line of sight.
 /
@@ -39,7 +39,7 @@ isolated foe."	Soul Frost	"When teleporting, create a space of adverse terrain i
 **Tombstone: ***Range 2-4*
 /
 *Effect:* Create a wall in range and (5+) adjacent foes to the wall gain 1 weak."	Doom Bell	**Tombstone** gains effect (5+): adjacent foes are Doomed	Freeze Soul	"If** Bale Scream** slays a unit, it creates a space of adverse terrain instead of a corpse."	Siren	**Bale Scream** pulls all units in its area 2.
-1		Units/Deadsouls/bounddevil_processed.png	"{outlineColor:rgba(145, 255, 239, 1)}"	B ound D evil	"{color:rgba(145, 255, 239, 1)}"	Deadsouls Tyrant	3	6	2+	M	"<ul><li>*Labyrinth Master:* When entering the space of a wall with a MOVE, may remove and place the wall in any other free adjacent space.</li><li>*Tyrant:* 2x2 unit</li></ul>"	"**Hell’s Grasp:** *Curse, Range 1-4*
+1		Units/Deadsouls/bounddevil_processed.png	"{outlineColor:rgba(145, 255, 239, 1)}"	B ound D evil	"{color:rgba(145, 255, 239, 1)}"	Deadsouls Tyrant	3	6	2+	M	"<ul><li>*Labyrinth Master:* Once per MOVE, when entering the space of a wall, may remove and place the wall in any other free adjacent space.</li><li>*Tyrant:* 2x2 unit</li></ul>"	"**Hell’s Grasp:** *Curse, Range 1-4*
 /
 Effect: A unit in range gains 2 weak. The first time it MOVEs or steps before the end of its next turn, it becomes Doomed.
 /

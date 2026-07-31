@@ -55,7 +55,7 @@ May move into and destroy walls with this step.
 /
 **Catechism Devil Cannon:** *Line, reload*
 /
-**Effect:** Line 5, 1 fire damage. and inflicts 1 vulnerable on the first unit in the line. Pierces through walls and can target through walls."	Fortify	"**Juggernaut** also clears all
+*Effect*: Line 5, 1 fire damage. and inflicts 1 vulnerable on the first unit in the line. Pierces through walls and can target through walls."	Fortify	"**Juggernaut** also clears all
 /
 negative tokens."	Heavy Caliber Cannon	**Catechism** pushes all units in the line 1 space and destroys walls.	Gunner Pivot	"When at least one ally is adjacent to this unit, **Mortar** ignores cover."
 1		infilunit2_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	IN F ILT R A T O R	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. Hunter	4	3	3+	M	"<ul><li>*Formation*</li><li>*Active Camo:* If this unit ends its turn with no foes adjacent, this unit becomes *curseproof* and all attacks against it gain -1D. Both effects last until the start of its next turn.</li></ul>"	"**Cross Fire:*** Line 5, reload*
@@ -64,7 +64,7 @@ negative tokens."	Heavy Caliber Cannon	**Catechism** pushes all units in the lin
 /
 **Slide kick:** *Step*
 /
-*Effect: *Step 1, then push an adjacent foe 1 or (5+) 2 spaces. That foe must spend a MOVE before next attacking.
+*Effect: *Step 1, then push an adjacent foe 2 spaces. That foe must spend a MOVE before next attacking.
 /
 **Trick Reload:*** Self*
 /
