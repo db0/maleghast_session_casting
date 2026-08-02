@@ -1,5 +1,5 @@
 Copies	Nickname	card_background	card_background style	Name	Name style	Type	MV	HP	DEF	ARM	Traits	ACT Abilities	Upgrade1 Name	Upgrade1	Upgrade2 Name	Upgrade2	Upgrade3 Name	Upgrade3
-1		Units/Abhorrers/penitent3_processed.png	"{outlineColor:rgba(255, 201, 59, 1)}"	P E N IT E N T	"{color:rgba(255, 201, 59, 1)}"	Abhorrer Scion	4	3	2+	S	<ul><li>*Miracle*</li></ul>	"**Mea Culpa:** *Self*
+1		Units/Abhorrers/penitent3_processed.png	"{outlineColor:rgba(255, 201, 59, 1)}"	P E N IT E N T	"{color:rgba(255, 201, 59, 1)}"	Abhorrer Scion	4	3	2+	S	<ul><li>**Miracle**</li></ul>	"**Mea Culpa:** *Self*
 /
 Splash (self): Remove one negative token from all allies in range and place them on this unit. Then remove one, (4+) two, or (6+) all negative tokens from this unit, and gain 1 strength for each negative token removed this way.
 /
@@ -10,7 +10,7 @@ Splash (self): Remove one negative token from all allies in range and place them
 **Excoriate:*** Attack, Melee*
 /
 On hit: 1 damage, and Stance *(Odd): Splash (self):* 1 holy damage. *(Even): *gain 1 vitality."	Holy Blood	**Mea Culpa** creates one or (4+) two hazards in free adjacent spaces.	Eager	May step 2 with free movement before using **Mea Culpa**	Taste the Lash	*Stance (round 4+): ***Excoriate** triggers both effects
-1		Units/Abhorrers/zealot2_processed.png	"{outlineColor:rgba(255, 201, 59, 1)}"	Z E A L O T	"{color:rgba(255, 201, 59, 1)}"	Abhorrer Horror	4	4	4+		"<ul><li>*Miracle*</li><li>*Zealotry:* When MOVEing for the second time or more in a turn, gain 1 vitality.</li></ul>"	"**Smite:** *Self*
+1		Units/Abhorrers/zealot2_processed.png	"{outlineColor:rgba(255, 201, 59, 1)}"	Z E A L O T	"{color:rgba(255, 201, 59, 1)}"	Abhorrer Horror	4	4	4+		"<ul><li>**Miracle**</li><li>**Zealotry:** When MOVEing for the second time or more in a turn, gain 1 vitality.</li></ul>"	"**Smite:** *Self*
 /
 *Stance:* MOVE again. Whirling Chain deals +damage equal to half the round number the next time it hits, rounded up. This effect does not stack.
 /
@@ -19,7 +19,7 @@ On hit: 1 damage, and Stance *(Odd): Splash (self):* 1 holy damage. *(Even): *ga
 *On hit:* 2 damage. Stance (Odd): and MOVE again, Stance (Even): and push unit 2"	Punisher	"*Stance:* **Whirling Chain** Obliterates foes it slays at
 /
 round 3+"	Suffuse	**Smite** removes a negative token from this unit.	Fiery Chain	**Whirling Chain** creates one or (5+) two hazards adjacent to its target after it resolves
-1		Units/Abhorrers/antipriest2_processed.png	"{outlineColor:rgba(255, 201, 59, 1)}"	A N T IP R IE S T	"{color:rgba(255, 201, 59, 1)}"	Abhorrer Freak	3	4	3+	M	<ul><li>*Miracle*</li></ul>	"**Gentleness:*** Self*
+1		Units/Abhorrers/antipriest2_processed.png	"{outlineColor:rgba(255, 201, 59, 1)}"	A N T IP R IE S T	"{color:rgba(255, 201, 59, 1)}"	Abhorrer Freak	3	4	3+	M	<ul><li>**Miracle**</li></ul>	"**Gentleness:*** Self*
 /
 *Effect:* Gain 1 vitality. Become unable to MOVE or step until start of this unit’s next turn. At the start of that turn, a number of allied units adjacent to this unit equal to the current round number may gain 1 vitality.
 /
@@ -30,14 +30,14 @@ round 3+"	Suffuse	**Smite** removes a negative token from this unit.	Fiery Chain
 **Blessed Censer:** *Self*
 /
 *Effect: Stance (Odd): *Remove a negative token from an ally in the area, then grant that ally 1 strength. *(Even): Splash (self): *Foes take 1 holy damage."	Cleansing Prayer	"While **Delay Judgement** is active, its target is *curseproof.*"	Consecrate	**Blessed Censer** may remove up to three corpses or hazards in range.	Boiling Censer	*Stance (Round 4+):* **Blessed Censer**’s damage becomes piercing and it may grant vitality to all allies in the splash.
-1		Units/Abhorrers/exorcist2_processed.png	"{outlineColor:rgba(255, 201, 59, 1)}"	IN Q U IS IT O R	"{color:rgba(255, 201, 59, 1)}"	Abhorrer Hunter	3	4	3+		<ul><li>*Miracle*</li></ul>	"**Winch:*** Self*
+1		Units/Abhorrers/exorcist2_processed.png	"{outlineColor:rgba(255, 201, 59, 1)}"	IN Q U IS IT O R	"{color:rgba(255, 201, 59, 1)}"	Abhorrer Hunter	3	4	3+		<ul><li>**Miracle**</li></ul>	"**Winch:*** Self*
 /
 *Effect:* Step 1. Next attack from this unit gains +1D and +2 maximum range. This effect stacks.
 /
 **Requiesce en Pace:** *Attack, Range 2-3*
 /
 *On hit:* 2 damage. Stance (Round 3+): with piercing. (Round 5+): 4 damage with piercing."	Focus	"If this unit does not move during its turn, it may remove a negative token from itself."	Heart Destroyer	*Stance:* **Requiesce en Pace** obliterates units it slays at round 3+.	Explosive Bolts	"*Stance:* **Requiesce en Pace** pushes units one, (Round 3+) two, or (Round 5+) four spaces."
-1		Units/Abhorrers/holybody_processed.png	"{outlineColor:rgba(255, 201, 59, 1)}"	H O L Y   B O D Y	"{color:rgba(255, 201, 59, 1)}"	Abhorrer Tyrant	3	3	2+	S	"<ul><li>*Miraculous flesh:* Lacks miracle, but starts combat with 3 vitality tokens.</li><li>*Large:* 2x2 unit. See entry.</li></ul>"	"**Bolides:** *Range 3-5*
+1		Units/Abhorrers/holybody_processed.png	"{outlineColor:rgba(255, 201, 59, 1)}"	H O L Y   B O D Y	"{color:rgba(255, 201, 59, 1)}"	Abhorrer Tyrant	3	3	2+	S	"<ul><li>**Miraculous flesh:** Lacks miracle, but starts combat with 3 vitality tokens.</li><li>**Tyrant:** 2x2 unit. See entry.</li></ul>"	"**Bolides:** *Range 3-5*
 /
 *Effect:* Create one or (4+) two or (6+) three hazards in range. May destroy a wall instead of creating a hazard.
 /
@@ -50,7 +50,7 @@ round 3+"	Suffuse	**Smite** removes a negative token from this unit.	Fiery Chain
 *Effect:* Gain two vitality. Until the start of this unit’s next turn, adjacent allies may spend vitality tokens on this unit as if they were their own."	Scathe	"When **Bolides** destroys a wall, it can deal 1 damage
 /
 to an adjacent foe."	Holy Font	"**Ablutions **gains stance (round 3+): gain 3 vitality instead, (round5+): gain 4 vitality instead."	Immaculate	All attacks automatically miss the holy body if not made from adjacent spaces.
-1		Units/Abhorrers/abbotunit2_processed.png	"{outlineColor:rgba(255, 201, 59, 1)}"	A B B O T	"{color:rgba(255, 201, 59, 1)}"	Abhorrers Freak	4	3	3+	P	<ul><li>*Miracle*</li></ul>	"**Bible Thump:** *Melee, Attack*
+1		Units/Abhorrers/abbotunit2_processed.png	"{outlineColor:rgba(255, 201, 59, 1)}"	A B B O T	"{color:rgba(255, 201, 59, 1)}"	Abhorrers Freak	4	3	3+	P	<ul><li>**Miracle**</li></ul>	"**Bible Thump:** *Melee, Attack*
 /
 *On hit:* Self and an adjacent ally gain 1 vitality (Stance: R4+): 2 vitality. Then deal 1 damage and push 1. Cannot miss allies and pushes them +1.
 /

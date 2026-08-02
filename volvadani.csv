@@ -1,0 +1,60 @@
+Copies	Nickname	card_background	card_background style	Name	Name style	Type	MV	HP	DEF	ARM	Traits	ACT Abilities	Upgrade1 Name	Upgrade1	Upgrade2 Name	Upgrade2	Upgrade3 Name	Upgrade3
+1		Units/Volvadani/screwhead_processed.png	"{outlineColor:rgba(13, 121, 242, 1)}"	S C R E W  H E A D	"{color:rgba(13, 121, 242, 1)}"	Volvadani Scion	3	4	3+		<ul><li>**Clad in Law:** Has SUPER armor against criminals</li></ul>	"**Drum Shotgun:** *Attack, Range 2-2, Burst 2*
+/
+*On hit:* 1 damage and push 1. On hit: Gains pierce against criminals.
+/
+**Piston Fist:** *Melee, Burst 1*
+/
+*Effect: *Step 1, then push an adjacent unit 2. Effect: If target would be pushed into a wall or the edge of the map, they gain 2 vulnerable.
+/
+**Roaring Reload:** *Self*
+/
+*Effect:* Splash (self): Push 1. All burst abilities gain +1 or (4+) 2 charges."	Superheated	"Roaring reload’s splash deals 1 fire damage to
+/
+criminals after push"	Blast Slag	Roaring reload creates a hazard in free adjacent spaces after it resolves.	Shimmering Heat	The Screwhead and all adjacent units lose the benefit of all armor.
+1		Units/Volvadani/bobby_processed.png	"{outlineColor:rgba(13, 121, 242, 1)}"	B O B B Y	"{color:rgba(13, 121, 242, 1)}"	Volvadani Horror	4	4	4+		"<ul><li>**Clattering Engine:** This unit’s MOVE has burst 3. At 0 burst, it cannot MOVE.</li></ul>"	"**Ferocious Walloping: ***Attack, Melee, Burst 1*
+/
+*On hit: *1 damage, then inflict 1 vulnerable against *criminals.*
+/
+**The Clamps:** *Melee, Foe*
+/
+*Effect:* Adjacent foe gains 1 vulnerable and cannot exit a space adjacent to the Bobby until the Bobby is slain, the Bobby breaks adjacency for any reason, or the start of the Bobby’s next turn.
+/
+**Bloodhound: ***Foe, range 1-4*
+/
+*Effect:* Target a foe in range. For each guilt on the target, gain +1 burst charge to any ability and step 1."	Pursuit	"If **The Clamps** is broken early by a foe, its target
+/
+gains 2 guilt."	Frenzied Bobby	The Bobby gains +1D on attacks against *criminals*.	Mage Hunter	The Bobby has* Curseproof* and *MAG* armor against *criminals.*
+1		Units/Volvadani/clerk_processed.png	"{outlineColor:rgba(13, 121, 242, 1)}"	C L E R K	"{color:rgba(13, 121, 242, 1)}"	Volvadani Freak	3	4	3+		"<ul><li>**Technicality:** At turn start, may inflict 1 guilt on a foe in range 1-3.</li></ul>"	"**Court Summons:*** Foe, range 2-4, Curse*
+/
+*Effect:* Target foe gains 1 vulnerable, then is pulled 1 per guilt. If it does not end its next turn adjacent to the Clerk, it takes 1 fire damage and 1 guilt.
+/
+**Discard Contraband: ***Range 1-4, Burst 1*
+/
+*Effect:* Target unit discards one positive and negative token of your choice, except guilt. Create a hazard in a free adjacent space to that unit.
+/
+**Deputize: ***Ally, Range 1-4*
+/
+*Effect:* An ally in range gains +2 or (5+) +3 burst charges, distributed in any manner they choose, but their abilities during their next turn have no effect against any foe with less than 3 guilt."	Shuffle Papers	"At the start of this unit’s turn, instead of using its regular passive, may move a guilt token from a foe in line of sight to any other foe in line of sight."	Contractual Loophole	"When this unit is slain, it instead remains at 1 hp and becomes immune to all damage. At the end of its next turn, it is obliterated."	Union Healthcare	"**Deputize** immediately allows a unit to step 2, ignoring adverse terrain and elevation penalties."
+1		Units/Volvadani/mancatcher_processed.png	"{outlineColor:rgba(13, 121, 242, 1)}"	M A N C A T C H E R	"{color:rgba(13, 121, 242, 1)}"	Volvadani Hunter	3	4	4+		"<ul><li>**Make Quota:** At the end of any turn this unit slays a *criminal,* may gain +2 burst to any ability.</li></ul>"	"**Chain Grab:** *Attack, Range 3-4, Burst 2*
+/
+*On hit:* 1 damage and pull target spaces equal to their guilt. Criminals with 3+ guilt take 1 fire damage again
+/
+**Spinecracker: ***Foe, Range 2-4, Curse*
+/
+*Effect:* Target foe must choose: gain 1 vulnerable and become unable to MOVE until the end of its next turn, or take piercing fire damage equal to their guilt."	Wicked Chain	**Chain Grab** also has splash (target): pull all criminals 1	Caltrops	"After pulling a unit, **Chain Grab **leaves a hazard in the first space they vacate."	Iron Coffin	"When slaying a criminal, may replace any corpse they create with a wall."
+1		Units/Volvadani/engine_processed.png	"{outlineColor:rgba(13, 121, 242, 1)}"	"P E N IT E N T 
+/
+E N G IN E"	"{color:rgba(13, 121, 242, 1)}"	Volvadani Tyrant	3	6	2+	P	"<ul><li>**Large: **2x2 unit</li><li>**Sin Furnace:** Before entering any space when MOVEing, the Engine can consume an adjacent corpse, wall, or hazard, removing it and gaining +1 burst charge. It can do this once per MOVE.</li></ul>"	"**Pendulum Swing:** *Attack, range 1-3, burst 1*
+/
+*On hit:* 1 damage and pull 1. Effect: Deals 2 damage against criminals with 3+ guilt.
+/
+**Penitent Gaze:** *Line 3, Burst 1, Curse*
+/
+*Effect: *The first foe in the line gains 1 vulnerable and 2 or (5+) 3 guilt. 
+/
+**Final Sentence:*** Melee*
+/
+*Effect:* An adjacent criminal with 3+ guilt takes 1 or (6+) 2 devil damage. If this obliterates the criminal, the engine feeds on their sin. It may immediately may MOVE again and gains +1 burst charge per guilt on the criminal, distributed as it wishes."	Heavy Swing	"**Pendulum Swing** gains +1 maximum range but pushes
+/
+1 instead."	Hell Pins	A unit that survives **Final Sentence** gains 2 *vulnerable*.	Decapitate	**Pendulum Swing** deals devil damage against criminals with 4+ guilt.

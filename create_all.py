@@ -18,7 +18,7 @@ import argparse
 # FACTION = "necromancers"
 # CSV_PATH = f"{FACTION}.csv"
 VIDEO_NAME = "Matchup1_Basic_Abhorrers_Deadsouls"
-FACTIONS = ["steeplewracks", "goregrinders", "necromancers"]
+FACTIONS = ["deadsouls", "abhorrers", "volvadani", "necromancers"]
 OUTPUT_DIR = "output_cards"
 GUIDES_FILE = "guides.txt"
 HOMEDIR = os.path.expanduser("~")
@@ -59,6 +59,7 @@ FACTION_RGBS = {
     "abhorrers": (255, 201, 59),
     "deadsouls": (145, 255, 239),
     "steeplewracks": (242, 13, 13),
+    "volvadani": (13, 121, 242),
 }
 # Fallback colors if a condition isn't found in the dictionary above
 DEFAULT_BADGE_COLORS = {"left": "#333333", "right": "#d32f2f"}
@@ -173,7 +174,7 @@ def find_fuzzy_image(target_name, directory):
         
     return None
 
-def split_individual_abilities(raw_abilities_text):
+def split_individual_abilities(raw_abilities_text, lookup_type = "ACT"):
     """
     Splits the composite abilities field into clean individual blocks
     using the lookahead markdown **Header:** pattern.
@@ -181,11 +182,21 @@ def split_individual_abilities(raw_abilities_text):
     if not raw_abilities_text:
         return []
     soul_costs = []
-    if re.search(r'\([1-6] SOUL\)', raw_abilities_text):
+    simple_traits = [
+        "Miracle",
+        "Formation",
+        "Blood Rage",
+        "Necrophage",
+    ]
+    if lookup_type == "SOUL" and re.search(r'\([1-6] SOUL\)', raw_abilities_text):
         ability_names_findall = re.findall(r'\*\*([^*:\n]+) (\([1-6] SOUL\))(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
         ability_names = [an[0] for an in ability_names_findall]
         soul_costs = [an[1] for an in ability_names_findall]
         blocks = re.split(r'\*\*([^*:\n]+) (\([1-6] SOUL\))(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
+    if lookup_type == "trait":
+        raw_abilities_text = re.sub(r'(<[/n]*(ul|li)>)+', '',raw_abilities_text)
+        ability_names = re.findall(r'\*\*([^*:\n]+)(?:(?:\*\* ?:?)|(?:: ?\*\*))', raw_abilities_text)
+        blocks = re.split(r'\*\*([^*:\n]+)(?:(?:\*\* ?:?)|(?:: ?\*\*))', raw_abilities_text)
     else:        
         ability_names = re.findall(r'\*\*([^*:\n]+)(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
         blocks = re.split(r'\*\*([^*:\n]+)(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
@@ -195,7 +206,18 @@ def split_individual_abilities(raw_abilities_text):
         b_str = block.strip()
         if not b_str:
             continue
-        lines = [line.strip() for line in b_str.split('/') if line.strip() and line.strip() != '/' and line.strip() not in ability_names and line.strip() not in soul_costs]
+        split_unrefined_blocks = b_str.split('/')
+        lines = []
+        for unrefined_line in split_unrefined_blocks:
+            if unrefined_line.strip() in ['/','']:
+                continue
+            # Some traits don't have description, in which case we do accept the trait name as a valid line.
+            if lookup_type == "trait" and unrefined_line in simple_traits:
+                lines.append(unrefined_line.strip())
+                continue
+            if unrefined_line.strip() in ability_names or unrefined_line.strip() in soul_costs:
+                continue
+            lines.append(unrefined_line.strip())
         if lines:
             refined_abilities.append("\n\n".join(lines))
     if len(ability_names) != len(refined_abilities):
@@ -678,7 +700,7 @@ def main_run():
                 return True
             # Split and execute separate ability focus variants
             raw_abilities = row.get('ACT Abilities', '')
-            individual_abilities, ability_names, _ = split_individual_abilities(raw_abilities)
+            individual_abilities, ability_names, _ = split_individual_abilities(raw_abilities, lookup_type="SOUL")
             sanitized_unit_base = "".join([c for c in clean_unit_name if c.isalnum()]).strip().capitalize()           
             for idx, single_ability in enumerate(individual_abilities):
                 ability_title = ability_names[idx]
@@ -687,10 +709,20 @@ def main_run():
                 if TIME and ABILITY == ability_title.capitalize():
                     create_unit_card(row, focus_ability=single_ability, ability_suffix_name=clean_ability)
                     return True
+            raw_traits = row.get('Traits', '')
+            individual_traits, trait_names, _ = split_individual_abilities(raw_traits, lookup_type="trait")
+            sanitized_unit_base = "".join([c for c in clean_unit_name if c.isalnum()]).strip().capitalize()           
+            for idx, single_trait in enumerate(individual_traits):
+                trait_title = trait_names[idx]
+                clean_trait = re.sub(r'\s+', '_', trait_title)
+                # Generate the full asset card focused exclusively on this layout string
+                if TIME and ABILITY == trait_title.capitalize():
+                    create_unit_card(row, focus_ability=single_trait, ability_suffix_name=trait_title)
+                    return True
             bg_color = parse_rgb(row.get('card_background style', ''))
             if FACTION == "necromancers":
                 soul_abilities = row.get('SOUL Abilities', '')
-                individual_abilities, ability_names, soul_costs = split_individual_abilities(soul_abilities)
+                individual_abilities, ability_names, soul_costs = split_individual_abilities(soul_abilities, lookup_type="SOUL")
                 for idx, single_ability in enumerate(individual_abilities):
                     ability_title = ability_names[idx]
                     soul_cost = soul_costs[idx]
@@ -710,7 +742,7 @@ def main_run():
                         if bg_color != act_bg_color:
                             continue
                         raw_acts = act_upgrades_row.get('ACT Upgrades', '')
-                        individual_acts, act_names, _ = split_individual_abilities(raw_acts)                                        
+                        individual_acts, act_names, _ = split_individual_abilities(raw_acts, lookup_type="ACT")                                        
                         for idx, single_act in enumerate(individual_acts):
                             act_title = act_names[idx]
                             clean_act = re.sub(r'\s+', '_', act_title)                        
@@ -728,7 +760,7 @@ def main_run():
                         if bg_color != soul_bg_color:
                             continue
                         raw_souls = soul_upgrades_row.get('SOUL Upgrades', '')
-                        individual_souls, soul_names, soul_costs = split_individual_abilities(raw_souls)                                        
+                        individual_souls, soul_names, soul_costs = split_individual_abilities(raw_souls, lookup_type="SOUL")
                         for idx, single_soul in enumerate(individual_souls):
                             soul_title = soul_names[idx]
                             soul_cost = soul_costs[idx]
@@ -789,7 +821,7 @@ if __name__ == "__main__":
             cleaned_line = line.strip()
 
             # Skip empty lines and lines starting with 'Deployments'
-            if not cleaned_line or cleaned_line.startswith("Deployments") or cleaned_line.startswith("Dupl") or cleaned_line.startswith("Rounds"):
+            if not cleaned_line or cleaned_line.startswith("Deployments") or cleaned_line.startswith("Dupl") or cleaned_line.startswith("Rounds") or cleaned_line.startswith("Descriptions"):
                 continue
 
             # Split the line by the ' - ' delimiter
