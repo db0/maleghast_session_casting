@@ -1,12 +1,12 @@
 Copies	Nickname	card_background	card_background style	Name	Name style	Type	MV	HP	DEF	ARM	Traits	ACT Abilities	Upgrade1 Name	Upgrade1	Upgrade2 Name	Upgrade2	Upgrade3 Name	Upgrade3
-1		gunwight2_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	G unw  ight	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. *Thrall*	2	2	4+		<ul><li>*Formation*</li><li>*Thrall:* 2 of these units are worth 1 unit slot. Can be activated two at a time.</li></ul>	"**OL45:** *Attack, range 2-3, reload*
+1		gunwight2_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	G unw  ight	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. *Thrall*	2	2	4+		<ul><li>**Formation**</li><li>**Thrall:** 2 of these units are worth 1 unit slot. Can be activated two at a time.</li></ul>	"**OL45:** *Attack, range 2-3, reload*
 /
 *On hit:* 1 piercing damage. Headshot: inflict 1 vulnerable
 /
 **Baton:** *Push, melee*
 /
 *Effect:* Push 1 and (3+) inflict 1 vulnerable."	Brace	"While in cover, attacks gain +1 max range and push 1 on hit."	Tactical Reload	Gain *Headshot*: reload and gain 1 strength	Scavenge Ammo	May consume one adjacent corpse before or after ACTing to *reload* and gain 1 strength.
-1		enforcer2_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	E nforcer	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. *Scion*	3	4	3+	P	<ul><li>*Formation*</li></ul>	"**Skull Crack:** *Attack, melee, push*
+1		enforcer2_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	E nforcer	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. *Scion*	3	4	3+	P	<ul><li>**Formation**</li></ul>	"**Skull Crack:** *Attack, melee, push*
 /
 On hit: 2 damage and push 1. Headshot: push 2
 /
@@ -19,7 +19,7 @@ On hit: 2 damage and push 1. Headshot: push 2
 *Effect:* Until start of this unit’s next turn, this unit cannot MOVE, step, or be pushed or pulled, gains cover, and grants cover to adjacent allies from all directions."	Shield Charge	"Unit may step 1 before using **Skull Crack** and it gains
 /
 splash (self) push foes 1"	Bulwark	**Shieldwall** also clears up to two negative tokens on self or adjacent allies.	Bone Dust Napalm	**Flashbang** deals 1 splash fire damage but gains charge and has no effect on its main target.
-1		ammogoblin2_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	A m m o G oblin 	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. Freak	3	4	4+		<ul><li>*Formation*</li></ul>	"**Regurgitate Ammo:** Range 1-2
+1		ammogoblin2_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	A m m o G oblin 	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. Freak	3	4	4+		<ul><li>**Formation**</li></ul>	"**Regurgitate Ammo:** Range 1-2
 /
 *Effect:* A unit in range reloads and gains one, (6+) or two strength.
 /
@@ -32,7 +32,7 @@ splash (self) push foes 1"	Bulwark	**Shieldwall** also clears up to two negative
 *Effect:* Step 1, then Splash (self): 1 fire damage, push 1, and inflict 1 vulnerable, then self is obliterated."	Vomit Bullets	"**Bone shards** gains effect: (4+) push 1, (6) push 1 again."	Napalm Injector	**Destructive Glee’**s splash effect gains effect (4+): +1 fire damage (6+): and+1 vulnerable	Hot Chamber	"**Regurgitate Ammo** now targets two different adjacent
 /
 unit and no longer grants strength."
-1		barrelform2_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	B arrelform	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. Hunter	2	4	4+		<ul><li>*Formation*</li></ul>	"**Snipe:** Attack, range 2-4, reload
+1		barrelform2_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	B arrelform	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. Hunter	2	4	4+		<ul><li>**Formation**</li></ul>	"**Snipe:** Attack, range 2-4, reload
 /
 *On hit:* 2 damage. Headshot: and inflict 1 vulnerable.
 /
@@ -43,7 +43,7 @@ unit and no longer grants strength."
 **Deathmark:** Curse, Range 2-4
 /
 *Effect:* Inflict 2 vulnerable, (4+): 3 vulnerable, (6+): Remove any vitality first."	Claw Pitons	**Transform to Gun** makes this unit immune to push and pull.	Extended Barrel	"**Snipe** gains +1D when this unit is in cover, and -1D when it is not."	Caliber Up	**Snipe** gains push 1 and Headshot: push 2
-1		aegisweapon_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	E G IS  W eapon	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. Tyrant	3	6	2+	P	<ul><li>*Formation*</li><li>*Siege Shield:* May be used as a cover object by allies</li><li>*Large:* 2x2 unit (see entry).</li></ul>	"**Juggernaut:** *Self, Push*
+1		aegisweapon_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	E G IS  W eapon	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. Tyrant	3	6	2+	P	<ul><li>**Formation**</li><li>**Siege Shield:** May be used as a cover object by allies</li><li>*Large:* 2x2 unit (see entry).</li></ul>	"**Juggernaut:** *Self, Push*
 /
 *Effect:* Step 1, then splash (self) push foes 1. (4+) push foes 2.
 /
@@ -58,7 +58,7 @@ May move into and destroy walls with this step.
 *Effect*: Line 5, 1 fire damage. and inflicts 1 vulnerable on the first unit in the line. Pierces through walls and can target through walls."	Fortify	"**Juggernaut** also clears all
 /
 negative tokens."	Heavy Caliber Cannon	**Catechism** pushes all units in the line 1 space and destroys walls.	Gunner Pivot	"When at least one ally is adjacent to this unit, **Mortar** ignores cover."
-1		infilunit2_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	IN F ILT R A T O R	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. Hunter	4	3	3+	M	"<ul><li>*Formation*</li><li>*Active Camo:* If this unit ends its turn with no foes adjacent, this unit becomes *curseproof* and all attacks against it gain -1D. Both effects last until the start of its next turn.</li></ul>"	"**Cross Fire:*** Line 5, reload*
+1		infilunit2_processed.png	"{outlineColor:rgba(242, 13, 175, 1)}"	IN F ILT R A T O R	"{color:rgba(242, 13, 175, 1)}"	C.A.R.C.A.S.S. Hunter	4	3	3+	M	"<ul><li>**Formation**</li><li>**Active Camo:** If this unit ends its turn with no foes adjacent, this unit becomes *curseproof* and all attacks against it gain -1D. Both effects last until the start of its next turn.</li></ul>"	"**Cross Fire:*** Line 5, reload*
 /
 *Effect:* First unit in the line takes 1 piercing damage. If catching an allied unit in the line, also inflict 2 vulnerable.
 /

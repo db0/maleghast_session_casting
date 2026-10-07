@@ -33,7 +33,7 @@ If the unit is at 0 hp, splash (target): 1 fire damage.
 /
 **Praise the Filth (4 SOUL): ***Own turn, Range 1-2: Effect: *Place one hazard in range for every other hazard in range.
 /
-**Mox Populi (6 SOUL):** *Own turn. Effect:* Remove up to four corpse tokens or hazards anywhere and summon a SCUM unit for each. Then splash (target) on all scum created this way for 1 plague to all units. Characters can only be damaged once by this effect."
+**Mox Populi (6 SOUL):** *Own turn. Effect:* Remove up to four corpse tokens or hazards anywhere and summon a SCUM unit for each. Then splash (target) on all scum created this way for 1 plague. Characters can only gain plague once from this effect."
 1			"{outlineColor:rgba(145, 255, 239, 1)}"	D eadsouls  S O U L  U pgrades	"{color:rgba(145, 255, 239, 1)}"	"**Twist Sinews (1 SOUL): ***Curse, Any turn. Range 2-4. Trigger: Start of turn. Effect: *Pull unit 1 in any direction.
 /
 **Writhing Curse (1 SOUL): ***Foe turn, Curse, Range 1-4. Trigger: Turn start. Effect: *At the end of their turn, foe inflicts splash (self) 1 curse damage and 1 weak, only affecting their allies.
@@ -45,17 +45,17 @@ If the unit is at 0 hp, splash (target): 1 fire damage.
 **Malebolge (4 SOUL):** *Own turn. Effect:* Scour the battlefield with frozen wind, pulling all foes 2 spaces in the same direction. Foes that would be pulled into walls or adverse terrain for the first time during this pull take 1 damage.
 /
 **Great Satania (6 SOUL): ***Own turn, Range 1-2. Effect: *Doom all enemy units in range. All Doomed enemy units instead take 1 curse damage, +1 per Doom token they have."
-1			"{outlineColor:rgba(255, 201, 59, 1)}"	A bhorrer  S O U L  U pgrades	"{color:rgba(255, 201, 59, 1)}"	"**Sword Art - Drifting Blossoms (1 SOUL):** *Any turn. Trigger: *Turn end. Effect: Stance: Step spaces equal to 1 + the round number, then push an adjacent unit 1.
+1			"{outlineColor:rgba(255, 201, 59, 1)}"	A bhorrer  S O U L  U pgrades	"{color:rgba(255, 201, 59, 1)}"	"**Sword Art; Drifting Blossoms (1 SOUL):** *Any turn. Trigger: *Turn end. Effect: Stance: Step spaces equal to 1 + the round number, then push an adjacent unit 1.
 /
 **Grace (1 SOUL): ***Own or Allied turn, range 1-3. Trigger: *Turn start. Effect: Unit becomes *curseproof* until end of its next turn and attacks against it gain -1D for the duration.
 /
-**Sword Art - Safflower cut (2 SOUL):** *Own turn. Line, Stance: Trigger:* Turn start. Effect: Step 1, then cut a line area with spaces equal to the round number +2, dealing 1 damage to all characters within and pushing those characters 1. Stance (R5+): This damage becomes Devil Damage.
+**Sword Art; Safflower cut (2 SOUL):** *Own turn. Line, Stance: Trigger:* Turn start. Effect: Step 1, then cut a line area with spaces equal to the round number +2, dealing 1 damage to all characters within and pushing those characters 1. Stance (R5+): This damage becomes Devil Damage.
 /
-**Sword Art - Winter Sprout (3 SOUL): ***Any Turn. Trigger: *This unit takes damage from an ACT ability, and that ability resolves. Effect: Splash (self): remove 1 negative token on self or gain 1 vitality for every foe in the splash area. Stance (R4+): both effects trigger.
+**Sword Art; Winter Sprout (3 SOUL): ***Any Turn. Trigger: *This unit takes damage from an ACT ability, and that ability resolves. Effect: Splash (self): remove 1 negative token on self or gain 1 vitality for every foe in the splash area. Stance (R4+): both effects trigger.
 /
-**Supreme Sword Art - Merciful Snowdrop Cut (4 SOUL):** *Own Turn. Trigger:* You hit an attack. Effect: Splash (self): 1 holy damage. Stance (R3+): 2 holy damage (R5+): 4 holy damage. (R6+): 5 holy damage.
+**Supreme Sword Art; Merciful Snowdrop Cut (5 SOUL):** *Own Turn. Trigger:* You hit an attack. Effect: Splash (self): 1 holy damage. Stance (R3+): 2 holy damage (R5+): 4 holy damage. (R6+): 5 holy damage.
 /
-**Resurrection (6 SOUL): ***Any turn. Trigger: *Allied unit is slain. Effect: Return unit to life at 1 hp at the end of the turn and remove all tokens. It becomes immune to all damage and *curseproof* until the end of its next turn. Stance (R3+) and it gains 1 vitality (R5+) 3 vitality instead."
+**Resurrection (5 SOUL): ***Any turn. Trigger: *Allied unit is slain. *Effect: *Return unit to life at 1 hp at the end of the turn and remove all negative tokens. It becomes immune to all damage and curseproof until the end of its next turn. Stance (R3+) and it gains 1 vitality (R5+) 3 vitality instead."
 1			"{outlineColor:rgba(159, 0, 255, 1)}"	Igorri  S O U L  U pgrades	"{color:rgba(159, 0, 255, 1)}"	"**Flesh Jump (1 SOUL): ***Own or allied turn. Range 3. Effect:* Swap places with an allied unit, then both of you mutate.
 /
 **Grow Bonus Legs (2 SOUL):** *Own or allied turn. Range 3. Effect:* Remove up to three mutation tokens on target unit, then target may step 2 per token removed with free movement, ignoring hazards.
@@ -73,14 +73,14 @@ If the unit is at 0 hp, splash (target): 1 fire damage.
 /
 **Raptor Spasm (2 SOUL): ***Any Turn, Range 1-3. Trigger:* Self or ally in range is targeted by a line or splash effect. Effect: Reduce all damage taken by the targeted unit from the effect by 1 and the targeted unit becomes immune to any tokens or other effects it would inflict.
 /
-**Impale (3 SOUL): ***Own or Allied turn, range 2-3.* Trigger: Turn end. Effect: Place a wall in free space adjacent to a foe in range. Until the end of its next turn or until that wall is destroyed, that unit cannot break adjacency to the wall for any reason.
+**Carrion Burial (3 SOUL): ***Foe turn, Range 1-3. Curse. Trigger: *Turn start. *Effect:* Summon a flock unit in free adjacent space to that unit. At the start of that unit’s turn for the rest of combat, repeat this effect. End this effect if the unit is slain or they become *curseproof*.
 /
-**Carrion Burial (4 SOUL): ***Foe turn, Range 3. Curse. Trigger: *Turn start. Effect: Summon a flock unit in free adjacent space to that unit. At the start of that unit’s turn for the rest of combat, repeat this effect. End this effect if the unit is slain or they become *curseproof*.
+**Impale (4 SOUL): ***Own or Allied turn, range 2-4.* Trigger: Turn end. Effect: Place a wall in free space adjacent to a foe in range. Until the end of its next turn or until that wall is destroyed, that unit cannot break adjacency to the wall for any reason.
 /
 **Rapture of the Red Wet Hue (6 SOUL): ***Own turn. Effect:* For the rest of combat, all allied units double their MV stat, Dive Bomb can be used twice per round instead of just once, and units may deal 1 damage to an adjacent unit when they Dive Bomb."
 1			"{outlineColor:rgba(189, 251, 0, 1)}"	H ellminth  S O U L  U pgrades	"{color:rgba(189, 251, 0, 1)}"	"**Tear Off (1 SOUL):** *Own turn. Trigger: *You hit an attack. Effect: Create a corpse in a free adjacent spaces. Create +1 corpse if you slew or obliterated the unit.
 /
-**Taint Blood (1 SOUL):** *Own turn, Curse. Trigger:* You hit or miss an attack. Effect: You curse the target. When the target is slain, it grants 1 vitality to all your allies in range 2.
+**Taint Blood (1 SOUL):** *Own turn, Curse. Trigger:* You hit or miss an attack. *Effect:* You curse the target. When the target is slain, it grants 1 vitality to up to three allies in range 1-2.
 /
 **Demote (2 SOUL):** *Allied turn, range 1-3. Trigger:* Target turn start. Effect: Remove ally from the battlefield, then replace them with a page and create a corpse in a free adjacent space. They can act normally this turn. They keep all tokens and effects.
 /

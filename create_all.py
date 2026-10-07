@@ -7,10 +7,17 @@ import io
 import textwrap
 import badgepy
 import cairosvg
+import sys
 import xml.etree.ElementTree as ET
 from PIL import Image, ImageDraw, ImageFont
+from loguru import logger
+
 
 import argparse
+logger.remove()
+
+logger.add(sys.stdout, level="INFO")
+#logger.add(sys.stdout, level="DEBUG")
 
 # --- CONFIGURATION & PATHS ---
 # FACTION = "deadsouls"
@@ -18,7 +25,7 @@ import argparse
 # FACTION = "necromancers"
 # CSV_PATH = f"{FACTION}.csv"
 VIDEO_NAME = "Matchup1_Basic_Abhorrers_Deadsouls"
-FACTIONS = ["deadsouls", "abhorrers", "volvadani", "necromancers"]
+FACTIONS = ["carcass", "igorri", "necromancers"]
 OUTPUT_DIR = "output_cards"
 GUIDES_FILE = "guides.txt"
 HOMEDIR = os.path.expanduser("~")
@@ -45,12 +52,14 @@ CONDITION_COLORS = {
     "Miracle": {"left": "white", "right": "white"},
     "Smite": {"left": "yellow", "right": "blue"},
     "Doom": {"left": "#91ffef", "right": "#91ffef"},
+    "Guilt": {"left": "blue", "right": "blue"},
     "Winch": {"left": "#987654", "right": "#C0C0C0"},
     "Curseproof": {"left": "black", "right": "white"},
     "Grace": {"left": "purple", "right": "white"},
     "Berserk": {"left": "orange", "right": "orange"},
     "Tinker": {"left": "grey", "right": "orange"},
     "Paranoia": {"left": "red", "right": "purple"},
+    "Grave bind": {"left": "black", "right": "grey"},
 }
 
 FACTION_RGBS = {
@@ -60,6 +69,8 @@ FACTION_RGBS = {
     "deadsouls": (145, 255, 239),
     "steeplewracks": (242, 13, 13),
     "volvadani": (13, 121, 242),
+    "igorri": (159, 0, 255),
+    "map": (30, 30, 30),
 }
 # Fallback colors if a condition isn't found in the dictionary above
 DEFAULT_BADGE_COLORS = {"left": "#333333", "right": "#d32f2f"}
@@ -169,7 +180,7 @@ def find_fuzzy_image(target_name, directory):
     else:
         matches = difflib.get_close_matches(f"{FACTION}_{tn}", available_files, n=1, cutoff=0.6)
     if matches:
-        print(f"Fuzzy Match: '{tn}' mapped to disk asset -> '{matches[0]}'")
+        logger.debug(f"Fuzzy Match: '{tn}' mapped to disk asset -> '{matches[0]}'")
         return os.path.join(directory, matches[0])
         
     return None
@@ -188,12 +199,13 @@ def split_individual_abilities(raw_abilities_text, lookup_type = "ACT"):
         "Blood Rage",
         "Necrophage",
     ]
-    if lookup_type == "SOUL" and re.search(r'\([1-6] SOUL\)', raw_abilities_text):
+    raw_abilities_text = raw_abilities_text.replace('’','\'')
+    if re.search(r'\([1-6] SOUL\)', raw_abilities_text):
         ability_names_findall = re.findall(r'\*\*([^*:\n]+) (\([1-6] SOUL\))(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
         ability_names = [an[0] for an in ability_names_findall]
         soul_costs = [an[1] for an in ability_names_findall]
         blocks = re.split(r'\*\*([^*:\n]+) (\([1-6] SOUL\))(?:(?:\*\* ?:)|(?:: ?\*\*))', raw_abilities_text)
-    if lookup_type == "trait":
+    elif lookup_type == "trait":
         raw_abilities_text = re.sub(r'(<[/n]*(ul|li)>)+', '',raw_abilities_text)
         ability_names = re.findall(r'\*\*([^*:\n]+)(?:(?:\*\* ?:?)|(?:: ?\*\*))', raw_abilities_text)
         blocks = re.split(r'\*\*([^*:\n]+)(?:(?:\*\* ?:?)|(?:: ?\*\*))', raw_abilities_text)
@@ -218,13 +230,15 @@ def split_individual_abilities(raw_abilities_text, lookup_type = "ACT"):
             if unrefined_line.strip() in ability_names or unrefined_line.strip() in soul_costs:
                 continue
             lines.append(unrefined_line.strip())
+            # if soul_costs:
+            #     print(unrefined_line.strip())
         if lines:
             refined_abilities.append("\n\n".join(lines))
     if len(ability_names) != len(refined_abilities):
         raise Exception(f"Abilities count mismatch. Names: {ability_names} {len(ability_names)}, Texts: {refined_abilities} {len(refined_abilities)}")
     for i in range(len(ability_names)):
         refined_abilities[i] = f"**{ability_names[i]}**\n\n{refined_abilities[i]}"
-            
+
     return (refined_abilities, ability_names, soul_costs)
 
 def parse_markdown_line(text):
@@ -437,6 +451,8 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
 
     # Paste Stat Icons & Overlay Values
     max_hp = MAX_HP if MAX_HP is not None else row.get('HP','')
+    if max_hp == "\\*":
+        max_hp = "*"
     stat_layouts = {
         'HP':  {'icon_pos': (10, 0),   'size': (140, 140), 'text_pos': (80, 30),  'val': f"/{max_hp}"},
         'DEF': {'icon_pos': (200, 10),  'size': (120, 115), 'text_pos': (235, 40), 'val': f"{row.get('DEF','')}"},
@@ -465,18 +481,18 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
                 text_pos = (343, 35)
         if stat == "HP":
             font_stat = ImageFont.truetype(FONT_BOLD, 50)
-            if int(max_hp) > 9:
+            if max_hp.isdigit() and int(max_hp) > 9:
                 font_stat = ImageFont.truetype(FONT_BOLD, 35)
                 text_pos = (75, 25)
             if HP is None:
                 font_stat = ImageFont.truetype(FONT_BOLD, 80)
-                if int(max_hp) > 9:
+                if max_hp.isdigit() and int(max_hp) > 9:
                     font_stat = ImageFont.truetype(FONT_BOLD, 60)
                     text_pos = (40, 25)
 
         draw.text(text_pos, layout['val'], font=font_stat, fill="black")
         if stat == "HP" and HP is not None:
-            if int(max_hp) > 9:
+            if max_hp.isdigit() and int(max_hp) > 9:
                 if int(HP) > 9:
                     draw.text((25, 25), HP, font=font_stat, fill="black")
                 else:
@@ -569,10 +585,10 @@ def create_unit_card(row, focus_ability=None, ability_suffix_name=None, soul_cos
     else:
         output_filename = f"{FACTION}_{sanitized_filename}.png"
     card.save(os.path.join(final_output_dir, output_filename), "PNG")
-    print(f"Generated Sheet: {output_filename}")
+    logger.debug(f"Generated Sheet: {output_filename}")
 
 
-def generate_desc_card(desc_text, faction_color_name):
+def generate_desc_card(desc_text, faction_color_name, matchup = None):
     """
     Generates a generic 800x200 banner image matching the text overlay style
     of the main unit cards, centered horizontally and vertically, with rich text.
@@ -676,13 +692,18 @@ def generate_desc_card(desc_text, faction_color_name):
     
     # 7. Save Artifact
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    safe_name = "".join([c for c in desc_text[:15] if c.isalnum()]).strip()
+    desc_name = re.search(r'\*\*([^*\n]+?)(?:(?:\*\* ?:?)|(?:: ?\*\*))',desc_text)
+    if not desc_name:
+        raise Exception(f"Could not determine name. Put the title of the Description in **Markdown bold** format. Parsed text: {desc_text}")
+    safe_name = desc_name.group(1).replace(": ","-").strip()
     color_label = faction_color_name.lower() if faction_color_name else "default"
-    
     output_filename = f"Desc_{color_label}_{safe_name}.png"
-    out_path = os.path.join(OUTPUT_DIR, output_filename)
+    final_output_dir = OUTPUT_DIR
+    if matchup:
+        final_output_dir = f"{OUTPUT_DIR}/{matchup}"
+    out_path = os.path.join(final_output_dir, output_filename)
     card.save(out_path, "PNG")
-    print(f"Generated Description Banner: {out_path}")
+    logger.info(f"Generated Description Banner: {out_path}")
 
 
 def main_run():
@@ -701,7 +722,6 @@ def main_run():
             # Split and execute separate ability focus variants
             raw_abilities = row.get('ACT Abilities', '')
             individual_abilities, ability_names, _ = split_individual_abilities(raw_abilities, lookup_type="SOUL")
-            sanitized_unit_base = "".join([c for c in clean_unit_name if c.isalnum()]).strip().capitalize()           
             for idx, single_ability in enumerate(individual_abilities):
                 ability_title = ability_names[idx]
                 clean_ability = re.sub(r'\s+', '_', ability_title)                
@@ -711,13 +731,19 @@ def main_run():
                     return True
             raw_traits = row.get('Traits', '')
             individual_traits, trait_names, _ = split_individual_abilities(raw_traits, lookup_type="trait")
-            sanitized_unit_base = "".join([c for c in clean_unit_name if c.isalnum()]).strip().capitalize()           
             for idx, single_trait in enumerate(individual_traits):
                 trait_title = trait_names[idx]
-                clean_trait = re.sub(r'\s+', '_', trait_title)
                 # Generate the full asset card focused exclusively on this layout string
                 if TIME and ABILITY == trait_title.capitalize():
                     create_unit_card(row, focus_ability=single_trait, ability_suffix_name=trait_title)
+                    return True
+            for idx in range(1,4):
+                upgrade_title = row.get(f'Upgrade{idx} Name', '')
+                single_upgrade = row.get(f'Upgrade{idx}', '')
+                if upgrade_title == '':
+                    continue
+                if TIME and ABILITY.capitalize() == upgrade_title.capitalize():
+                    create_unit_card(row, focus_ability=single_upgrade, ability_suffix_name=upgrade_title)
                     return True
             bg_color = parse_rgb(row.get('card_background style', ''))
             if FACTION == "necromancers":
@@ -727,8 +753,9 @@ def main_run():
                     ability_title = ability_names[idx]
                     soul_cost = soul_costs[idx]
                     clean_ability = re.sub(r'\s+', '_', ability_title)                
+                    # print(ability_title)
                     # Generate the full asset card focused exclusively on this layout string
-                    if TIME and ABILITY == ability_title.capitalize():
+                    if TIME and ABILITY in ability_title.capitalize():
                         create_unit_card(row, focus_ability=f"{soul_cost}\n{single_ability}", ability_suffix_name=f"{clean_ability}")
                         return True
 
@@ -758,7 +785,7 @@ def main_run():
                     for soul_upgrades_row in souls_reader:
                         soul_bg_color = parse_rgb(soul_upgrades_row.get('card_background style', ''))
                         if bg_color != soul_bg_color:
-                            continue
+                            continue                        
                         raw_souls = soul_upgrades_row.get('SOUL Upgrades', '')
                         individual_souls, soul_names, soul_costs = split_individual_abilities(raw_souls, lookup_type="SOUL")
                         for idx, single_soul in enumerate(individual_souls):
@@ -770,6 +797,22 @@ def main_run():
                             #     print([ABILITY,soul_title.capitalize()])
                             if TIME and ABILITY == soul_title.capitalize():
                                 create_unit_card(row, focus_ability=f"{soul_cost}\n{single_soul}", ability_suffix_name=f"{clean_soul}")
+                                return True
+                TRAIT_CSV_PATH = f"{FACTION}_traits.csv"
+                if not os.path.exists(TRAIT_CSV_PATH):
+                    raise Exception(f"File not found: {TRAIT_CSV_PATH}")
+                with open(TRAIT_CSV_PATH, mode='r', encoding='utf-8') as souls_f:
+                    traits_reader = csv.DictReader(souls_f, delimiter='\t')
+                    for traits_upgrades_row in traits_reader:
+                        trait_bg_color = parse_rgb(traits_upgrades_row.get('card_background style', ''))
+                        if bg_color != trait_bg_color:
+                            continue                        
+                        raw_traits = traits_upgrades_row.get('Bonus Traits', '')
+                        individual_traits, trait_names, _ = split_individual_abilities(raw_traits, lookup_type="trait")
+                        for idx, single_trait in enumerate(individual_traits):
+                            trait_title = trait_names[idx]
+                            if TIME and ABILITY == trait_title.capitalize():
+                                create_unit_card(row, focus_ability=f"{single_trait}", ability_suffix_name=f"{trait_title}")
                                 return True
             if not TIME:
                 print("---")
@@ -797,7 +840,7 @@ def determine_hp(hp_text, guide_text):
 if __name__ == "__main__":
     # --- Intercept Description generation request ---
     if args.desc:
-        generate_desc_card(args.desc, args.color)
+        generate_desc_card(args.desc, args.color, args.matchup)
         exit(0)
 
     if not args.matchup:
@@ -884,4 +927,4 @@ if __name__ == "__main__":
             if main_run():
                 found_match = True
         if not found_match:
-            print(f"=== Could not match ability/unit: {ABILITY}")
+            logger.warning(f"Could not match ability/unit: {ABILITY} at time {TIME}")
